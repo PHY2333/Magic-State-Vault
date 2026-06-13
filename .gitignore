@@ -1,10 +1,10 @@
-# Obsidian local workspace state
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
+# Obsidian local app state and configuration
+.obsidian/
 
-# Obsidian caches and temporary files
-.obsidian/cache/
-.obsidian/.trash/
+# Local agent instructions
+AGENTS.md
+.AGENTS
+.AGENTS/
 .trash/
 
 # Operating system files
