@@ -1,259 +1,423 @@
-State injection 的核心思想是：不直接对数据比特执行难以容错实现的非 Clifford 门，而是预先准备一个携带该非 Clifford 资源的辅助态，再用 Clifford 门、测量和条件修正，把这个门的作用传送到数据比特上。
+State injection 解决的问题是：如何把难以直接容错实现的非 Clifford 资源带入编码计算，并最终把它消耗为数据逻辑比特上的非 Clifford 门。
 
-本文先沿用常见的宽泛说法，把 $T$ 门的注入线路也称为 state injection；更严格地说，下面的线路属于 $T$-gate injection 或 gate teleportation，而“state injection”还常特指把物理魔态注入到逻辑编码空间中。
+这个术语在文献中有两种相近但不同的用法：
 
-对 $T$ 门来说，非 Clifford 资源集中在魔态
+- 狭义的 **state injection**：把物理层或低编码层制备的有噪声 magic state 转移到目标逻辑编码空间。
+- 常被一并称为 injection 的 **gate injection / gate teleportation**：消耗一个逻辑 magic state，在数据逻辑比特上实现对应的非 Clifford 门。
+
+两者在容错流程中的位置不同：
+
 $$
-|A\rangle = T|+\rangle
-    = \frac{|0\rangle + e^{i\pi/4}|1\rangle}{\sqrt{2}}
+\boxed{
+\text{物理 magic state 制备}
+\longrightarrow
+\text{state injection}
+\longrightarrow
+\text{distillation}
+\longrightarrow
+\text{gate injection}
+}
 $$
-中；注入线路本身只需要 [[Clifford group]] 操作、Pauli 测量和经典前馈。
+
+本文先说明狭义 state injection 的输入输出和误差含义，再用 $T$ gate injection 给出可完整验证的线路与公式。具体的物理到逻辑注入线路依赖所用量子码和容错架构，不存在与编码无关的唯一电路。
 
 ---
-### 最小模型
+### 1. State injection 的最小模型
 
 定义
+
 $$
-T =
-\begin{pmatrix}
-1 & 0 \\
-0 & e^{i\pi/4}
-\end{pmatrix},
+T=\operatorname{diag}(1,e^{i\pi/4}),
 \qquad
-\omega = e^{i\pi/4}.
+\omega=e^{i\pi/4},
 $$
 
-因此
+以及 T-type magic state
+
 $$
-|A\rangle = T|+\rangle
-    = \frac{|0\rangle + \omega |1\rangle}{\sqrt{2}}.
+|T\rangle
+=T|+\rangle
+=\frac{|0\rangle+\omega|1\rangle}{\sqrt{2}}.
 $$
 
-这个态也常记作 $|T\rangle$；本文使用 $|A\rangle$ 是为了贴近 magic-state injection 文献中的 ancilla 记号。
+狭义 state injection 的目标可抽象写为
 
-可以把 $|A\rangle$ 理解为：$T$ 门的非 Clifford 相位已经被预先写进了辅助量子态。后续注入电路不再实时实现 $T$ 门，而是把这个相位资源转移到数据比特上。
+$$
+\rho_{T,\mathrm{physical}}
+\longrightarrow
+\rho_{T,L}^{\mathrm{inj}},
+$$
+
+其中输出位于目标量子码的逻辑编码空间。理想情况下希望得到
+
+$$
+|T_L\rangle
+=T_L|+_L\rangle
+=\frac{|0_L\rangle+\omega|1_L\rangle}{\sqrt{2}}.
+$$
+
+实际注入通常不是“自动获得一个高保真逻辑态”。它只是把非稳定子资源送入编码空间；物理态制备错误、注入线路错误、测量错误和注入阶段较弱的错误保护都会进入有效输入错误率 $p_{\mathrm{in}}$。
+
+在采用简化的逻辑 $Z_L$ 错误模型时，可以写成
+
+$$
+\rho_{T,L}^{\mathrm{inj}}
+=
+(1-p_{\mathrm{in}})
+|T_L\rangle\langle T_L|
++
+p_{\mathrm{in}}
+Z_L|T_L\rangle\langle T_L|Z_L.
+$$
+
+这个表达式隐含了两个条件：
+
+1. 已通过适当的随机化或噪声建模，把相关的态误差化为随机逻辑错误；
+2. 忽略 coherent error、leakage 和跨多个注入态的 correlated error。
+
+因此，state injection 主要解决“资源如何进入编码空间”，而不是“资源错误率如何下降”。错误率压低通常由后续 distillation 完成。
+
+---
+### 2. 从逻辑 magic state 实现逻辑 T 门
 
 设数据态为
+
 $$
-|\psi\rangle = a|0\rangle + b|1\rangle.
+|\psi\rangle
+=a|0\rangle+b|1\rangle,
+\qquad
+|a|^2+|b|^2=1.
 $$
 
-使用如下电路：
+先在未编码单比特上推导；把所有态和门替换为逻辑版本后，代数完全相同。
+
+采用以下约定：
 
 ```text
-data:    |ψ⟩ ───●────────────── output
+data:    |ψ⟩ ───●──────────────── output
                 │
-ancilla: |A⟩ ───X─── M_Z
+ancilla: |T⟩ ───X─── M_Z
                        │
-              if m = 1, apply S on data
+                 m=1: apply S
 ```
 
 也就是：
 
-1. 数据比特作为 CNOT 的控制比特。
-2. 魔态辅助比特作为 CNOT 的目标比特。
-3. 在 $Z$ 基测量辅助比特，测量结果记为 $m \in \{0,1\}$。
-4. 若 $m=1$，对数据比特施加 Clifford 修正 $S$。
+1. 数据比特是 CNOT 的控制比特；
+2. magic-state 辅助比特是 CNOT 的目标比特；
+3. 在 $Z$ 基测量辅助比特，结果记为 $m\in\{0,1\}$；
+4. 当 $m=1$ 时，对数据比特施加
 
-这里
 $$
-S =
-\begin{pmatrix}
-1 & 0 \\
-0 & i
-\end{pmatrix}.
+S=\operatorname{diag}(1,i).
 $$
+
+这里的 CNOT 方向、测量基和结果标号共同决定校正规则。若改变其中任何一项，不能直接照搬“$m=1$ 时施加 $S$”。
 
 ---
-### 关键推导
+### 3. 测量分支的精确推导
 
 初态为
+
 $$
-|\psi\rangle |A\rangle
+|\psi\rangle_d|T\rangle_a
 =
 \frac{1}{\sqrt{2}}
-(a|0\rangle + b|1\rangle)
-(|0\rangle + \omega |1\rangle).
+\left(a|0\rangle_d+b|1\rangle_d\right)
+\left(|0\rangle_a+\omega|1\rangle_a\right).
 $$
 
-CNOT 之后，数据比特不变，辅助比特在数据为 $|1\rangle$ 时翻转：
+CNOT 后得到
+
 $$
 \frac{1}{\sqrt{2}}
 \left[
-a|0\rangle (|0\rangle + \omega |1\rangle)
-+ b|1\rangle (|1\rangle + \omega |0\rangle)
+a|0\rangle_d
+\left(|0\rangle_a+\omega|1\rangle_a\right)
++
+b|1\rangle_d
+\left(|1\rangle_a+\omega|0\rangle_a\right)
 \right].
 $$
 
-现在测量辅助比特。
+把辅助比特投影到测量结果 $m$，可得到作用在数据比特上的未归一化分支算符
 
-#### 测量结果 $m=0$
-
-取辅助比特为 $|0\rangle$ 的分量，未归一化的数据态为
 $$
-a|0\rangle + \omega b|1\rangle.
-$$
-
-这正是
-$$
-T|\psi\rangle
+K_m
 =
-T(a|0\rangle + b|1\rangle)
+{}_a\langle m|
+\operatorname{CNOT}_{d\rightarrow a}
+|T\rangle_a.
+$$
+
+两个分支分别为
+
+$$
+K_0
 =
-a|0\rangle + \omega b|1\rangle.
-$$
-
-所以当 $m=0$ 时，不需要任何修正。
-
-#### 测量结果 $m=1$
-
-取辅助比特为 $|1\rangle$ 的分量，未归一化的数据态为
-$$
-\omega a|0\rangle + b|1\rangle.
-$$
-
-忽略整体相位 $\omega$，它等价于
-$$
-a|0\rangle + \omega^{-1} b|1\rangle
-=
-T^\dagger |\psi\rangle.
-$$
-
-这次得到的是 $T^\dagger$，不是 $T$。但是只需要施加 Clifford 门 $S$，因为
-$$
-S T^\dagger
-=
+\frac{1}{\sqrt{2}}
 \begin{pmatrix}
-1 & 0 \\
-0 & i
+1&0\\
+0&\omega
 \end{pmatrix}
+=\frac{1}{\sqrt{2}}T,
+$$
+
+以及
+
+$$
+\begin{aligned}
+K_1
+&=
+\frac{1}{\sqrt{2}}
 \begin{pmatrix}
-1 & 0 \\
-0 & e^{-i\pi/4}
+\omega&0\\
+0&1
+\end{pmatrix} \\
+&=
+\frac{\omega}{\sqrt{2}}
+\begin{pmatrix}
+1&0\\
+0&\omega^{-1}
 \end{pmatrix}
+=\frac{\omega}{\sqrt{2}}T^\dagger.
+\end{aligned}
+$$
+
+因此，测量后的未归一化数据态是
+
+$$
+|\widetilde{\psi}_0\rangle
+=K_0|\psi\rangle
+=\frac{1}{\sqrt{2}}T|\psi\rangle,
+$$
+
+或
+
+$$
+|\widetilde{\psi}_1\rangle
+=K_1|\psi\rangle
+=\frac{\omega}{\sqrt{2}}T^\dagger|\psi\rangle.
+$$
+
+分支概率为
+
+$$
+\begin{aligned}
+P(m)
+&=
+\langle\psi|K_m^\dagger K_m|\psi\rangle \\
+&=\frac{1}{2},
+\qquad m\in\{0,1\}.
+\end{aligned}
+$$
+
+这里 $P(m)=1/2$ 与输入系数 $a,b$ 无关。
+
+对 $m=1$ 分支使用
+
+$$
+ST^\dagger
 =
-\begin{pmatrix}
-1 & 0 \\
-0 & e^{i\pi/4}
-\end{pmatrix}
-= T.
+\operatorname{diag}(1,i)
+\operatorname{diag}(1,e^{-i\pi/4})
+=
+\operatorname{diag}(1,e^{i\pi/4})
+=T.
 $$
 
-因此
-$$
-S T^\dagger |\psi\rangle = T|\psi\rangle.
-$$
-
----
-### 测量分支
-
-两个测量结果的概率都是 $1/2$，与 $a,b$ 无关。经过条件修正后，最终确定性得到 $T|\psi\rangle$：
+令条件校正为
 
 $$
-\begin{array}{c|c|c}
-\text{测量结果} & \text{数据上得到的门} & \text{修正} \\
+C_m=S^m,
+$$
+
+则两个分支统一满足
+
+$$
+C_mK_m
+=
+\frac{\omega^m}{\sqrt{2}}T.
+$$
+
+归一化并忽略不可观测的整体相位 $\omega^m$ 后，输出恒为
+
+$$
+|\psi_{\mathrm{out}}\rangle=T|\psi\rangle.
+$$
+
+对应关系为
+
+$$
+\begin{array}{c|c|c|c}
+m
+&
+\text{校正前的数据态}
+&
+\text{条件校正}
+&
+\text{校正后}
+\\
 \hline
-m=0 & T & I \\
-m=1 & T^\dagger & S
+0
+&
+T|\psi\rangle
+&
+I
+&
+T|\psi\rangle
+\\
+1
+&
+T^\dagger|\psi\rangle
+&
+S
+&
+T|\psi\rangle
 \end{array}
 $$
 
-这里的“确定性”指逻辑效果确定：测量结果本身仍然随机，但随机的 Pauli/Clifford byproduct 可以由经典前馈或 frame update 追踪并修正。
+表中省略了归一化因子和整体相位，但没有省略任何相对相位。
 
 ---
-### 物理图像
+### 4. 为什么校正仍然是容错友好的
 
-[[Gottesman-Knill theorem]] 说明 Clifford 操作、Pauli 测量和稳定子态可以被高效经典模拟；只靠这些操作不能提供通用量子计算所需的非 Clifford 资源。$T$ 门的作用是引入 Clifford 层级之外的相位。
+$T$ 是非 Clifford 门，而 $S$ 是 Clifford 门。因此随机测量结果只产生一个 Clifford byproduct，不要求再次消耗 $|T\rangle$。
 
-State injection 把这个困难拆成两部分：
+不过，$S$ byproduct 不是 Pauli byproduct。实现时有三种常见处理方式：
 
-1. 难的部分：制备非稳定子态 $|A\rangle$。
-2. 容错友好的部分：用 Clifford 操作、测量和前馈把 $|A\rangle$ 中的相位资源转移到数据比特。
+- 立即执行逻辑 $S_L$；
+- 在 Clifford frame 中记录它，并相应修改后续门或测量；
+- 把校正吸收到后续 Clifford 电路中。
 
-> $T$ 门并不是在注入电路中实时执行的；它已经在魔态 $|A\rangle=T|+\rangle$ 中被预先编码。注入电路只负责把这个非 Clifford 资源消耗掉，并在数据比特上实现等效的 $T$ 门。
-
----
-### 为什么对容错量子计算重要
-
-许多量子纠错码可以较自然地容错实现 Clifford 操作，例如
-$$
-H,\quad S,\quad \mathrm{CNOT},\quad \text{Pauli measurement}.
-$$
-
-但根据 Eastin-Knill 定理，不能依靠一套横向逻辑门直接实现所有通用逻辑门。特别是 $T$ 门通常不能像某些 Clifford 门那样简单横向实现。
-
-因此常见路线是
-$$
-\boxed{
-\text{Clifford 操作}
-+
-\text{魔态}
-+
-\text{测量}
-+
-\text{经典前馈}
-}
-$$
-来间接实现逻辑 $T$ 门。
-
-在这个框架中，真正的非 Clifford 资源是 $|A\rangle$。CNOT、$Z$ 基测量和 $S$ 修正都是 Clifford 操作。
+如果控制系统只维护 Pauli frame，就不能把 $S$ 当作普通 Pauli 校正直接忽略；必须升级为 Clifford-frame 追踪或显式实现校正。
 
 ---
-### State injection、distillation 与 gate injection
+### 5. Magic-state 错误如何传到数据比特
 
-这些术语经常一起出现，但功能不同。
+为了看清 gate injection 不会自动压低错误率，考虑简化的输入态误差模型
 
-**State injection** 通常指把一个物理层或低编码层的魔态注入到逻辑编码空间中：
 $$
-|A\rangle_{\mathrm{physical}}
+\rho_T
+=
+(1-p)|T\rangle\langle T|
++
+pZ|T\rangle\langle T|Z.
+$$
+
+若 CNOT、测量和条件 $S$ 校正均视为理想，则：
+
+- 输入 $|T\rangle$ 时，数据上实现 $T$；
+- 输入 $Z|T\rangle$ 时，数据上实现 $ZT$，与测量分支无关，至多相差整体相位。
+
+因此输出信道为
+
+$$
+\mathcal{E}_{\mathrm{out}}(\rho)
+=
+(1-p)T\rho T^\dagger
++
+pZT\rho T^\dagger Z.
+$$
+
+在这个模型下，magic state 的错误概率以一阶直接变成注入门错误概率：
+
+$$
+p_{\mathrm{gate}}=p.
+$$
+
+这正是需要 distillation 的原因：gate injection 负责消耗资源并实现门，不负责把 $p$ 变成 $O(p^2)$ 或 $O(p^3)$。
+
+如果 Clifford 操作、逻辑测量或 classical feedforward 也有错误，则总门错误率还要加入这些容错操作的逻辑失败概率。上式只描述理想注入线路对 magic-state 错误的传播。
+
+---
+### 6. 逻辑编码版本
+
+在编码空间中，把线路中的对象替换为
+
+$$
+|\psi\rangle\rightarrow|\psi_L\rangle,
+\qquad
+|T\rangle\rightarrow|T_L\rangle,
+$$
+
+$$
+\operatorname{CNOT}\rightarrow\operatorname{CNOT}_L,
+\qquad
+M_Z\rightarrow M_{Z_L},
+\qquad
+S\rightarrow S_L.
+$$
+
+理想逻辑线路满足
+
+$$
+|\psi_L\rangle|T_L\rangle
 \longrightarrow
-|A_L\rangle.
+T_L|\psi_L\rangle,
 $$
 
-注入本身通常不能保证魔态已经有很高保真度。它解决的是“如何把非稳定子资源带入编码空间”，不是“如何把错误率压低到算法可用水平”。
+同时消耗辅助逻辑 magic state。实际架构还必须说明：
 
-**Magic-state distillation** 消耗多个有噪声的逻辑魔态，得到数量更少但错误率显著降低的逻辑魔态：
-$$
-\left(|A_L\rangle_{\mathrm{noisy}}\right)^{\otimes n}
-\longrightarrow
-|A_L\rangle_{\mathrm{high\,fidelity}}^{\otimes k}.
-$$
+- 逻辑 CNOT 由 transversal gate、lattice surgery 还是 code deformation 实现；
+- $Z_L$ 测量需要多少轮 syndrome extraction；
+- $S_L$ 是物理执行还是由 Clifford frame 追踪；
+- routing、idle error、decoder failure 和测量延迟是否计入资源开销；
+- 注入态错误与数据块逻辑错误是否独立。
 
-详见 [[Magic State Distillation]]。
+这些实现细节决定实际 logical error rate 和 space-time volume，不能只由上面的理想单比特线路给出。
 
-**Gate injection** 或 **gate teleportation** 消耗一个高保真逻辑魔态，通过测量线路在数据逻辑比特上实现逻辑 $T$ 门：
-$$
-|\psi_L\rangle
-\longrightarrow
-T_L|\psi_L\rangle.
-$$
+---
+### 7. State injection、distillation 与 gate injection 的区别
 
-因此完整流程通常是
 $$
-\boxed{
-\text{物理魔态制备}
-\rightarrow
+\begin{array}{c|c|c|c}
+\text{阶段}
+&
+\text{输入}
+&
+\text{输出}
+&
+\text{主要作用}
+\\
+\hline
 \text{state injection}
-\rightarrow
-\text{magic-state distillation}
-\rightarrow
-\text{逻辑 }T\text{ 门注入}
-}
+&
+\text{物理或低编码 magic state}
+&
+\text{目标编码空间中的 noisy }|T_L\rangle
+&
+\text{把资源送入编码空间}
+\\
+\text{distillation}
+&
+n\text{ 个 noisy }|T_L\rangle
+&
+k\text{ 个更低错误率的 }|T_L\rangle
+&
+\text{压低 magic-state 错误}
+\\
+\text{gate injection}
+&
+|\psi_L\rangle\text{ 和高保真 }|T_L\rangle
+&
+T_L|\psi_L\rangle
+&
+\text{把资源消耗为逻辑门}
+\end{array}
 $$
 
----
-### 适用范围与易错点
-
-- 上面的推导假设 $|A\rangle$ 是理想魔态，CNOT、测量和 $S$ 修正也是理想操作。
-- 在容错语境中，应把数据态、辅助态和修正都替换成逻辑版本：$|\psi_L\rangle$、$|A_L\rangle$、$T_L$、$S_L$。
-- 如果魔态有错误，注入电路会把魔态错误转化为数据比特上的逻辑门错误，所以高保真 $T$ 门依赖后续的 [[Magic State Distillation]]。
-- $m=1$ 分支中的 $T^\dagger$ 与 $T$ 只差一个 Clifford 修正 $S$，这是这个注入方案能确定性工作的关键。
-- 不同文献可能使用不同方向的 CNOT、不同测量基或不同魔态定义；比较线路时必须一起核对 byproduct correction。
+例如，[[Reed-Muller码]] 给出 15-to-1 distillation 所需的编码结构；[[三正交码与横向逻辑T门]] 进一步解释横向 $T$ 与三正交条件的关系。它们处理的是 distillation 所需的码性质，而本笔记处理的是资源进入编码空间以及资源被消耗为逻辑门时的基本接口。
 
 ---
-### 与其它笔记的连接
+### 8. 适用范围与易错点
 
-- [[T state]]：解释 $|A\rangle=T|+\rangle$ 为什么是非稳定子资源。
-- [[Clifford group]]：说明注入电路中哪些操作仍在 Clifford 集合内。
-- [[Magic State Distillation]]：解释如何把有噪声的逻辑魔态提纯到可用于容错计算。
-- [[T gate injection]]：专门讨论消耗 $|A_L\rangle$ 实现逻辑 $T_L$ 的线路和 frame update。
+- 上述精确线路推导假设 magic state、CNOT、测量和条件校正均为理想操作。
+- $m=1$ 分支得到的是 $T^\dagger$，通过 $ST^\dagger=T$ 修正；不能误写成 Pauli 校正。
+- 测量后未归一化态必须保留 $1/\sqrt{2}$，否则无法正确得到每个分支的概率 $1/2$。
+- 整体相位 $\omega$ 可以忽略，相对相位不能忽略。
+- 交换 CNOT 控制与目标、改变测量基或采用 $|T^\dagger\rangle$，都会改变 byproduct correction。
+- 简化的随机 $Z$ 错误模型不包含 coherent over-rotation、leakage、measurement error 和 correlated fault。
+- state injection 的具体容错性取决于编码与架构；不能仅凭抽象映射 $\rho_{T,\mathrm{physical}}\to\rho_{T,L}^{\mathrm{inj}}$ 推断其有效码距或逻辑错误率。
+
+> 核心区分：state injection 把非稳定子资源送入编码空间，distillation 压低该资源的错误率，gate injection 再把资源消耗为数据上的非 Clifford 逻辑门。
