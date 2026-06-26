@@ -2238,7 +2238,55 @@ $$
 \end{array}
 $$
 
-#### 6.2 错误概率与 fidelity
+#### 6.2 Magic-state twirling 在实验中的位置
+
+通道 twirling 的公式
+
+$$
+\mathcal E_{\mathcal G}(\rho)
+=
+\frac{1}{|\mathcal G|}
+\sum_{G\in\mathcal G}
+G^\dagger
+\mathcal E(G\rho G^\dagger)
+G
+$$
+
+看起来像是在未知噪声信道 $\mathcal E$ 前后分别插入随机 $G$ 与 $G^\dagger$。这是对 gate noise 做 channel twirl 或 randomized compiling 时常见的操作图像。
+
+Magic-state twirling 的对象不是一个待运行的量子门信道，而是已经制备好的 noisy magic state。若制备过程给出
+
+$$
+\rho=\mathcal E_{\mathrm{prep}}(|T\rangle\langle T|),
+$$
+
+则 magic-state twirl 通常写成
+
+$$
+\mathcal T_A(\rho)
+=
+\frac12(\rho+A\rho A).
+$$
+
+这对应在制备后对每个输入 magic state 随机施加 $I$ 或 $A$，然后在 ensemble 或后续分析中对这个随机选择取平均。它不是把同一个制备信道改写成
+
+$$
+A^\dagger\mathcal E_{\mathrm{prep}}(A\rho A^\dagger)A
+$$
+
+这类“信道前后夹随机 Clifford”的实验流程。
+
+因此在 distillation 的理论分析中，magic-state twirling 更像是一个状态级的噪声整理步骤：它把同一 fidelity 的相干偏差替换为
+
+$$
+(1-p)|T\rangle\langle T|
++
+pZ|T\rangle\langle T|Z
+$$
+
+这样的随机错误模型。实验上可以主动做这个随机化，但并非所有实验都必须真的额外加随机 Clifford 门；如果输入态噪声已经可近似为该对角模型，或者只是用 twirled model 做保守/简化分析，可以不把它实现成物理门序列。若真的主动施加随机 $A$，这些 Clifford 操作本身的错误应计入整体噪声，而不能仍把 $\mathcal T_A$ 当作理想免费操作。
+
+#### 6.3 错误概率与 fidelity
 
 其中
 

@@ -379,9 +379,26 @@ $$
 
 严格相等。
 
+由于 $I$ 与 $Z(c)$ 对易，也可以把恒等项从指数中提出：
+
+$$
+\begin{aligned}
+P(c)
+&=
+\exp\left[
+\frac{i\pi}{8}I-\frac{i\pi}{8}Z(c)
+\right]\\
+&=
+e^{i\pi/8}
+\exp\left[-\frac{i\pi}{8}Z(c)\right].
+\end{aligned}
+$$
+
+其中 $e^{i\pi/8}$ 是作用在整个 Hilbert 空间上的全局相位。若只关心普通线路中的物理作用，可以把 $P(c)$ 视为多体 Pauli rotation $\exp[-i\pi Z(c)/8]$，二者只差全局相位；若要保持与上面的 parity-phase 定义严格相等，或者讨论受控的 $P(c)$，则应保留这个全局相位。
+
 #### 用 Clifford+$T$ 实现 $P(c)$
 
-$P(c)$ 是绕多 qubit Pauli string $Z(c)$ 的旋转，而标准 Clifford+$T$ 门集直接提供的是绕单 qubit $Z_t$ 的 $T_t$。因此需要先用 Clifford network 把多 qubit parity $b_c(x)$ 写到一个 accumulator qubit 上，再施加 $T_t$，最后反计算。CNOT 只改变 $T$ 门所依赖的 parity，不提供 magic；非 Clifford resource 仍只有中间的一个 $T$ gate。
+$P(c)$ 除了一个全局相位外，是绕多 qubit Pauli string $Z(c)$ 的旋转，而标准 Clifford+$T$ 门集直接提供的是绕单 qubit $Z_t$ 的 $T_t$。因此需要先用 Clifford network 把多 qubit parity $b_c(x)$ 写到一个 accumulator qubit 上，再施加 $T_t$，最后反计算。CNOT 只改变 $T$ 门所依赖的 parity，不提供 magic；非 Clifford resource 仍只有中间的一个 $T$ gate。
 
 ##### 为什么不能把 $P(c)$ 直接拆成多个单 qubit $T$ 门
 
@@ -560,7 +577,7 @@ $$
 \exp\left(-\frac{i\pi}{8}Z(c)\right)
 $$
 
-或直接测量相应 Pauli product，则不一定要实际使用这串 CNOT。CNOT–$T$–CNOT 是把 $P(c)$ 编译到标准 Clifford+$T$ 门集的一种通用实现，不是 $P(c)$ 定义本身的一部分。
+或直接测量相应 Pauli product，则不一定要实际使用这串 CNOT。此时实现的是与 $P(c)$ 相差全局相位 $e^{-i\pi/8}$ 的门；在普通非受控线路中这不改变输出态。CNOT–$T$–CNOT 是把 $P(c)$ 编译到标准 Clifford+$T$ 门集的一种通用实现，不是 $P(c)$ 定义本身的一部分。
 
 特别地，若 $c$ 的重量为 $1$，例如 $c=e_t$，则
 

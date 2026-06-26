@@ -1,146 +1,641 @@
-State injection 解决的问题是：如何把难以直接容错实现的非 Clifford 资源带入编码计算，并最终把它消耗为数据逻辑比特上的非 Clifford 门。
-
-这个术语在文献中有两种相近但不同的用法：
-
-- 狭义的 **state injection**：把物理层或低编码层制备的有噪声 magic state 转移到目标逻辑编码空间。
-- 常被一并称为 injection 的 **gate injection / gate teleportation**：消耗一个逻辑 magic state，在数据逻辑比特上实现对应的非 Clifford 门。
-
-两者在容错流程中的位置不同：
+State injection 通过消耗资源态
 
 $$
-\boxed{
-\text{物理 magic state 制备}
-\longrightarrow
-\text{state injection}
-\longrightarrow
-\text{distillation}
-\longrightarrow
-\text{gate injection}
-}
+|U\rangle:=U|+\rangle
 $$
 
-本文先说明狭义 state injection 的输入输出和误差含义，再用 $T$ gate injection 给出可完整验证的线路与公式。具体的物理到逻辑注入线路依赖所用量子码和容错架构，不存在与编码无关的唯一电路。
+在数据态上实现难以直接容错执行的门 $U$。其核心是 gate teleportation：量子码负责保护 Clifford 操作，非 Clifford 性则由离线制备的 magic state 提供。
+
+本文主要采用 Jacinto 等人在 [*Exploring the landscape of compact magic-state distillation factories*](<../../Papers/S001_2026_Jacinto_compact_magic_state_factories.pdf>) Sec. II.B 中的线路约定。
 
 ---
-### 1. State injection 的最小模型
+### 1. 从单比特 teleportation 开始
+
+设数据 qubit 为 $d$，辅助 qubit 为 $a$，
+
+$$
+|\psi\rangle_d
+=
+\alpha|0\rangle+\beta|1\rangle,
+\qquad
+|+\rangle_a
+=
+\frac{|0\rangle+|1\rangle}{\sqrt2}.
+$$
+
+先执行以辅助 qubit 为控制、数据 qubit 为目标的
+
+$$
+\operatorname{CNOT}_{a\rightarrow d}.
+$$
+
+该门也可以写成“在数据 qubit 的 $X$ 基上控制辅助 qubit 的 $Z$”：
+
+$$
+\operatorname{CNOT}_{a\rightarrow d}
+=
+|+\rangle\langle+|_d\otimes I_a
++|-\rangle\langle-|_d\otimes Z_a.
+$$
+
+作用后有
+
+$$
+\operatorname{CNOT}_{a\rightarrow d}
+|\psi\rangle_d|+\rangle_a
+=
+\frac{
+|0\rangle_d|\psi\rangle_a
++|1\rangle_dX|\psi\rangle_a
+}{\sqrt2}.
+$$
+
+在 $Z$ 基测量数据 qubit，结果记为 $m\in\{0,1\}$，则辅助 qubit 上的未校正状态为
+
+$$
+X^m|\psi\rangle_a.
+$$
+
+条件施加 $X^m$ 后，输出恢复为 $|\psi\rangle$。这是一种只使用 CNOT、Pauli 测量和 Pauli correction 的单比特 teleportation。
+
+---
+### 2. 把门 $U$ 一起传送
+
+若希望输出 $U|\psi\rangle$，把辅助态从 $|+\rangle$ 换成
+
+$$
+|U\rangle=U|+\rangle.
+$$
+
+同时将 teleportation 中作用在辅助 qubit 上的算符按 $U$ 共轭：
+
+$$
+Z\longmapsto UZU^\dagger,
+\qquad
+X\longmapsto UXU^\dagger.
+$$
 
 定义
 
 $$
-T=\operatorname{diag}(1,e^{i\pi/4}),
+W_U
+=
+(I_d\otimes U_a)
+\operatorname{CNOT}_{a\rightarrow d}
+(I_d\otimes U_a^\dagger).
+$$
+
+它等价于在数据 qubit 的 $X$ 基上控制辅助 qubit 的 $UZU^\dagger$：
+
+$$
+W_U
+=
+|+\rangle\langle+|_d\otimes I_a
++|-\rangle\langle-|_d\otimes UZU^\dagger_a.
+$$
+
+由于输入辅助态已经是 $U|+\rangle$，
+
+$$
+\begin{aligned}
+W_U|\psi\rangle_d|U\rangle_a
+&=
+(I\otimes U)
+\operatorname{CNOT}_{a\rightarrow d}
+|\psi\rangle_d|+\rangle_a\\
+&=
+\frac{
+|0\rangle_dU|\psi\rangle_a
++|1\rangle_dUX|\psi\rangle_a
+}{\sqrt2}.
+\end{aligned}
+$$
+
+测量数据 qubit 后：
+
+$$
+m=0:\quad U|\psi\rangle,
+$$
+
+$$
+m=1:\quad UX|\psi\rangle.
+$$
+
+在 $m=1$ 分支施加
+
+$$
+UXU^\dagger
+$$
+
+便有
+
+$$
+(UXU^\dagger)(UX|\psi\rangle)
+=
+U|\psi\rangle.
+$$
+
+因此 gate teleportation 用资源态 $|U\rangle$ 和条件校正 $UXU^\dagger$ 实现了 $U$。
+
+---
+### 3. 输出保留在原数据线上的 in-place gadget
+
+上述线路把输出传送到辅助 qubit：
+
+```text
+data d:      |ψ⟩ ─────●_X──── M_Z
+                       │        m
+resource a:  |U⟩ ──[UZU†]────[UXU†]^m── U|ψ⟩
+```
+
+其中 $\bullet_X$ 表示在数据 qubit 的 $X$ 基上控制资源线上的门。输出位于第二条线。
+
+论文通过加入 SWAP 并化简线路，把输出移回第一条线。化简后的线路形状为
+
+```text
+data d:      |ψ⟩ ─────●_X────●────[C_U]^m── U|ψ⟩
+                       │      │
+resource a:  |U⟩ ────[R_U]───⊕─── M_Z
+                                      m
+```
+
+这里还不知道方框内应该放什么。可以不依赖图形化简，而是先把受控门记为未知的 $R$，从测量分支本身推出 $R$ 在资源态上的必要作用，再选择一个自然的酉延拓。
+
+先令
+
+$$
+U=
+\begin{pmatrix}
+a&b\\
+c&d
+\end{pmatrix},
+\qquad
+|U\rangle
+=
+U|+\rangle
+=
+\frac1{\sqrt2}
+\begin{pmatrix}
+a+b\\
+c+d
+\end{pmatrix}.
+$$
+
+测量前的未知门以数据 qubit 的 $X$ 基为控制：
+
+$$
+\Lambda_X(R)
+=
+|+\rangle\langle+|_d\otimes I_a
++|-\rangle\langle-|_d\otimes R_a.
+$$
+
+执行 $\operatorname{CNOT}_{d\rightarrow a}$ 并在 $Z$ 基测量资源 qubit 后，作用在数据 qubit 上的分支算符为
+
+$$
+K_m(R)
+=
+{}_a\langle m|
+\operatorname{CNOT}_{d\rightarrow a}
+\Lambda_X(R)
+|U\rangle_a.
+$$
+
+先只看 $m=0$ 分支。记
+
+$$
+|U\rangle
+=
+\begin{pmatrix}
+u_0\\
+u_1
+\end{pmatrix},
+\qquad
+R|U\rangle
+=
+\begin{pmatrix}
+v_0\\
+v_1
+\end{pmatrix}.
+$$
+
+把 $\Lambda_X(R)$ 先作用到辅助态上，得到一个“数据算符 $\otimes$ 辅助态”的和：
+
+$$
+\Lambda_X(R)|U\rangle_a
+=
+|+\rangle\langle+|_d\otimes |U\rangle_a
++
+|-\rangle\langle-|_d\otimes R|U\rangle_a.
+$$
+
+再使用
+
+$$
+\operatorname{CNOT}_{d\rightarrow a}
+=
+|0\rangle\langle0|_d\otimes I_a
++
+|1\rangle\langle1|_d\otimes X_a.
+$$
+
+对任意辅助态
+
+$$
+|\eta\rangle_a=\eta_0|0\rangle_a+\eta_1|1\rangle_a,
+$$
+
+有
+
+$$
+\begin{aligned}
+{}_a\langle0|
+\operatorname{CNOT}_{d\rightarrow a}
+\left(B_d\otimes|\eta\rangle_a\right)
+&=
+{}_a\langle0|
+\left[
+|0\rangle\langle0|B_d\otimes|\eta\rangle_a
++
+|1\rangle\langle1|B_d\otimes X|\eta\rangle_a
+\right]\\
+&=
+\eta_0|0\rangle\langle0|B_d
++
+\eta_1|1\rangle\langle1|B_d.
+\end{aligned}
+$$
+
+这里 $B_d$ 是作用在数据线上的任意算符。第二项出现 $\eta_1$，是因为
+
+$$
+\langle0|X|\eta\rangle
+=
+\langle1|\eta\rangle
+=
+\eta_1.
+$$
+
+把这个规则分别用于
+
+$$
+B_d=|+\rangle\langle+|,
+\quad
+|\eta\rangle=|U\rangle,
+$$
+
+以及
+
+$$
+B_d=|-\rangle\langle-|,
+\quad
+|\eta\rangle=R|U\rangle,
+$$
+
+就得到
+
+$$
+\begin{aligned}
+K_0(R)
+&=
+u_0|0\rangle\langle0|\,|+\rangle\langle+|
++v_0|0\rangle\langle0|\,|-\rangle\langle-|\\
+&\quad
++u_1|1\rangle\langle1|\,|+\rangle\langle+|
++v_1|1\rangle\langle1|\,|-\rangle\langle-|\\[1mm]
+&=
+\left(
+u_0|0\rangle\langle0|
++
+u_1|1\rangle\langle1|
+\right)
+|+\rangle\langle+|
++
+\left(
+v_0|0\rangle\langle0|
++
+v_1|1\rangle\langle1|
+\right)
+|-\rangle\langle-|.
+\end{aligned}
+$$
+
+最后代入
+
+$$
+|+\rangle\langle+|
+=
+\frac12
+\begin{pmatrix}
+1&1\\
+1&1
+\end{pmatrix},
+\qquad
+|-\rangle\langle-|
+=
+\frac12
+\begin{pmatrix}
+1&-1\\
+-1&1
+\end{pmatrix}.
+$$
+
+两项矩阵分别是
+
+$$
+\left(
+u_0|0\rangle\langle0|
++
+u_1|1\rangle\langle1|
+\right)
+|+\rangle\langle+|
+=
+\frac12
+\begin{pmatrix}
+u_0&u_0\\
+u_1&u_1
+\end{pmatrix},
+$$
+
+$$
+\left(
+v_0|0\rangle\langle0|
++
+v_1|1\rangle\langle1|
+\right)
+|-\rangle\langle-|
+=
+\frac12
+\begin{pmatrix}
+v_0&-v_0\\
+-v_1&v_1
+\end{pmatrix}.
+$$
+
+相加后得到
+
+$$
+\boxed{
+K_0(R)
+=
+\frac12
+\begin{pmatrix}
+u_0+v_0&u_0-v_0\\
+u_1-v_1&u_1+v_1
+\end{pmatrix}
+}.
+$$
+
+因为
+
+$$
+u_0=\frac{a+b}{\sqrt2},
+\qquad
+u_1=\frac{c+d}{\sqrt2},
+$$
+
+线路中的条件校正写成 $[C_U]^m$，所以 $m=0$ 分支不再施加额外门；这一分支算符必须已经正比于目标门。按测量概率归一化，要求 $K_0(R)=U/\sqrt2$ 等价于
+
+$$
+\begin{aligned}
+u_0+v_0&=\sqrt2 a,
+&
+u_0-v_0&=\sqrt2 b,\\
+u_1-v_1&=\sqrt2 c,
+&
+u_1+v_1&=\sqrt2 d.
+\end{aligned}
+$$
+
+于是 $m=0$ 分支给出的实际约束不是完整的算符等式，而是 $R$ 在当前资源态上的作用：
+
+$$
+R|U\rangle
+=
+\frac1{\sqrt2}
+\begin{pmatrix}
+a-b\\
+d-c
+\end{pmatrix}
+=
+ZU|-\rangle
+=
+ZUZ|+\rangle.
+$$
+
+由于 $|U\rangle=U|+\rangle$，一个规范选择是把这个态映射延拓为
+
+$$
+\boxed{
+R=R_U:=ZUZU^\dagger
+},
+$$
+
+因为
+
+$$
+R_U|U\rangle
+=
+ZUZU^\dagger U|+\rangle
+=
+ZU|-\rangle.
+$$
+
+这个选择的好处是它只由 $U$ 和 Pauli $Z$ 给出；当 $U$ 是 $Z$ 基对角门时，$R_U=I$，后面的受控 $R_U$ 会直接消失。
+
+把 $R_U|U\rangle$ 代回分支算符。利用
+
+$$
+|+\rangle\langle+|
+=
+\frac12
+\begin{pmatrix}
+1&1\\
+1&1
+\end{pmatrix}
+\qquad
+|-\rangle\langle-|
+=
+\frac12
+\begin{pmatrix}
+1&-1\\
+-1&1
+\end{pmatrix}
+$$
+
+两个分支算符化为
+
+$$
+\begin{aligned}
+K_0
+&=
+\frac1{\sqrt2}
+\begin{pmatrix}
+a&b\\
+c&d
+\end{pmatrix}
+=
+\frac{U}{\sqrt2},\\[2mm]
+K_1
+&=
+\frac1{\sqrt2}
+\begin{pmatrix}
+d&c\\
+b&a
+\end{pmatrix}
+=
+\frac{XUX}{\sqrt2}.
+\end{aligned}
+$$
+
+所以 $m=0$ 分支已经是目标门，而 $m=1$ 分支为 $XUX$。为了把第二个分支也修正成 $U$，需要一个门 $C_U$ 满足
+
+$$
+C_U(XUX)=U.
+$$
+
+解得
+
+$$
+\boxed{
+C_U:=UXU^\dagger X
+},
+$$
+
+因为
+
+$$
+(UXU^\dagger X)(XUX)
+=
+UXU^\dagger UX
+=
+U.
+$$
+
+因此：
+
+- $m=0$ 分支先固定 $R|U\rangle=ZUZ|+\rangle$，$R_U$ 是这个态映射的规范酉延拓；
+- $C_U$ 是为了把另一个分支 $XUX$ 校正为同一个 $U$。
+
+记 $K_m:=K_m(R_U)$。图中的 in-place gadget 满足
+
+$$
+C_U^mK_m
+=
+\frac{U}{\sqrt2},
+\qquad
+m\in\{0,1\}.
+$$
+
+两个测量结果的概率均为 $1/2$，归一化后的输出恒为
+
+$$
+U|\psi\rangle.
+$$
+
+#### 对角门的简化
+
+若 $U$ 在 $Z$ 基中对角，则
+
+$$
+[U,Z]=0
+$$
+
+并且
+
+$$
+R_U
+=
+ZUZU^\dagger
+=
+ZZ
+=
+I.
+$$
+
+因此第一个受控门完全消失。线路只剩下
+
+$$
+\operatorname{CNOT}_{d\rightarrow a},
+\qquad
+M_{Z,a},
+\qquad
+C_U^m.
+$$
+
+若进一步有
+
+$$
+U\in\mathcal C_3,
+$$
+
+则
+
+$$
+UXU^\dagger\in\mathcal C_2,
+$$
+
+从而
+
+$$
+C_U=UXU^\dagger X\in\mathcal C_2.
+$$
+
+也就是说，对角的第三层 Clifford-hierarchy 门可以只用 Clifford 线路、测量、经典前馈和资源态 $|U\rangle$ 实现。
+
+---
+### 4. T-state injection
+
+采用
+
+$$
+T=\operatorname{diag}(1,\omega),
 \qquad
 \omega=e^{i\pi/4},
 $$
 
-以及 T-type magic state
+以及
 
 $$
 |T\rangle
-=T|+\rangle
-=\frac{|0\rangle+\omega|1\rangle}{\sqrt{2}}.
-$$
-
-狭义 state injection 的目标可抽象写为
-
-$$
-\rho_{T,\mathrm{physical}}
-\longrightarrow
-\rho_{T,L}^{\mathrm{inj}},
-$$
-
-其中输出位于目标量子码的逻辑编码空间。理想情况下希望得到
-
-$$
-|T_L\rangle
-=T_L|+_L\rangle
-=\frac{|0_L\rangle+\omega|1_L\rangle}{\sqrt{2}}.
-$$
-
-实际注入通常不是“自动获得一个高保真逻辑态”。它只是把非稳定子资源送入编码空间；物理态制备错误、注入线路错误、测量错误和注入阶段较弱的错误保护都会进入有效输入错误率 $p_{\mathrm{in}}$。
-
-在采用简化的逻辑 $Z_L$ 错误模型时，可以写成
-
-$$
-\rho_{T,L}^{\mathrm{inj}}
 =
-(1-p_{\mathrm{in}})
-|T_L\rangle\langle T_L|
-+
-p_{\mathrm{in}}
-Z_L|T_L\rangle\langle T_L|Z_L.
+T|+\rangle
+=
+\frac{|0\rangle+\omega|1\rangle}{\sqrt2}.
 $$
 
-这个表达式隐含了两个条件：
-
-1. 已通过适当的随机化或噪声建模，把相关的态误差化为随机逻辑错误；
-2. 忽略 coherent error、leakage 和跨多个注入态的 correlated error。
-
-因此，state injection 主要解决“资源如何进入编码空间”，而不是“资源错误率如何下降”。错误率压低通常由后续 distillation 完成。
-
----
-### 2. 从逻辑 magic state 实现逻辑 T 门
-
-设数据态为
+$T$ 在 $Z$ 基中对角，因此 $R_T=I$。条件校正为
 
 $$
-|\psi\rangle
-=a|0\rangle+b|1\rangle,
-\qquad
-|a|^2+|b|^2=1.
+\begin{aligned}
+C_T
+&=
+TXT^\dagger X\\
+&=
+e^{-i\pi/4}S,
+\end{aligned}
 $$
 
-先在未编码单比特上推导；把所有态和门替换为逻辑版本后，代数完全相同。
-
-采用以下约定：
-
-```text
-data:    |ψ⟩ ───●──────────────── output
-                │
-ancilla: |T⟩ ───X─── M_Z
-                       │
-                 m=1: apply S
-```
-
-也就是：
-
-1. 数据比特是 CNOT 的控制比特；
-2. magic-state 辅助比特是 CNOT 的目标比特；
-3. 在 $Z$ 基测量辅助比特，结果记为 $m\in\{0,1\}$；
-4. 当 $m=1$ 时，对数据比特施加
+其中
 
 $$
 S=\operatorname{diag}(1,i).
 $$
 
-这里的 CNOT 方向、测量基和结果标号共同决定校正规则。若改变其中任何一项，不能直接照搬“$m=1$ 时施加 $S$”。
+整体相位 $e^{-i\pi/4}$ 不影响条件校正，所以实际只需在相应测量分支施加 $S$。
 
----
-### 3. 测量分支的精确推导
+线路可写为
 
-初态为
+```text
+data:    |ψ⟩ ───●──────── S^m ─── T|ψ⟩
+                │
+magic:   |T⟩ ───⊕─── M_Z
+                       m
+```
 
-$$
-|\psi\rangle_d|T\rangle_a
-=
-\frac{1}{\sqrt{2}}
-\left(a|0\rangle_d+b|1\rangle_d\right)
-\left(|0\rangle_a+\omega|1\rangle_a\right).
-$$
+这里数据 qubit 是 CNOT 控制，magic-state qubit 是目标。
 
-CNOT 后得到
-
-$$
-\frac{1}{\sqrt{2}}
-\left[
-a|0\rangle_d
-\left(|0\rangle_a+\omega|1\rangle_a\right)
-+
-b|1\rangle_d
-\left(|1\rangle_a+\omega|0\rangle_a\right)
-\right].
-$$
-
-把辅助比特投影到测量结果 $m$，可得到作用在数据比特上的未归一化分支算符
+测量分支算符为
 
 $$
 K_m
@@ -155,269 +650,258 @@ $$
 $$
 K_0
 =
-\frac{1}{\sqrt{2}}
+\frac{1}{\sqrt2}
 \begin{pmatrix}
 1&0\\
 0&\omega
 \end{pmatrix}
-=\frac{1}{\sqrt{2}}T,
+=
+\frac{T}{\sqrt2},
 $$
-
-以及
 
 $$
 \begin{aligned}
 K_1
 &=
-\frac{1}{\sqrt{2}}
+\frac{1}{\sqrt2}
 \begin{pmatrix}
 \omega&0\\
 0&1
-\end{pmatrix} \\
+\end{pmatrix}\\
 &=
-\frac{\omega}{\sqrt{2}}
-\begin{pmatrix}
-1&0\\
-0&\omega^{-1}
-\end{pmatrix}
-=\frac{\omega}{\sqrt{2}}T^\dagger.
+\frac{\omega}{\sqrt2}T^\dagger.
 \end{aligned}
 $$
 
-因此，测量后的未归一化数据态是
+由于
 
 $$
-|\widetilde{\psi}_0\rangle
-=K_0|\psi\rangle
-=\frac{1}{\sqrt{2}}T|\psi\rangle,
+ST^\dagger=T,
+$$
+
+可得
+
+$$
+S^mK_m
+=
+\frac{\omega^m}{\sqrt2}T.
+$$
+
+因此
+
+$$
+\begin{array}{c|c|c}
+m&\text{校正前}&\text{施加 }S^m\text{ 后}\\
+\hline
+0&T|\psi\rangle&T|\psi\rangle\\
+1&T^\dagger|\psi\rangle&T|\psi\rangle
+\end{array}
+$$
+
+表中忽略了归一化因子和整体相位。每个分支的概率均为
+
+$$
+P(m)
+=
+\langle\psi|K_m^\dagger K_m|\psi\rangle
+=
+\frac12.
+$$
+
+$S$ 是 Clifford 门，因此随机测量结果只产生 Clifford byproduct，不需要再次消耗 magic state。该 byproduct 可以物理执行，也可以在 Clifford frame 中跟踪。
+
+---
+### 5. Magic-state 错误如何传播
+
+State injection 不会自动降低资源态的错误。论文特别讨论了 $|T\rangle$ 上的 $Z$ 型和 $X$ 型错误。
+
+#### Z 型错误
+
+把资源态换成
+
+$$
+Z|T\rangle.
+$$
+
+对应的分支算符满足
+
+$$
+K_0^{(Z)}
+=
+\frac{ZT}{\sqrt2},
+$$
+
+$$
+SK_1^{(Z)}
+=
+-\frac{\omega ZT}{\sqrt2}.
+$$
+
+因此条件校正的输出均为
+
+$$
+ZT|\psi\rangle
+$$
+
+至多相差整体相位。因此资源态上的 $Z$ error 直接成为数据上的 $Z$ error。
+
+#### X 型错误
+
+把资源态换成
+
+$$
+X|T\rangle.
+$$
+
+此时
+
+$$
+K_0^{(X)}
+=
+\frac{\omega T^\dagger}{\sqrt2},
+\qquad
+SK_1^{(X)}
+=
+\frac{ST}{\sqrt2}.
+$$
+
+利用
+
+$$
+T^\dagger=ZST,
+$$
+
+两个分支在忽略整体相位后可写为
+
+$$
+m=0:\quad ZST|\psi\rangle,
+$$
+
+$$
+m=1:\quad ST|\psi\rangle.
+$$
+
+其中测量结果已知，所以额外的 $Z$ byproduct 可以纳入 Pauli frame；有效错误可统一表示为
+
+$$
+ST|\psi\rangle.
+$$
+
+论文式 (3) 将它写成
+
+$$
+\boxed{
+ST|\psi\rangle
+=
+\frac{e^{i\pi/4}}{\sqrt2}
+(I-iZ)T|\psi\rangle
+}.
+$$
+
+验证只需展开矩阵：
+
+$$
+\frac{e^{i\pi/4}}{\sqrt2}(I-iZ)
+=
+\operatorname{diag}(1,i)
+=
+S.
+$$
+
+这说明 $X$ 型资源错误在 syndrome measurement 之前不是一个随机 $Z$ error，而是
+
+$$
+T|\psi\rangle
+\quad\text{与}\quad
+ZT|\psi\rangle
+$$
+
+的相干叠加。
+
+若数据由 QECC 编码，并测量一个能够检测该 $Z$ error 的 $X$ 型 stabilizer，则两个分量具有不同 syndrome。由于它们的振幅模长相同，测量后分别投影到
+
+$$
+T|\psi\rangle
 $$
 
 或
 
 $$
-|\widetilde{\psi}_1\rangle
-=K_1|\psi\rangle
-=\frac{\omega}{\sqrt{2}}T^\dagger|\psi\rangle.
+ZT|\psi\rangle,
 $$
 
-分支概率为
+概率各为 $1/2$。
 
-$$
-\begin{aligned}
-P(m)
-&=
-\langle\psi|K_m^\dagger K_m|\psi\rangle \\
-&=\frac{1}{2},
-\qquad m\in\{0,1\}.
-\end{aligned}
-$$
+因此，在以下假设下：
 
-这里 $P(m)=1/2$ 与输入系数 $a,b$ 无关。
+- Clifford 操作由 inner QECC 保护并视为理想；
+- 相应 $X$ syndrome 被测量；
+- 已知 Pauli/Clifford byproduct 已纳入 frame；
 
-对 $m=1$ 分支使用
-
-$$
-ST^\dagger
-=
-\operatorname{diag}(1,i)
-\operatorname{diag}(1,e^{-i\pi/4})
-=
-\operatorname{diag}(1,e^{i\pi/4})
-=T.
-$$
-
-令条件校正为
-
-$$
-C_m=S^m,
-$$
-
-则两个分支统一满足
-
-$$
-C_mK_m
-=
-\frac{\omega^m}{\sqrt{2}}T.
-$$
-
-归一化并忽略不可观测的整体相位 $\omega^m$ 后，输出恒为
-
-$$
-|\psi_{\mathrm{out}}\rangle=T|\psi\rangle.
-$$
-
-对应关系为
-
-$$
-\begin{array}{c|c|c|c}
-m
-&
-\text{校正前的数据态}
-&
-\text{条件校正}
-&
-\text{校正后}
-\\
-\hline
-0
-&
-T|\psi\rangle
-&
-I
-&
-T|\psi\rangle
-\\
-1
-&
-T^\dagger|\psi\rangle
-&
-S
-&
-T|\psi\rangle
-\end{array}
-$$
-
-表中省略了归一化因子和整体相位，但没有省略任何相对相位。
+注入线路的有效输出错误可以只按 $Z$ 型错误处理。这一结论也适用于其它在 $Z$ 基中对角的资源门，例如 $CCZ$ 或 $\sqrt T$。
 
 ---
-### 4. 为什么校正仍然是容错友好的
+### 6. Inner code 与 distillation 的接口
 
-$T$ 是非 Clifford 门，而 $S$ 是 Clifford 门。因此随机测量结果只产生一个 Clifford byproduct，不要求再次消耗 $|T\rangle$。
+论文假设 teleportation 线路中的
 
-不过，$S$ byproduct 不是 Pauli byproduct。实现时有三种常见处理方式：
+$$
+|\psi\rangle,\qquad |+\rangle,\qquad |T\rangle
+$$
 
-- 立即执行逻辑 $S_L$；
-- 在 Clifford frame 中记录它，并相应修改后续门或测量；
-- 把校正吸收到后续 Clifford 电路中。
+都编码在 inner QECC 中。Inner code 的作用是保护：
 
-如果控制系统只维护 Pauli frame，就不能把 $S$ 当作普通 Pauli 校正直接忽略；必须升级为 Clifford-frame 追踪或显式实现校正。
+- Clifford gates；
+- Pauli 或 Clifford measurements；
+- classical feedforward 与 frame update。
+
+非 Clifford $T$ gate 则通过消耗编码的 $|T\rangle$ 实现。若 injected $T$ states 有噪声，而 Clifford 部分可视为理想，则每次注入只向数据引入有效 $Z$ error。
+
+这正是 [[Distillation protocol]] 的输入模型：使用 $n$ 次 noisy $T$-state injection，实现一个受 $Z$ error 影响的非 Clifford 线路，再通过 $X$ 型检查筛选错误并保留 $k<n$ 个更干净的输出。
 
 ---
-### 5. Magic-state 错误如何传到数据比特
+### 7. 术语边界
 
-为了看清 gate injection 不会自动压低错误率，考虑简化的输入态误差模型
-
-$$
-\rho_T
-=
-(1-p)|T\rangle\langle T|
-+
-pZ|T\rangle\langle T|Z.
-$$
-
-若 CNOT、测量和条件 $S$ 校正均视为理想，则：
-
-- 输入 $|T\rangle$ 时，数据上实现 $T$；
-- 输入 $Z|T\rangle$ 时，数据上实现 $ZT$，与测量分支无关，至多相差整体相位。
-
-因此输出信道为
+本文遵循所引论文的用法，将“state injection”理解为：
 
 $$
-\mathcal{E}_{\mathrm{out}}(\rho)
-=
-(1-p)T\rho T^\dagger
-+
-pZT\rho T^\dagger Z.
+\text{消耗 }|U\rangle
+\quad\longrightarrow\quad
+\text{在数据上实现 }U.
 $$
 
-在这个模型下，magic state 的错误概率以一阶直接变成注入门错误概率：
+这也常称为 gate injection 或 gate teleportation。
+
+部分文献还用“state injection”表示把物理层或低编码层制备的 magic state 转移到目标逻辑编码空间：
 
 $$
-p_{\mathrm{gate}}=p.
-$$
-
-这正是需要 distillation 的原因：gate injection 负责消耗资源并实现门，不负责把 $p$ 变成 $O(p^2)$ 或 $O(p^3)$。
-
-如果 Clifford 操作、逻辑测量或 classical feedforward 也有错误，则总门错误率还要加入这些容错操作的逻辑失败概率。上式只描述理想注入线路对 magic-state 错误的传播。
-
----
-### 6. 逻辑编码版本
-
-在编码空间中，把线路中的对象替换为
-
-$$
-|\psi\rangle\rightarrow|\psi_L\rangle,
-\qquad
-|T\rangle\rightarrow|T_L\rangle,
-$$
-
-$$
-\operatorname{CNOT}\rightarrow\operatorname{CNOT}_L,
-\qquad
-M_Z\rightarrow M_{Z_L},
-\qquad
-S\rightarrow S_L.
-$$
-
-理想逻辑线路满足
-
-$$
-|\psi_L\rangle|T_L\rangle
+\rho_{T,\mathrm{physical}}
 \longrightarrow
-T_L|\psi_L\rangle,
+\rho_{T,L}.
 $$
 
-同时消耗辅助逻辑 magic state。实际架构还必须说明：
-
-- 逻辑 CNOT 由 transversal gate、lattice surgery 还是 code deformation 实现；
-- $Z_L$ 测量需要多少轮 syndrome extraction；
-- $S_L$ 是物理执行还是由 Clifford frame 追踪；
-- routing、idle error、decoder failure 和测量延迟是否计入资源开销；
-- 注入态错误与数据块逻辑错误是否独立。
-
-这些实现细节决定实际 logical error rate 和 space-time volume，不能只由上面的理想单比特线路给出。
-
----
-### 7. State injection、distillation 与 gate injection 的区别
-
-$$
-\begin{array}{c|c|c|c}
-\text{阶段}
-&
-\text{输入}
-&
-\text{输出}
-&
-\text{主要作用}
-\\
-\hline
-\text{state injection}
-&
-\text{物理或低编码 magic state}
-&
-\text{目标编码空间中的 noisy }|T_L\rangle
-&
-\text{把资源送入编码空间}
-\\
-\text{distillation}
-&
-n\text{ 个 noisy }|T_L\rangle
-&
-k\text{ 个更低错误率的 }|T_L\rangle
-&
-\text{压低 magic-state 错误}
-\\
-\text{gate injection}
-&
-|\psi_L\rangle\text{ 和高保真 }|T_L\rangle
-&
-T_L|\psi_L\rangle
-&
-\text{把资源消耗为逻辑门}
-\end{array}
-$$
-
-例如，[[Reed-Muller码]] 给出 15-to-1 distillation 所需的编码结构；[[三正交码与横向逻辑T门]] 进一步解释横向 $T$ 与三正交条件的关系。它们处理的是 distillation 所需的码性质，而本笔记处理的是资源进入编码空间以及资源被消耗为逻辑门时的基本接口。
+后一过程依赖具体量子码、code deformation、lattice surgery 和测量方案，不存在与编码无关的唯一线路。两种用法需要根据上下文区分。
 
 ---
 ### 8. 适用范围与易错点
 
-- 上述精确线路推导假设 magic state、CNOT、测量和条件校正均为理想操作。
-- $m=1$ 分支得到的是 $T^\dagger$，通过 $ST^\dagger=T$ 修正；不能误写成 Pauli 校正。
-- 测量后未归一化态必须保留 $1/\sqrt{2}$，否则无法正确得到每个分支的概率 $1/2$。
-- 整体相位 $\omega$ 可以忽略，相对相位不能忽略。
-- 交换 CNOT 控制与目标、改变测量基或采用 $|T^\dagger\rangle$，都会改变 byproduct correction。
-- 简化的随机 $Z$ 错误模型不包含 coherent over-rotation、leakage、measurement error 和 correlated fault。
-- state injection 的具体容错性取决于编码与架构；不能仅凭抽象映射 $\rho_{T,\mathrm{physical}}\to\rho_{T,L}^{\mathrm{inj}}$ 推断其有效码距或逻辑错误率。
+- Canonical teleportation 使用 $\operatorname{CNOT}_{a\rightarrow d}$，而 in-place $T$ injection 使用 $\operatorname{CNOT}_{d\rightarrow a}$；两者方向不同。
+- 对角性 $[U,Z]=0$ 用于消去 in-place gadget 中的受控 $R_U=ZUZU^\dagger$。对一般非对角 $U$ 不能直接删除该门。
+- $U\in\mathcal C_3$ 保证条件校正 $C_U=UXU^\dagger X$ 是 Clifford；它不意味着 $U$ 本身是 Clifford。
+- 对 $T$ injection，$m=1$ 分支需要 $S$ correction。$S$ 不是 Pauli，若不物理执行，必须使用 Clifford-frame tracking。
+- $X$ 型 magic-state error 在 stabilizer measurement 前是相干错误；只有经过能区分 $T|\psi\rangle$ 与 $ZT|\psi\rangle$ 的 syndrome measurement 后，才可解释为随机 $Z$ error。
+- 改变 CNOT 方向、测量基、measurement-bit 标号或采用 $|T^\dagger\rangle$，都会改变条件校正规则。
+- 实际逻辑失败率还包括 inner-code logical fault、measurement error、decoder failure、leakage 和 correlated error。
 
-> 核心区分：state injection 把非稳定子资源送入编码空间，distillation 压低该资源的错误率，gate injection 再把资源消耗为数据上的非 Clifford 逻辑门。
+---
+### 与其它笔记的连接
+
+- [[Clifford Twirling 与魔态错误模型]]：说明何时可以进一步把 coherent error 化为 stochastic $Z$ error，以及独立输入模型需要哪些额外假设。
+- [[Distillation protocol]]：从多次 noisy injection 得到 syndrome、输出错误与资源公式。
+- [[Reed-Muller码]]：给出 15-to-1 distillation 所使用的具体码与错误阶数。
+- [[三正交码与横向逻辑T门]]：说明 transversal $T$ 与 triorthogonality 的关系。
+
+---
+### 参考来源
+
+- H. Jacinto, X. Valcarce, V. Barizien, É. Gouzien, and N. Sangouard, [*Exploring the landscape of compact magic-state distillation factories*](<../../Papers/S001_2026_Jacinto_compact_magic_state_factories.pdf>), arXiv:2606.07734 (2026), Sec. II.B.
