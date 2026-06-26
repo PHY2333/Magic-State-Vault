@@ -4,6 +4,7 @@
 ### 主线入口
 
 - [[State injection]]：区分编码态注入、magic-state distillation 与 gate injection，并推导用 $|T\rangle$、Clifford 操作、测量和经典前馈实现 $T$ 门的线路。
+- [[重复码上的逻辑T门]]：把 noisy $T$ injections 的 $Z$ 型错误组织成 repetition-code syndrome，推导逻辑 $T$ 门、Pauli product rotation 矩阵和 triorthogonal distillation 矩阵之间的对应。
 - [[Clifford Twirling 与魔态错误模型]]：区分 Pauli、full Clifford 与 magic-state twirling，推导 noisy $|T\rangle$ 的随机 $Z$ 错误模型及其独立性假设。
 - [[Reed-Muller码]]：从 $RM(1,4)$ 构造量子 $[\![15,1,3]\!]$ 码，推导横向 $T/T^\dagger$ 的方向以及 15-to-1 的接受概率和三阶错误抑制。
 - [[Distillation protocol]]：区分 triorthogonal distillation 的码空间图像与 $k+m_x$ qubit 紧凑线路，统一推导 syndrome、输出逻辑错误、yield 和错误阶数。
