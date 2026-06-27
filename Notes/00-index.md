@@ -5,6 +5,8 @@
 
 - [[State injection]]：从单比特 teleportation 推导一般 $U$-injection 与 in-place gadget，并分析 $T$-state injection 的 Clifford correction 和错误传播。
 - [[重复码上的逻辑T门]]：把 noisy $T$ injections 的 $Z$ 型错误组织成 repetition-code syndrome，推导逻辑 $T$ 门、Pauli product rotation 矩阵和 triorthogonal distillation 矩阵之间的对应。
+- [[Canonical distillation family]]：用 Jacinto 等人附录 C 的 zeta/Möbius 反演构造 compact distillation 的 canonical family，并推导 T-count、距离和 $\sqrt T$ 推广。
+- [[SAT搜索紧凑蒸馏工厂]]：把 compact distillation circuit 的支持集合选择写成 SAT 问题，整理无对称搜索、对称子族和 $CCZ$ factory 扩展。
 - [[Clifford Twirling 与魔态错误模型]]：区分 Pauli、full Clifford 与 magic-state twirling，推导 noisy $|T\rangle$ 的随机 $Z$ 错误模型及其独立性假设。
 - [[Reed-Muller码]]：从 $RM(1,4)$ 构造量子 $[\![15,1,3]\!]$ 码，推导横向 $T/T^\dagger$ 的方向以及 15-to-1 的接受概率和三阶错误抑制。
 - [[Distillation protocol]]：区分 triorthogonal distillation 的码空间图像与 $k+m_x$ qubit 紧凑线路，统一推导 syndrome、输出逻辑错误、yield 和错误阶数。
