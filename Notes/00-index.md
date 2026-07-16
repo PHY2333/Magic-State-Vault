@@ -1,22 +1,56 @@
-这个库围绕 magic state、非 Clifford 资源、容错量子计算和资源估算展开。主线目标是理解为什么 Clifford 操作本身不够通用，magic state 如何提供非 Clifford 资源，以及这些资源在容错架构中如何被注入、蒸馏和消耗。
+这个索引用来记录本库的学习顺序和主笔记入口。它不替代具体笔记中的推导；新增主线笔记或移动目录时，应同步更新这里。
 
 ---
-### 主线入口
+### 学习顺序
 
-- [[State injection]]：从单比特 teleportation 推导一般 $U$-injection 与 in-place gadget，并分析 $T$-state injection 的 Clifford correction 和错误传播。
-- [[重复码上的逻辑T门]]：把 noisy $T$ injections 的 $Z$ 型错误组织成 repetition-code syndrome，推导逻辑 $T$ 门、Pauli product rotation 矩阵和 triorthogonal distillation 矩阵之间的对应。
-- [[Canonical distillation family]]：用 Jacinto 等人附录 C 的 zeta/Möbius 反演构造 compact distillation 的 canonical family，并推导 T-count、距离和 $\sqrt T$ 推广。
-- [[SAT搜索紧凑蒸馏工厂]]：把 compact distillation circuit 的支持集合选择写成 SAT 问题，整理无对称搜索、对称子族和 $CCZ$ factory 扩展。
-- [[Clifford Twirling 与魔态错误模型]]：区分 Pauli、full Clifford 与 magic-state twirling，推导 noisy $|T\rangle$ 的随机 $Z$ 错误模型及其独立性假设。
-- [[Reed-Muller码]]：从 $RM(1,4)$ 构造量子 $[\![15,1,3]\!]$ 码，推导横向 $T/T^\dagger$ 的方向以及 15-to-1 的接受概率和三阶错误抑制。
-- [[Distillation protocol]]：区分 triorthogonal distillation 的码空间图像与 $k+m_x$ qubit 紧凑线路，统一推导 syndrome、输出逻辑错误、yield 和错误阶数。
+1. 线性代数与稳定子表示
+   - [[二进制空间性质]]：$\mathbb F_2^n$、直和补空间、正交补和 CSS 码需要的线性代数记号。
+   - [[逻辑基态的表示]]：从 $X$ 型稳定子、CSS 码到一般稳定子码的逻辑计算基态表示。
+   - [[逻辑基态的二次相位]]：一般稳定子态在计算基展开中允许的一次相位和 $CZ$ 型二次相位。
+
+2. 噪声通道与 magic-state 错误模型
+   - [[CPTP映射与Kraus表示]]：量子信道、Kraus 表示、保迹条件和 postselection 分支的数学语言。
+   - [[Clifford Twirling 与魔态错误模型]]：把 noisy $|T\rangle$ 归约为随机 $Z$ 错误模型，并区分 twirling 与独立性假设。
+
+3. Magic-state injection
+   - [[State injection]]：从 gate teleportation 推导 $U$-injection、in-place gadget、$T$ injection 和 byproduct correction。
+
+4. 横向 $T$ 与 triorthogonal distillation
+   - [[汉明重量展开]]：把 XOR 和码字汉明重量写成整数多项式，是横向 $T$ 模 $8$ 相位分析的工具。
+   - [[三正交码与横向逻辑T门]]：说明 triorthogonal 条件如何保证横向 $T$ 的非 Clifford 相位只落在逻辑一次项上。
+   - [[Reed-Muller码]]：$[\![15,1,3]\!]$ Reed-Muller 码、横向 $T/T^\dagger$ 方向和 15-to-1 的 $35p^3$。
+   - [[Distillation protocol]]：统一的 $G_1/G_0$ distillation 矩阵表示、syndrome、输出逻辑错误、接受概率和 yield。
+
+5. Compact distillation factory
+   - [[重复码上的逻辑T门]]：从 repetition-code logical $T$ 到 compact distillation matrix 的 $\alpha\mapsto\beta$ 变换。
+   - [[Canonical distillation family]]：用 zeta/Möbius 反演构造 Jacinto 等人的 canonical compact family。
+   - [[SAT搜索紧凑蒸馏工厂]]：把 support 选择、距离约束和 T-count 优化写成 SAT 搜索。
+
+6. CCZ / qLDPC factory 延伸
+   - [[Chain complex 与 cochain complex]]：chain/cochain complex 的 degree、cycle/cocycle、boundary/coboundary 和 homology/cohomology。
+   - [[CSS码中的cochain complex]]：kernel、image、quotient、logical operator class 和 metacheck 的 CSS 码翻译。
+   - [[Tensor product 对 direct sum 的分配律]]：解释普通 tensor product 如何把两个 direct sum 分解成双指标网格。
+   - [[Cochain complex 的 tensor product]]：解释 graded vector space、total degree、coboundary map 和二项 complex 乘成三项/四项的来源。
+   - [[Balanced tensor product 与 coinvariant quotient]]：固定右模、左模与中间 bimodule，说明 module tensor 与 anti-diagonal linear coinvariants 一般自然同构；作用保持选定 bases 时，它又是集合层 orbit quotient 的线性化。
+   - [[Tricycle complex 的 balanced-product 构造]]：在 Menon 的有限 Abelian group-algebra 特例中构造 $R\to R^3\to R^3\to R$，并固定 regular representation 与二进制矩阵的方向约定。
+   - [[Cup product 与 Leibniz rule]]：说明额外乘法 $\cup$ 和 Leibniz rule 如何让 cup product 在 cohomology 上良定义。
+   - [[Preorientation 与 ordinary tensor product 上的 integrated Leibniz]]：说明 cup product 后为什么要用泛函读成 physical phase，解释 classical seed code 上的 in/out/free 局部读数，并证明 ordinary tensor product 继承 integrated Leibniz。
+   - [[Balanced quotient 上的 inherited product 与 integrated Leibniz]]：解释 free-basis averaging、relative-translate operation 与 invariant integral 如何共同继承 integrated Leibniz。
+   - [[Symmetric triple cup-product]]：解释 Menon 如何用 $\int_R$、symmetric integrated Leibniz、sector 和 preorientation 选择得到 physical $CCZ$ 三元组判据。
+   - [[Menon 2025 Magic Tricycles]]：finite-block qLDPC tricycle codes、logical hypergraph magic state 和 single-shot $CCZ$ factory。
 
 ---
-### 容错与稳定子前置
+### 当前目录归属
 
-- [[二进制空间性质]]：整理 $\mathbb{F}_2^n$、线性子空间、商空间和正交补等记号，是 CSS 码和稳定子推导的线性代数基础。
-- [[逻辑基态的表示]]：从只有 $X$ 型稳定子的简单情形、CSS 码，到一般稳定子码，推导逻辑计算基态的陪集态、投影算符和仿射子空间表示。
-- [[逻辑基态的二次相位]]：说明稳定子态在计算基展开中为什么只能出现一次相位和 $CZ$ 型二次相位。
+- `Notes/01-量子纠错基础/`：二进制空间、CSS 码和逻辑基态表示等前置结构。
+- `Notes/02-Clifford与稳定子形式/`：稳定子态相位、Clifford/stabilizer 形式相关内容。
+- `Notes/03-Magic State基础/`：量子通道、twirling 和 magic-state 错误模型。
+- `Notes/04-Magic State Injection/`：state injection、gate teleportation 和 byproduct correction。
+- `Notes/05-Magic State Distillation/`：triorthogonal code、Reed-Muller、distillation protocol、compact factory 和相关资源计数。
+- `Notes/06-CCZ Distillation/`：CCZ/qLDPC factory、tricycle code、cochain complex、balanced product、metacheck 和 single-shot state preparation。
+- `Notes/07-论文与协议笔记/`：论文导读、协议专题和暂不拆入主线目录的扩展内容。
+
+容错架构与资源估算主题仍未建立；若后续建立 surface-code factory、lattice surgery、code distance selection、T-count/T-depth 和 spacetime volume，可另开编号目录并同步更新这里。
 
 ---
 ### 后续应补主题
