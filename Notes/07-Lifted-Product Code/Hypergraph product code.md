@@ -1,6 +1,4 @@
-Hypergraph-product code（HGP 码）把两张经典校验矩阵组织成一对自动对易的 CSS 校验矩阵。它不是一组固定参数，而是一种乘积构造；[[Lifted product code]] 会保留同一张乘积骨架，只把系数从 $\mathbb F_2$ 换成带 lift 对称性的代数。
-
-前置笔记是 [[Chain complex 与 cochain complex]]、[[CSS码中的cochain complex]]、[[Cochain complex 的 tensor product]] 和 [[Künneth 分解]]。一般乘积复形的定义与证明沿用这些笔记；product homology 与两个因子 homology 的关系见 Künneth 分解，本篇把两个二项链复形的乘积翻译成 HGP 校验矩阵。
+Hypergraph-product code（HGP 码）把两张经典校验矩阵组织成一对自动对易的 CSS 校验矩阵。构造校验矩阵只需要 [[Chain complex 与 cochain complex]]、[[CSS码中的cochain complex]] 和 [[Cochain complex 的 tensor product]] 中的二项复形、CSS 方向与乘积边界。[[Künneth 分解]] 只在分析逻辑空间和简洁维数公式时使用，不是建立 HGP 构造或理解行／列乘积方向的前置。
 
 ### 从两张经典校验矩阵开始
 
@@ -9,10 +7,10 @@ Hypergraph-product code（HGP 码）把两张经典校验矩阵组织成一对�
 $$
 A\in\mathbb F_2^{m_A\times n_A},
 \qquad
-B\in\mathbb F_2^{m_B\times n_B}.
+B\in\mathbb F_2^{m_B\times n_B},
 $$
 
-把它们看成两个二项链复形：
+并把它们看成两个二项链复形
 
 $$
 \mathcal A:\quad
@@ -22,15 +20,29 @@ $$
 \mathbb F_2^{n_B}\xrightarrow{B}\mathbb F_2^{m_B}.
 $$
 
-这里 degree-$1$ 基向量对应经典变量，degree-$0$ 基向量对应经典校验。
+矩阵的列标记 degree-$1$ 的经典变量，行标记 degree-$0$ 的经典校验。于是 $A$ 的变量和校验指标分别写成
 
-先固定与本库一致的 CSS 方向。对一条三项链复形
+$$
+j\in[n_A],
+\qquad
+i\in[m_A],
+$$
+
+而 $B$ 的变量和校验指标分别写成
+
+$$
+m\in[n_B],
+\qquad
+\ell\in[m_B].
+$$
+
+对三项链复形
 
 $$
 C_2\xrightarrow{\partial_2}C_1\xrightarrow{\partial_1}C_0,
 $$
 
-本文取
+本库固定
 
 $$
 H_X=\partial_1,
@@ -38,27 +50,28 @@ H_X=\partial_1,
 H_Z=\partial_2^T.
 $$
 
-因此 chain homology
+因此
 
 $$
-H_1(C)=\frac{\ker H_X}{\operatorname{im}H_Z^T}
+H_1(C)=
+\frac{\ker H_X}{\operatorname{im}H_Z^T}
 $$
 
-表示 logical $Z$ support classes。对偶以后得到本库 [[CSS码中的cochain complex]] 使用的方向
+表示 logical $Z$ support classes。对偶 cochain complex
 
 $$
 C_0^*
 \xrightarrow{H_X^T}
 C_1^*
 \xrightarrow{H_Z}
-C_2^*,
+C_2^*
 $$
 
-其 $H^1$ 表示 logical $X$ support classes。后文的 $H_1$ 与已有笔记的 $H^1$ 因此不是冲突，而是同一 CSS 码的 chain/cochain 两个方向。
+的 $H^1$ 表示 logical $X$ support classes。这里采用 chain 方向推导 HGP blocks；logical quotient 的一般解释仍由 [[CSS码中的cochain complex]] 承担。
 
-### 乘积中间项与物理比特
+### 乘积中间项与物理比特扇区
 
-在 $\mathbb F_2$ 上取 $\mathcal A\otimes\mathcal B$。Total degree 为 $2,1,0$ 的三项分别是
+在 $\mathbb F_2$ 上取 $\mathcal A\otimes\mathcal B$。Total degree 为 $2,1,0$ 的链群是
 
 $$
 C_2=\mathbb F_2^{n_An_B},
@@ -75,16 +88,20 @@ $$
 C_0=\mathbb F_2^{m_Am_B}.
 $$
 
-它们的基向量可按下表读取：
+中间项 $C_1$ 的两个直和分量就是两类物理量子比特：
 
 | 链群 | 基向量标签 | CSS 对应 |
 |---|---|---|
-| $C_2$ | $A$-变量 $\times$ $B$-变量 | $Z$-校验标签 |
-| $C_1$ 第一扇区 | $A$-变量 $\times$ $B$-校验 | 物理量子比特 |
-| $C_1$ 第二扇区 | $A$-校验 $\times$ $B$-变量 | 物理量子比特 |
-| $C_0$ | $A$-校验 $\times$ $B$-校验 | $X$-校验标签 |
+| $C_2$ | $A$-变量 $j$ $\times$ $B$-变量 $m$ | $Z$-校验标签 |
+| $C_1$ 第一扇区 | $A$-变量 $j$ $\times$ $B$-校验 $\ell$ | 物理量子比特 |
+| $C_1$ 第二扇区 | $A$-校验 $i$ $\times$ $B$-变量 $m$ | 物理量子比特 |
+| $C_0$ | $A$-校验 $i$ $\times$ $B$-校验 $\ell$ | $X$-校验标签 |
 
-乘积边界映射是
+两个物理扇区不是额外加入的分类，而是 total degree $1=1+0=0+1$ 的两个分量。后文的四类 Tanner 边都在这四组指标之间连接。
+
+### HGP 校验矩阵与对易
+
+乘积边界为
 
 $$
 \partial_1=
@@ -103,7 +120,7 @@ A\otimes I_{n_B}
 \end{bmatrix}.
 $$
 
-两条从 $C_2$ 到 $C_0$ 的路径给出同一个 $A\otimes B$。在 $\mathbb F_2$ 中相加后抵消：
+从 $C_2$ 到 $C_0$ 有两条 product paths。第一条先作用 $B$、再作用 $A$，第二条先作用 $A$、再作用 $B$；两条路径都给出 $A\otimes B$。在特征 $2$ 中，
 
 $$
 \partial_1\partial_2
@@ -112,11 +129,7 @@ A\otimes B+A\otimes B
 =0.
 $$
 
-这条等式就是 HGP 的 CSS 对易条件来源。
-
-### HGP 校验矩阵
-
-按上面的 chain convention，
+按本库的 chain convention，
 
 $$
 \boxed{
@@ -140,17 +153,160 @@ A^T\otimes I_{n_B}
 }.
 $$
 
-由于 $H_Z^T=\partial_2$，
+因为 $H_Z^T=\partial_2$，
 
 $$
 H_XH_Z^T
-=\partial_1\partial_2
+=
+\partial_1\partial_2
 =0.
 $$
 
-转置以后也有 $H_ZH_X^T=0$，正是本库 cochain convention 中的写法。这里不是先猜两张稀疏矩阵再检查正交性；正交性已经包含在乘积边界平方为零这件事里。
+HGP 的 CSS 对易因此来自乘积边界平方为零，而不是两张事先猜出的矩阵碰巧正交。
 
-### 长度和逻辑比特数
+### 与 S007 式 (1) 的记号转换
+
+S007 第 2.2 节从两张经典种子校验矩阵
+
+$$
+H_1\in\mathbb F_2^{r_1\times n_1},
+\qquad
+H_2\in\mathbb F_2^{r_2\times n_2}
+$$
+
+出发。它把第二个种子按与本库相反的链方向放入乘积。两套记号的转换是
+
+$$
+A=H_1,
+\qquad
+B=H_2^T,
+$$
+
+$$
+(m_A,n_A,m_B,n_B)
+=
+(r_1,n_1,n_2,r_2).
+$$
+
+代入 HGP blocks 后，
+
+$$
+\left[
+A\otimes I_{m_B}
+\;\middle|\;
+I_{m_A}\otimes B
+\right]
+=
+\left[
+H_1\otimes I_{n_2}
+\;\middle|\;
+I_{r_1}\otimes H_2^T
+\right],
+$$
+
+$$
+\left[
+I_{n_A}\otimes B^T
+\;\middle|\;
+A^T\otimes I_{n_B}
+\right]
+=
+\left[
+I_{n_1}\otimes H_2
+\;\middle|\;
+H_1^T\otimes I_{r_2}
+\right].
+$$
+
+这正是 S007 的式 (1)。在同一转换下，四组链群基向量成为
+
+| 本库 chain 标签 | S007 标签 | 指标集合 |
+|---|---|---|
+| $A$-变量 $\times$ $B$-校验 | $q^A_{j,\ell}$ | $(j,\ell)\in[n_1]\times[n_2]$ |
+| $A$-校验 $\times$ $B$-变量 | $q^B_{i,m}$ | $(i,m)\in[r_1]\times[r_2]$ |
+| $A$-校验 $\times$ $B$-校验 | $x_{i,\ell}$ | $(i,\ell)\in[r_1]\times[n_2]$ |
+| $A$-变量 $\times$ $B$-变量 | $z_{j,m}$ | $(j,m)\in[n_1]\times[r_2]$ |
+
+本库中的“$B$-校验 $\ell$”是矩阵 $B=H_2^T$ 的行指标，所以它对应原始种子 $H_2$ 的变量指标；“$B$-变量 $m$”则对应 $H_2$ 的校验指标。这个转置是两套扇区命名看似不同的唯一原因。
+
+### 四类 Tanner 边
+
+Kronecker blocks 可以逐项展开为数据量子比特与校验辅助量子比特之间的边。先取一个非零矩阵元
+
+$$
+H_1(i,j)=1.
+$$
+
+在 $\mathcal H_X$ 的第一块 $H_1\otimes I_{n_2}$ 中，恒等矩阵固定 $\ell$，所以对每个 $\ell\in[n_2]$ 都有
+
+$$
+(x_{i,\ell},q^A_{j,\ell}).
+$$
+
+在 $\mathcal H_Z$ 的第二块 $H_1^T\otimes I_{r_2}$ 中，恒等矩阵固定 $m$，所以对每个 $m\in[r_2]$ 都有
+
+$$
+(z_{j,m},q^B_{i,m}).
+$$
+
+再取
+
+$$
+H_2(m,\ell)=1.
+$$
+
+在 $\mathcal H_X$ 的第二块 $I_{r_1}\otimes H_2^T$ 中，恒等矩阵固定 $i$，所以对每个 $i\in[r_1]$ 都有
+
+$$
+(x_{i,\ell},q^B_{i,m}).
+$$
+
+在 $\mathcal H_Z$ 的第一块 $I_{n_1}\otimes H_2$ 中，恒等矩阵固定 $j$，所以对每个 $j\in[n_1]$ 都有
+
+$$
+(z_{j,m},q^A_{j,\ell}).
+$$
+
+四类边合并为
+
+$$
+H_1(i,j)=1
+\Longrightarrow
+\left\{
+(x_{i,\ell},q^A_{j,\ell}),
+(z_{j,m},q^B_{i,m})
+\right\},
+$$
+
+$$
+H_2(m,\ell)=1
+\Longrightarrow
+\left\{
+(x_{i,\ell},q^B_{i,m}),
+(z_{j,m},q^A_{j,\ell})
+\right\},
+$$
+
+其中第一行分别对所有 $\ell\in[n_2]$、$m\in[r_2]$ 成立，第二行分别对所有 $i\in[r_1]$、$j\in[n_1]$ 成立。
+
+### 行与列的乘积方向
+
+对 $H_1$ 产生的边，固定 $\ell$ 后，$x_{i,\ell}$ 与 $q^A_{j,\ell}$ 之间的连接就是一份 $H_1$ Tanner 图；固定 $m$ 后，$z_{j,m}$ 与 $q^B_{i,m}$ 之间又是一份 $H_1$ Tanner 图。不同固定坐标给出的副本使用互不相交的节点组，因此同一方向的相容副本可以并行处理。
+
+对 $H_2$ 产生的边，固定 $i$ 后，$x_{i,\ell}$ 与 $q^B_{i,m}$ 之间是一份 $H_2$ Tanner 图；固定 $j$ 后，$z_{j,m}$ 与 $q^A_{j,\ell}$ 之间又是一份 $H_2$ Tanner 图。
+
+所以每条边都固定一个乘积坐标，只改变另一个坐标：
+
+| 种子边 | 固定坐标 | 变化坐标 | S007 图 1(b) 中的方向 |
+|---|---|---|---|
+| $H_1(i,j)=1$ 作用于 $x,q^A$ | $\ell$ | $i,j$ | 水平 |
+| $H_1(i,j)=1$ 作用于 $z,q^B$ | $m$ | $i,j$ | 水平 |
+| $H_2(m,\ell)=1$ 作用于 $x,q^B$ | $i$ | $m,\ell$ | 竖直 |
+| $H_2(m,\ell)=1$ 作用于 $z,q^A$ | $j$ | $m,\ell$ | 竖直 |
+
+不存在同时改变两个乘积坐标的对角边。这里的“一维分解”表示整个相互作用边集精确分成 $H_1$ Tanner 图副本与 $H_2$ Tanner 图副本；它不表示水平门和竖直门必须同时执行。S007 的执行协议先并行处理一个方向中的相容一维副本，再切换到另一个方向。
+
+### 长度、秩与可选逻辑空间分解
 
 物理比特来自 $C_1$ 的两个扇区，所以
 
@@ -167,17 +323,9 @@ K=N-\operatorname{rank}_{\mathbb F_2}H_X
 -\operatorname{rank}_{\mathbb F_2}H_Z
 $$
 
-计算逻辑比特数。
+计算逻辑比特数。这一步不需要 Künneth 分解。
 
-HGP 还因为系数域是 $\mathbb F_2$ 而有一个简洁的同调公式。记
-
-$$
-k_A=\dim\ker A,
-\qquad
-k_A^T=\dim\ker A^T,
-$$
-
-并类似定义 $k_B,k_B^T$。按照 [[Künneth 分解#二项复形与 HGP 逻辑空间]]，两个二项复形的 degree-$1$ homology 分解为
+若要把逻辑空间进一步分成两个 product sectors，域上的 [[Künneth 分解#二项复形与 HGP 逻辑空间|Künneth 分解]] 给出
 
 $$
 H_1(\mathcal A\otimes\mathcal B)
@@ -187,15 +335,23 @@ H_1(\mathcal A\otimes\mathcal B)
 \operatorname{coker}A\otimes\ker B.
 $$
 
-有限维对偶给出
+记
+
+$$
+k_A=\dim\ker A,
+\qquad
+k_A^T=\dim\ker A^T,
+$$
+
+并类似定义 $k_B,k_B^T$。有限维对偶给出
 
 $$
 \dim\operatorname{coker}A=\dim\ker A^T,
 \qquad
-\dim\operatorname{coker}B=\dim\ker B^T.
+\dim\operatorname{coker}B=\dim\ker B^T,
 $$
 
-对两个扇区取维数，从而
+所以
 
 $$
 \boxed{
@@ -203,7 +359,7 @@ K=k_Ak_B^T+k_A^Tk_B
 }.
 $$
 
-这个公式也说明为什么转置码的 kernel 不能随意忽略：它决定第二个逻辑扇区是否存在。
+这个公式解释两个逻辑扇区及转置码 kernel 的作用；它不是写出 HGP 校验矩阵、证明 CSS 对易或得到行／列分解的条件。
 
 ### qLDPC 条件
 
@@ -255,24 +411,26 @@ $$
 
 ### 从 HGP 到 LP
 
-HGP 中每个矩阵元素只是 $0$ 或 $1$，每个乘积基向量带有两个完全独立的因子坐标。LP 保留本篇的三项复形、两个物理量子比特扇区和两路径抵消，但做两项替换：
+HGP 中每个矩阵元素只是 $0$ 或 $1$。元素 $1$ 表示相应经典变量与校验之间有一条边，元素 $0$ 表示没有边；两个乘积坐标彼此独立。
 
-1. 把 $\mathbb F_2$ 换成记录群 lift 的有限维代数 $R$；
-2. 把 ordinary tensor product 换成 $\otimes_R$，识别两个因子的群坐标。
+[[Lifted product code]] 保留三项乘积复形、两个物理量子比特扇区、HGP 型校验矩阵排列和两路径抵消，同时增加 lift 数据：
 
-所以继续阅读 LP 时，真正需要保留的是
+| HGP 中的数据 | LP 中的替换 |
+|---|---|
+| 系数域 $\mathbb F_2$ | 记录 lift 的有限维代数 $R$ |
+| 矩阵条目 $0/1$ | 携带副本 permutation 的环元素 |
+| ordinary tensor product | 识别 lift 坐标的 balanced tensor product $\otimes_R$ |
+| 两个完全独立的因子坐标 | 外层 product 坐标与被 balancing 后保留的 lift 坐标 |
+
+因此进入 LP 时仍沿用
 
 $$
-\boxed{
 C_2\xrightarrow{\partial_2}
 C_1^{(A\text{-变量},B\text{-校验})}
 \oplus
 C_1^{(A\text{-校验},B\text{-变量})}
-\xrightarrow{\partial_1}C_0
-}
+\xrightarrow{\partial_1}C_0,
 $$
-
-以及
 
 $$
 H_X=\partial_1,
@@ -280,7 +438,10 @@ H_X=\partial_1,
 H_Z=\partial_2^T.
 $$
 
+新增的问题是环值矩阵的条目如何在每个 lift 内指定副本之间的连接；这由下一篇笔记的 cyclic-shift 表示处理。
+
 ### 来源
 
 - Jean-Pierre Tillich, Gilles Zémor, [*Quantum LDPC codes with positive rate and minimum distance proportional to the square root of the blocklength*](https://arxiv.org/abs/0903.0566), IEEE Transactions on Information Theory 60, 1193–1202 (2014)：HGP 构造及其常数率、平方根距离家族。
-- Pavel Panteleev, Gleb Kalachev, [*Quantum LDPC Codes with Almost Linear Minimum Distance*](https://arxiv.org/abs/2012.04068), IEEE Transactions on Information Theory 68, 213–229 (2022), Sections II–III：本文采用的 $\mathrm{HP}(A,B)$ 块矩阵、长度、维数与距离记号。
+- Pavel Panteleev, Gleb Kalachev, [*Quantum LDPC Codes with Almost Linear Minimum Distance*](https://arxiv.org/abs/2012.04068), IEEE Transactions on Information Theory 68, 213–229 (2022), Sections II–III：本库采用的 $\mathrm{HP}(A,B)$ chain convention、块矩阵、长度、维数与距离记号。
+- Adrian Liu, Wan-Hsuan Lin, Daniel Bochen Tan, Qian Xu, Jason Cong, [S007 全文译本](../../Translations/S007.full.zh-CN.md)，§2.2、式 (1) 与图 1；对应本地 PDF pp.2–3：S007 convention、四类 Tanner 边及水平／竖直一维分解。

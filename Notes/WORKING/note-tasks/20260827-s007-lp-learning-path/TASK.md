@@ -1,6 +1,6 @@
 ---
 task_id: 20260827-s007-lp-learning-path
-status: plan_proposed
+status: done
 target_files:
   - Notes/07-Lifted-Product Code/Hypergraph product code.md
   - Notes/07-Lifted-Product Code/Lifted product code.md

@@ -41,9 +41,10 @@
    - [[Menon 2025 Magic Tricycles]]：finite-block qLDPC tricycle codes、logical hypergraph magic state 和 single-shot $CCZ$ factory。
 
 7. Lifted-product qLDPC 构造
-   - [[Künneth 分解]]：构造 product homology 的自然比较映射，用域上的分裂与 contracting homotopy 证明直接和公式，并区分 PID 与一般环的 $\operatorname{Tor}$ 边界。
-   - [[Hypergraph product code]]：从两个经典二项链复形推导 HGP 的 CSS 校验矩阵、长度与标准 $\Theta(\sqrt N)$ 距离基准，并调用 Künneth 分解计算维数。
-   - [[Lifted product code]]：用群代数记录图 lift，在 $R$ 上取 HGP 型 balanced tensor product，并区分 QC、阿贝尔自由作用与非阿贝尔构造的适用条件。
+   - [[Hypergraph product code]]：核心入口；从两个经典种子校验矩阵建立 HGP blocks、两个物理比特扇区、四类 Tanner 边与行／列乘积方向。
+   - [[Lifted product code]]：在 HGP 外层骨架上加入 lift 标签、循环 permutation 与环值 blocks，并区分 outer product 坐标和 inner lift 副本。
+   - [[S007 中 LP 码的分层执行]]：把 outer product、inter-lift 与 intra-lift 结构对应到图 12 的提升间重排、提升内重排、门执行和定向转移。
+   - [[Künneth 分解]]（可选数学支线）：用于逻辑空间、维数公式与一般系数边界，不是 HGP／LP 构造或 S007 执行的强制前置。
 
 ---
 ### 当前目录归属
@@ -54,7 +55,7 @@
 - `Notes/04-Magic State Injection/`：state injection、gate teleportation 和 byproduct correction。
 - `Notes/05-Magic State Distillation/`：triorthogonal code、Reed-Muller、distillation protocol、compact factory 和相关资源计数。
 - `Notes/06-CCZ Distillation/`：CCZ/qLDPC factory、tricycle code、cochain complex、balanced product、metacheck 和 single-shot state preparation。
-- `Notes/07-Lifted-Product Code/`：HGP 前置、lifted-product code、群 lift 与相关 qLDPC 构造。
+- `Notes/07-Lifted-Product Code/`：HGP 核心结构、lifted-product code、S007 分层执行案例，以及逻辑空间与一般系数问题所需的可选 Künneth 支线。
 
 容错架构与资源估算主题仍未建立；若后续建立 surface-code factory、lattice surgery、code distance selection、T-count/T-depth 和 spacetime volume，可另开编号目录并同步更新这里。
 

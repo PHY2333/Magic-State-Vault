@@ -1,26 +1,31 @@
-在量子纠错语境中，LP 码通常指 lifted-product code（提升积码）。它不是某个固定的 $[\![N,K,d]\!]$ 码，而是一种从两个带 lift 对称性的经典对象构造 CSS 码的方法。
+Lifted-product code（LP 码）保留 [[Hypergraph product code]] 的三项乘积复形、两个物理比特扇区和 HGP 型校验矩阵排列，但把二进制矩阵条目提升为带副本置换信息的环元素。构造所需的直接前置是 HGP blocks 与 [[Balanced tensor product 与 coinvariant quotient]] 中的 balanced relation；[[Künneth 分解]] 只在分析逻辑空间、维数公式和一般系数边界时使用，不是定义 cyclic lift 或写出 LP 校验矩阵的条件。
 
-代数上，这个构造可写成
+### 从 HGP 边到 lift 标签
 
-$$
-\boxed{
-\text{LP}=
-\text{在记录 lift 对称性的代数 }R\text{ 上取 HGP 型 balanced tensor product}
-}.
-$$
-
-在有限阿贝尔群的自由正则 lift 情形，还可以写成
+在 HGP 中，经典校验矩阵的一个非零条目只表示一个变量节点和一个校验节点之间有边。LP 改用
 
 $$
-\boxed{
-\text{LP complex}
-\cong
-\frac{\text{两个 lifted complexes 的普通 HGP complex}}
-{\text{反对角 }G\text{-作用}}
-}.
+A\in R^{m_A\times n_A},
+\qquad
+B\in R^{m_B\times n_B},
 $$
 
-第一条说明矩阵为什么仍按 hypergraph product 排列；第二条说明两个独立的 lift 坐标为什么只剩一个。直接前置是 [[Hypergraph product code]]；right/left module 与 anti-diagonal convention 沿用 [[Balanced tensor product 与 coinvariant quotient]]。一般 tensor product、balanced relation 和 coinvariant quotient 的证明不在这里重复。
+其中 $R$ 是有限维 $\mathbb F_2$-代数。固定一个忠实的二进制块表示
+
+$$
+\Phi:R\longrightarrow
+\operatorname{Mat}_{\ell\times\ell}(\mathbb F_2).
+$$
+
+一个 $R$-坐标展开成 $\ell$ 个二进制坐标。若原型节点记作 $u$，它展开后的副本写成
+
+$$
+u_0,u_1,\ldots,u_{\ell-1};
+$$
+
+这 $\ell$ 个副本合称节点 $u$ 的一个 lift，$\ell$ 称为 lift size。环值条目 $a_{ij}\in R$ 仍表示原型列 $j$ 与原型行 $i$ 之间的一条 base edge，同时用二进制块 $\Phi(a_{ij})$ 指定两端副本怎样配对。
+
+HGP 的乘积指标决定哪一组 data/check lifts 之间允许有边；环值条目再决定每组 lift 内哪些副本相连。前者是 outer product 坐标，后者是 inner lift 坐标。量子比特在硬件中的位置和移动方式不属于 LP 码的定义。
 
 ### 循环 lift 的环表示
 
@@ -107,6 +112,8 @@ $$
 
 每个变量 $v_t$ 连接 $c_t$ 与 $c_{t+2}$；等价地，每个校验 $c_t$ 连接 $v_t$ 与 $v_{t+1}$。原型 Tanner 图（protograph）中的一条环值边因而展开成三个不移位连接和三个移位连接。
 
+### 环值矩阵与二进制展开
+
 若
 
 $$
@@ -114,6 +121,20 @@ A=(a_{ij})\in R_\ell^{m\times n},
 $$
 
 就把每个 $a_{ij}$ 替换为 $\Phi(a_{ij})$，得到 $\ell m\times\ell n$ 的二进制块矩阵，记为 $\mathbb B(A)$。所以 $R_\ell$-矩阵不是把大矩阵的信息删掉，而是用一个原型图指标和一个循环群标签压缩记录整个 lift。
+
+若
+
+$$
+a_{ij}=x^{s_1}+\cdots+x^{s_w},
+$$
+
+那么
+
+$$
+\Phi(a_{ij})=P^{s_1}+\cdots+P^{s_w}.
+$$
+
+每个单项式给出同一条 base edge 上的一组 cyclic-shift connections；多项式的和把这些连接按 $\mathbb F_2$ 相加。原型行列指标 $(i,j)$ 与副本指标 $t$ 因而分开保存：前者选择 base edge，后者由各个指数 $s_a$ 平移。
 
 ### 反对合与二进制转置
 
@@ -171,7 +192,7 @@ $$
 
 以下矩阵公式采用最常用的交换情形：$R$ 是特征 $2$ 的有限维 $\mathbb F_2$-代数，并具有一个忠实、保持乘法且与转置相容的 $\ell\times\ell$ 二进制块表示。循环环和有限阿贝尔群代数都满足这些条件。
 
-### $R$ 上的二项复形乘积
+### HGP 型 LP blocks
 
 取环值矩阵
 
@@ -314,6 +335,29 @@ $$
 
 转置后同样得到本库 cochain convention 使用的 $H_ZH_X^T=0$。按 [[Hypergraph product code#从两张经典校验矩阵开始]] 固定的 convention，展开后的 chain homology 与对偶 cochain cohomology 分别给出 logical $Z$ 与 logical $X$ classes。LP 没有改变这套对应，只把 product complex 的系数从 $\mathbb F_2$ 提升到 $R$。
 
+### Outer product 与 inner lift
+
+先给 $A$ 的行、列指标记作 $i,j$，给 $B$ 的行、列指标记作 $\alpha,\beta$。环值乘积复形中的四类坐标仍由 HGP 的 total degree 决定：
+
+| 环值链群 | outer product 坐标 | 二进制展开后的集合 |
+|---|---|---|
+| $C_1$ 第一扇区 | $(j,\alpha)\in[n_A]\times[m_B]$ | $\{q^{(1)}_{j,\alpha,t}:t\in\mathbb Z_\ell\}$ |
+| $C_1$ 第二扇区 | $(i,\beta)\in[m_A]\times[n_B]$ | $\{q^{(2)}_{i,\beta,t}:t\in\mathbb Z_\ell\}$ |
+| $C_0$ | $(i,\alpha)\in[m_A]\times[m_B]$ | $\{x_{i,\alpha,t}:t\in\mathbb Z_\ell\}$ |
+| $C_2$ | $(j,\beta)\in[n_A]\times[n_B]$ | $\{z_{j,\beta,t}:t\in\mathbb Z_\ell\}$ |
+
+固定一个 outer product 坐标并让 $t$ 遍历 $\mathbb Z_\ell$，就得到一个 data lift、$X$-check lift 或 $Z$-check lift。HGP blocks 决定哪些 outer product 坐标之间可能相连；$A$、$B$ 中的环值系数决定相连 lifts 内部的副本配对。
+
+在循环情形中，某个 block coefficient 为 $x^k$ 时，二进制块是 $P^k$。若该 block 的列副本编号为 $t$，则非零元落在行副本 $t+k\bmod\ell$。所以同一个 LP 校验边同时包含两份数据：
+
+$$
+\text{outer product 的 base edge}
+\quad+\quad
+\text{inner lift 的 shift label }k.
+$$
+
+这一区分只描述校验矩阵中的节点与边。把一个 lift 放到哪一行、如何移动到相互作用位点，以及何时在两个乘积方向之间切换，属于具体硬件上的执行方案。
+
 ### 二进制长度、行数、秩与 LDPC 条件
 
 记
@@ -365,6 +409,12 @@ LP 构造本身只保证 CSS 对易，不自动保证 LDPC。对准循环（quas
 - $A,B$ 基矩阵的每行、每列中，所有系数的群基支持大小之和统一有界。
 
 此时 $H_X,H_Z$ 的二进制行重和列重也统一有界，才得到 qLDPC 码族。稠密的 $A$、$B$ 或稠密环元素仍可定义 LP 码，但展开后未必低密度。
+
+### 与 S007 第 6 节的连接
+
+[S007 全文译本](../../Translations/S007.full.zh-CN.md) 第 6 节的式 (2) 展示了一个 $3\times 7$ 单项式 seed base matrix $A$。按本节约定，其中每个 $x^k$ 只能直接读成一条 base edge 携带的 cyclic-shift label：它把该边的列副本 $t$ 连到行副本 $t+k\bmod\ell$。S007 没有在该处展示完整的第二因子，因此不能只凭这个矩阵重建完整 LP 两因子数据，也不能据此给出完整的 data、$X$-check、$Z$-check sector 映射或推导实例参数。
+
+图 12 与相邻正文进一步说明了这个具体实例怎样把 outer product 层和 inner lift 层映射到硬件执行；详见 [[S007 中 LP 码的分层执行]]。其中 data lift、$X$-check lift、$Z$-check lift 的角色只按图 12 和 S007 正文明示的范围解释，不反推未展示的码构造数据。
 
 ### 自由反对角商与长度压缩
 

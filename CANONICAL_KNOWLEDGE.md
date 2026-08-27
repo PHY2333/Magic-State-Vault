@@ -52,7 +52,7 @@
 
 ## 4. 当前范围
 
-本清单不按目录整批纳入，而只登记已经形成稳定主笔记的结论。目前覆盖 `Notes/01-量子纠错基础/` 至 `Notes/05-Magic State Distillation/` 的已整理主线，`Notes/06-CCZ Distillation/` 中已经稳定的 cochain/CSS、tensor 与 balanced product、tricycle complex、cup/integrated Leibniz、STCP 和 Menon 协议级归属，以及 `Notes/07-Lifted-Product Code/` 中的 Künneth 分解、HGP 与 LP 构造。
+本清单不按目录整批纳入，而只登记已经形成稳定主笔记的结论。目前覆盖 `Notes/01-量子纠错基础/` 至 `Notes/05-Magic State Distillation/` 的已整理主线，`Notes/06-CCZ Distillation/` 中已经稳定的 cochain/CSS、tensor 与 balanced product、tricycle complex、cup/integrated Leibniz、STCP 和 Menon 协议级归属，以及 `Notes/07-Lifted-Product Code/` 中的 Künneth 分解、HGP 与 LP 构造及 S007 第 6 节分层执行应用。
 
 尚未拆成独立概念主笔记的 single-shot CCZ factory、hypergraph magic state 等主题继续由 [[Menon 2025 Magic Tricycles]] 承担论文语境；形成稳定概念笔记后再单独登记，不在本文件预先复制论文内容。
 
@@ -61,7 +61,7 @@
 ## 主路线图
 
 - 主笔记：[[Notes/00-index|00-index]]，路径 `Notes/00-index.md`。
-- 已有结论：基础主线由 stabilizer 与 magic-state 基础推进到 injection、twirling、distillation、Reed-Muller、triorthogonal、compact factory、canonical family 和 SAT 搜索。CCZ/qLDPC 延伸沿 cochain/CSS → ordinary tensor 与 balanced product → tricycle complex/metachecks → cup product 与 integrated Leibniz → STCP/logical $CCZ$ → Menon single-shot CCZ factory 推进；lifted-product 分支沿 Künneth 分解 → HGP → cyclic/group lift → LP → balanced quotient 与 asymptotic qLDPC 参数推进。
+- 已有结论：基础主线由 stabilizer 与 magic-state 基础推进到 injection、twirling、distillation、Reed-Muller、triorthogonal、compact factory、canonical family 和 SAT 搜索。CCZ/qLDPC 延伸沿 cochain/CSS → ordinary tensor 与 balanced product → tricycle complex/metachecks → cup product 与 integrated Leibniz → STCP/logical $CCZ$ → Menon single-shot CCZ factory 推进；lifted-product 构造主线沿 HGP blocks、四类边与行／列方向 → cyclic/group lift → LP 环值 blocks 与 balanced quotient 推进，并由 S007 应用笔记连接 outer/inter/intra-lift 的分层执行。Künneth 分解是逻辑空间、维数公式与一般系数边界的可选数学支线。
 - 写新内容时引用它：新增主线主题、改变学习路线或加入新的一级主题目录时更新这里；普通局部补充不需要把背景重复写进路线图。
 
 ---
@@ -204,9 +204,9 @@
   $$
   在 $\mathbb F_2$ 上取维数得到 $K=k_Ak_B^T+k_A^Tk_B$。PID 上的标准结论是含 $\operatorname{Tor}_1$ 的自然短正合列，其 splitting 一般不自然；一般交换环使用 bounded derived Künneth spectral sequence，不能把高阶 $\operatorname{Tor}$ 直接读成额外直和。
 - 当前笔记只保留：比较映射的良定义、域上 complement/contracting-homotopy 证明、二项复形的 degree-$1$ 特化、PID 与一般环边界，以及 $R_2=\mathbb F_2[\varepsilon]/(\varepsilon^2)$ 上比较映射失败的反例。
-- 写新内容时引用它：推导 HGP 逻辑比特数、解释 kernel/cokernel 两个逻辑扇区，或判断域上的 product-homology 公式能否用于 LP 时引用这里。
+- 写新内容时引用它：推导 HGP 逻辑比特数、解释 kernel/cokernel 两个逻辑扇区，或判断域上的 product-homology 公式能否用于 LP 时引用这里；只写 HGP／LP 校验矩阵、乘积方向、cyclic lift 或 S007 执行时不必先引用。
 - 不要在当前笔记重复：product differential 平方为零引用 [[Cochain complex 的 tensor product]]；HGP blocks、CSS 对易和距离引用 [[Hypergraph product code]]；LP 的 balanced relation、环值 blocks 与二进制展开引用 [[Lifted product code]]。
-- 边界：域上的 $\kappa_n$ 自然，但证明使用的链级补空间分裂不自然；“系数环不是域”只表示直接和公式不再自动成立，不表示每个实例必有非零 $\operatorname{Tor}$。非交换系数环还须固定右模与左模侧别。
+- 边界：域上的 $\kappa_n$ 自然，但证明使用的链级补空间分裂不自然；“系数环不是域”只表示直接和公式不再自动成立，不表示每个实例必有非零 $\operatorname{Tor}$。非交换系数环还须固定右模与左模侧别。它不作为 HGP／LP 构造或 S007 分层执行的强制前置。
 - 状态：已整理。
 
 ---
@@ -267,7 +267,7 @@
 ## Hypergraph product code
 
 - 主笔记：[[Hypergraph product code]]，路径 `Notes/07-Lifted-Product Code/Hypergraph product code.md`。
-- 前置依赖：[[Chain complex 与 cochain complex]]、[[CSS码中的cochain complex]]、[[Cochain complex 的 tensor product]] 与 [[Künneth 分解]]；固定 chain convention $H_X=\partial_1,H_Z=\partial_2^T$，其对偶是本库 $H_X^T\to H_Z$ 的 cochain convention。
+- 前置依赖：[[Chain complex 与 cochain complex]]、[[CSS码中的cochain complex]] 与 [[Cochain complex 的 tensor product]]；固定 chain convention $H_X=\partial_1,H_Z=\partial_2^T$，其对偶是本库 $H_X^T\to H_Z$ 的 cochain convention。只有逻辑空间的两个扇区及简洁维数公式把 [[Künneth 分解]] 作为可选依赖。
 - 已有结论：对
   $$
   A\in\mathbb F_2^{m_A\times n_A},
@@ -294,8 +294,8 @@
   K=k_Ak_B^T+k_A^Tk_B.
   $$
   $A,B$ 的行重和列重统一有界时才得到 qLDPC family。等尺度、线性经典距离的标准选择可给出常数率和 $d=\Theta(\sqrt N)$；这不是任意 HGP 输入的统一距离公式。
-- 当前笔记只保留：二项 product complex 到 CSS blocks 的转换、两个 physical-qubit sectors、$N/K$ 和标准平方根距离基准。
-- 写新内容时引用它：出现 HGP blocks、product-slice logical、HGP 与 LP/GB/surface code 的关系，或把 $\sqrt N$ 作为乘积码距离基准时引用这里。
+- 当前笔记只保留：二项 product complex 到 CSS blocks 的转换、两个 physical-qubit sectors、与 S007 式 (1) 的 convention 转换、四类 Tanner 边、行／列一维分解，以及 $N/K$ 和标准平方根距离基准。
+- 写新内容时引用它：出现 HGP blocks、乘积坐标、四类边、row/column decomposition、product-slice logical、HGP 与 LP/GB/surface code 的关系，或把 $\sqrt N$ 作为乘积码距离基准时引用这里。
 - 不要在当前笔记重复：一般 product differential 引用 [[Cochain complex 的 tensor product]]；Künneth 同构及其 kernel/cokernel 推导引用 [[Künneth 分解]]；CSS logical quotient 引用 [[CSS码中的cochain complex]]；群坐标的 balancing 引用 [[Balanced tensor product 与 coinvariant quotient]]。
 - 状态：已整理。
 
@@ -303,7 +303,7 @@
 ## Lifted product code
 
 - 主笔记：[[Lifted product code]]，路径 `Notes/07-Lifted-Product Code/Lifted product code.md`。
-- 前置依赖：[[Künneth 分解]]、[[Hypergraph product code]]、[[Balanced tensor product 与 coinvariant quotient]]、[[CSS码中的cochain complex]]；循环 lift 使用 $Pe_t=e_{t+1}$，所以 $x^s\mapsto P^s$ 表示 $v_t\leftrightarrow c_{t+s}$。
+- 前置依赖：[[Hypergraph product code]]、[[Balanced tensor product 与 coinvariant quotient]] 与 [[CSS码中的cochain complex]]；[[Künneth 分解]] 只用于逻辑维数与一般系数同调边界。循环 lift 使用 $Pe_t=e_{t+1}$，所以 $x^s\mapsto P^s$ 表示 $v_t\leftrightarrow c_{t+s}$。
 - 已有结论：在最常见的交换情形，$R$ 是具有 transpose-compatible involution 的有限维 $\mathbb F_2$-代数，$A\in R^{m_A\times n_A}$、$B\in R^{m_B\times n_B}$。在 $R$ 上取两个二项 complexes 的 balanced tensor product，并令
   $$
   \widehat H_X=[A\otimes I_{m_B}\mid I_{m_A}\otimes B],
@@ -332,10 +332,22 @@
   h\cdot(g_1,g_2)=(g_1h^{-1},hg_2)
   $$
   的 anti-diagonal quotient，长度由 $\ell^2Q$ 降为 $\ell Q$。非阿贝尔情形在抽象层分别使用自由 right/left $R$-modules，满足 $(ua)\otimes v=u\otimes(av)$；二进制层按原论文 Appendix B 单独采用 $A\mapsto(\rho_a)$、$B\mapsto(\lambda_b)$ 的块替换，其中 $\rho_a(u)=ua$、$\lambda_b(u)=bu$ 只是 $\mathbb F_2$-线性块，CSS 对易来自 $\rho_a\lambda_b=\lambda_b\rho_a$。
-- 当前笔记只保留：循环 lift 的可核对例子、反对合与二进制展开、LP 块矩阵、自由反对角 quotient、QC $1+x$ 特例、距离直觉、已证明的渐近参数和解码适用范围。
-- 写新内容时引用它：使用 QC/QA/非阿贝尔 lifted product、比较 expanded HGP 与 LP 长度、解释近线性或渐近良好 qLDPC 码族，或讨论 LP 解码时引用这里。
+- 当前笔记只保留：HGP outer product 与 inner lift 的区分、循环 lift 的可核对例子、反对合与二进制展开、LP 块矩阵、自由反对角 quotient、QC $1+x$ 特例、距离直觉、已证明的渐近参数和解码适用范围。
+- 写新内容时引用它：解释 base edge 与 lift label、使用 QC/QA/非阿贝尔 lifted product、比较 expanded HGP 与 LP 长度、解释近线性或渐近良好 qLDPC 码族，或讨论 LP 解码时引用这里。
 - 不要在当前笔记重复：域上 product homology 与一般环的 Künneth 边界引用 [[Künneth 分解]]；HGP 的完整推导引用 [[Hypergraph product code]]；一般 balanced relation 和 coinvariant quotient 引用 [[Balanced tensor product 与 coinvariant quotient]]；三因子构造引用 [[Tricycle complex 的 balanced-product 构造]]。
 - 边界：LP 只自动保证相容条件下的 CSS 构造。只有二进制行重和列重统一有界时才是 qLDPC；低重量 stabilizers 不自动给出二维几何局域性；近线性距离、线性距离与解码保证都属于附带扩张性等假设的特定子族。
+- 状态：已整理。
+
+---
+## S007 中 LP 码的分层执行
+
+- 主笔记：[[S007 中 LP 码的分层执行]]，路径 `Notes/07-Lifted-Product Code/S007 中 LP 码的分层执行.md`。
+- 前置依赖：[[Hypergraph product code]] 中的乘积坐标、四类边与行／列分解，以及 [[Lifted product code]] 中 outer product／inner lift、循环环和 $x^k$ shift convention。
+- 已有结论：S007 arXiv v1 第 6 节把式 (2) 的 $3\times7$ 单项式 seed base matrix、$\ell=45$ 的 lift 和图 12 的 lift-level graph 接到四阶段执行：提升间重排、提升内重排、门执行、定向转移。每个单项式只作为一条已给 base edge 的 cyclic-shift label；表 3 的时间分解只验证该实例分别统计这些执行层级。
+- 当前笔记只保留：S007 论文特例中的 outer product、inter-lift、intra-lift 与硬件执行接口，不承担一般 LP 定义。
+- 写新内容时引用它：解释 S007 第 6 节、式 (2)、图 12 或该实例的分层执行时引用这里；一般 LP blocks 与 lift 代数仍引用 [[Lifted product code]]。
+- 来源关系：[S007 全文译本](Translations/S007.full.zh-CN.md) §2.2、图 1、§3.1、§6、式 (2)、图 12 与表 3；[S007 本地 PDF](Papers/S007_2026_Liu_architecture_compilation_codesign.pdf) pp.12–13，版本为 arXiv v1。
+- 边界：S007 只展示矩阵 $A$，没有给出可供本库重建完整 LP 两因子数据与 data／$X$-check／$Z$-check sector 映射的第二因子；$[\![2610,744,d\le16]\!]$ 是来源给定参数，不在这里推导。图 12 的 node roles、diagonal parking 和性能结果都是论文实例信息。
 - 状态：已整理。
 
 ---

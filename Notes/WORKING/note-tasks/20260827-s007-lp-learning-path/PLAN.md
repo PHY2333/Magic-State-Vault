@@ -1,7 +1,7 @@
 ---
 task_id: 20260827-s007-lp-learning-path
 based_on_context_version: 1
-approval: pending
+approval: approved
 planner: chatgpt-pro
 ---
 
