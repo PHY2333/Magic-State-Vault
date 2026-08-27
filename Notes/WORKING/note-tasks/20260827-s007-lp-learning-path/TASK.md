@@ -2,9 +2,11 @@
 task_id: 20260827-s007-lp-learning-path
 status: plan_proposed
 target_files:
-  - Notes/07-Lifted-Product Code/Künneth 分解.md
   - Notes/07-Lifted-Product Code/Hypergraph product code.md
   - Notes/07-Lifted-Product Code/Lifted product code.md
+  - Notes/07-Lifted-Product Code/S007 中 LP 码的分层执行.md
+  - Notes/00-index.md
+  - CANONICAL_KNOWLEDGE.md
 ---
 
 # 任务目标

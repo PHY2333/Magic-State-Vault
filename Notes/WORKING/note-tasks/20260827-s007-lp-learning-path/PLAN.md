@@ -25,7 +25,7 @@ planner: chatgpt-pro
 - 上下文结论：现有材料足以规划一条“先理解 HGP 外层乘积，再理解 LP 的 lift 数据，最后读取 S007 四阶段执行”的学习路径。
 - 仍有但不阻塞规划的不确定项：
   1. S007 §6 只写出一个 `3×7` 环值矩阵 `A`，没有给出具体 LP 实例的第二个因子、adjoint convention 或 self-product 声明；本任务不得补猜。
-  2. `[[2610,744,d≤16]]` 是 S007 引用文献 [6] 后直接给出的参数；现有材料不足以从式 (2) 独立推导 `2610`、`744` 或距离界。
+  2. $[\![2610,744,d\le 16]\!]$ 是 S007 引用文献 [6] 后直接给出的参数；现有材料不足以从式 (2) 独立推导 `2610`、`744` 或距离界。
   3. S007 只说明 `x^k` 诱导 cyclic shift，没有固定与本库 `Pe_t=e_{t+1}` 完全相同的正负方向；正文必须把方向写成“本库采用的 convention”，不能冒充原文额外结论。
   4. 现有 Künneth、HGP、LP 笔记中的部分一般性来源尚未纳入本地 `Papers/SOURCES.md`；本任务不新增或强化这些一般性主张，只重组已有内容并补足 S007 已核对的连接。
 - Planner 额外实际读取的文件：
@@ -49,10 +49,10 @@ planner: chatgpt-pro
 
 | 文件 | 处理方式 | 主要目的 |
 |---|---|---|
-| `Notes/07-Lifted-Product Code/Künneth 分解.md` | 保留文件名与 canonical ownership，重排主线并做针对性改写 | 让比较映射、链级分裂、可缩部分和最终同构形成连续证明；明确它是逻辑空间／维数支线，不是 HGP/LP 构造与 S007 执行的强制前置 |
+| `Notes/07-Lifted-Product Code/Künneth 分解.md` | 本任务不修改正文 | 只在 HGP、LP、`Notes/00-index.md` 和 `CANONICAL_KNOWLEDGE.md` 中把它标记为逻辑空间、维数公式和一般系数边界的可选数学支线 |
 | `Notes/07-Lifted-Product Code/Hypergraph product code.md` | 大段重写 | 从两张经典校验矩阵推导两个物理扇区、CSS blocks、四类 Tanner 边与行／列一维分解；显式对齐 S007 式 (1) |
 | `Notes/07-Lifted-Product Code/Lifted product code.md` | 大段重写并重排 | 先建立“外层 HGP product skeleton + 内层 lift permutation”的核心图像，再放置 balanced quotient、一般群、距离和解码等后续内容 |
-| `Notes/07-Lifted-Product Code/S007 中 LP 码的分层执行.md` | 新建 | 只解释 S007 §6 的具体矩阵、图 12 和四阶段执行；保留论文特例与来源边界 |
+| `Notes/07-Lifted-Product Code/S007 中 LP 码的分层执行.md` | 新建 | 只解释 S007 §6 已展示的 seed base matrix、图 12 和四阶段执行；不由矩阵 `A` 补建完整两因子数据或 data/X/Z-check sector 映射 |
 | `Notes/00-index.md` | 最小更新 | 把第 7 条改为核心路径 `HGP → LP → S007 应用`，把 Künneth 标成逻辑空间与系数边界的可选数学支线 |
 | `CANONICAL_KNOWLEDGE.md` | 只更新相关条目 | 修正 HGP/LP 的强制前置，登记 S007 应用笔记的 source-specific ownership，并记录 convention 与来源边界 |
 
@@ -60,7 +60,7 @@ planner: chatgpt-pro
 
 - 不删除三篇 legacy candidate notes。
 - 不重命名三篇现有主笔记。
-- 不在本任务中把 PID、derived tensor、谱序列或 `R_2` 反例拆成新的主笔记；先只把它们放到 Künneth 主线的后置边界部分。
+- 不修改 `Künneth 分解.md` 正文，也不在本任务中移动、改写或拆分其中的 PID、derived tensor、谱序列、`R_2` 反例或证明主线。
 - 不修改 `Translations/S007.full.zh-CN.md`、S007 PDF、截图、`Papers/SOURCES.md` 或 `Papers/RELATIONS.md`。
 - 不把 ONEX 的 SMT/MILP 算法写成新的编译器教程；只保留理解四阶段所需的输入／输出含义。
 
@@ -80,23 +80,9 @@ LP 笔记随后保留这张外层 product skeleton，但把 HGP 中的二进制 
 
 S007 应用笔记最后把这两个数学层级翻译成物理执行：先在 lift-level graph 上做提升间调度，再按多项式标签做提升内重排，随后对齐并执行门，完成一个乘积方向后再转移到另一个方向。该笔记以 S007 的式 (2)、图 12 和四阶段为终点，不尝试补出论文没有给出的第二因子或参数推导。
 
-Künneth 笔记从核心路径中移为可选支线。它回答的是乘积复形的逻辑同调如何由两个因子的同调组成，以及域上 HGP 的简洁 `K` 公式为何成立；它不负责 HGP blocks、CSS 对易、行／列分解、LP 的 cyclic shift 或 S007 的执行阶段。
+Künneth 笔记从核心路径中标记为可选支线。它回答的是乘积复形的逻辑同调如何由两个因子的同调组成，以及域上 HGP 的简洁 `K` 公式为何成立；它不负责 HGP blocks、CSS 对易、行／列分解、LP 的 cyclic shift 或 S007 的执行阶段。本任务只在 HGP、LP、`Notes/00-index.md` 与 `CANONICAL_KNOWLEDGE.md` 中建立这一定位，不修改 `Künneth 分解.md` 正文。
 
 # 分节计划
-
-## `Künneth 分解.md`
-
-| 章节 | 必须推进的内容 | 本节结束后可使用 | 不在本节重复 |
-|---|---|---|---|
-| 乘积同调与比较映射 | 从“分别取同调后再 tensor”与“先 tensor 再取同调”两种顺序出发，定义 `κ_n([c]⊗[d])=[c⊗d]`，逐项证明代表元替换只增加 boundary | 一个已经良定义、尚待证明可逆的比较映射 | chain complex 和 product differential 的一般定义 |
-| 域上的链级分裂 | 在进入补空间前先说明证明目标：把每个因子分成零微分的同调代表元部分和可缩部分；完整写出 `Z_p=B_p⊕\widetilde H_p`、`C_p=Z_p⊕L_p`、`Q_p=B_p⊕L_p` 及边界块 | `C_•=\widetilde{\mathcal H}(C)_•⊕Q(C)_•` | 线性代数中补空间的一般理论 |
-| 可缩部分 | 构造 `s` 并验证 `∂s+s∂=id_Q`；先用最小二项可缩复形说明 `Q` 的含义，再验证 `Q(C)⊗D` 和 `\widetilde{\mathcal H}(C)⊗Q(D)` 仍可缩 | 所有含 `Q` 的 tensor summands 同调为零 | 把“可缩”只写成术语标签 |
-| 域上的 Künneth 同构 | 展开四个 tensor summands，说明只有 `\widetilde{\mathcal H}(C)⊗\widetilde{\mathcal H}(D)` 存活，并回到最初定义的 `κ_n` | 域上的自然同构公式 | 用维数相等代替映射证明 |
-| 二项复形与 HGP 逻辑空间 | 立即特化到 `H_1=ker`、`H_0=coker`，得到两个 degree-1 扇区及 `K=k_Ak_B^T+k_A^Tk_B` | HGP 中可选的逻辑空间／维数结论 | HGP blocks、Tanner 边和执行分解 |
-| 链映射下的自然性 | 放到 HGP 特化之后；保留交换关系，明确自然性与可逆性分别由哪一步保证 | 不同复形之间一致传递的 `κ_n` | 再次重写域上可逆性证明 |
-| PID 与一般系数环 | 保留现有 PID、一般环、LP 环系数边界和 `R_2` 反例，统一放在最后；明确这是判断域上公式何时失效的后置支线 | “一般 LP 不能无条件套用域上 `K` 公式”的精确边界 | 新增未经核对的一般定理或来源 |
-
-执行时应保留现有实质数学内容，但删除旧的重复过渡和使证明目标迟到的段落。HGP 特化移动到自然性之前；一般系数部分不在本任务拆分。
 
 ## `Hypergraph product code.md`
 
@@ -109,7 +95,7 @@ Künneth 笔记从核心路径中移为可选支线。它回答的是乘积复�
 | 四类 Tanner 边 | 从四个 Kronecker blocks 逐项推出 S007 的两组边公式；说明每条边固定哪个坐标、改变哪个坐标 | “无对角支撑”的精确含义 | 只靠图像声称存在行／列分解 |
 | 行与列的一维分解 | 将 `H_1` Tanner copies 与 `H_2` Tanner copies 分别组织为水平／竖直相容组，说明为何可先并行所有行，再切换到所有列 | ONEX 所接收的一维子问题 | SMT、MILP 和硬件时长细节 |
 | 长度、秩与逻辑空间 | 先给总是成立的 `K=N-rank H_X-rank H_Z`；再把 Künneth 的两个扇区公式放入明确标注的可选小节 | 构造与逻辑空间的依赖边界 | 在主线开头强制读 Künneth |
-| qLDPC、距离与 HGP→LP | 保留现有稀疏性和平方根距离边界，放在主线之后；最后列出 LP 保留与改变的内容 | 进入 LP 所需的外层 product skeleton | 新增 S007 未支持的 family claims |
+| qLDPC、距离与 HGP→LP | 现有 qLDPC、距离与 family 参数段落只允许移动、连接和去重，不进行语义重写；在其后列出 LP 保留与改变的内容 | 进入 LP 所需的外层 product skeleton | 改写既有参数主张或新增 S007 未支持的 family claims |
 
 ## `Lifted product code.md`
 
@@ -121,17 +107,17 @@ Künneth 笔记从核心路径中移为可选支线。它回答的是乘积复�
 | HGP 型 LP blocks | 写出一般 `A,B` 的环值 `\widehat H_X,\widehat H_Z`、反对合与二进制展开，并完整核对 CSS 对易所用条件 | 一般交换循环／阿贝尔情形的 LP CSS code | right/left module 的一般证明 |
 | 外层 product 与内层 lift | 用一张对照表区分：乘积坐标、lift-level data/check nodes、单个 lift 内的副本指标、最终硬件位置；说明前两者来自 HGP skeleton，第三项由 `x^k` 决定，第四项属于编译 | S007 分层执行的数学接口 | 把硬件布局说成 LP 定义的一部分 |
 | 长度与逻辑维数边界 | 给出 `N=ℓ(n_A m_B+m_A n_B)` 与二进制秩公式；把 Künneth／一般环问题放在后置边界中 | 可以区分码构造与参数计算 | 无条件套用域上 `K` 公式 |
-| quotient、QC 与一般群边界 | 保留现有 anti-diagonal quotient、`B=[1+x]` 特例、距离、非阿贝尔和解码内容，但置于核心构造之后；只做去重和连接，不新增主张 | 后续研究 LP 子族时的扩展入口 | 重复 balanced tensor 主笔记 |
+| quotient、QC 与一般群边界 | 现有 anti-diagonal quotient、`B=[1+x]`、非阿贝尔、距离、渐近参数和解码段落只允许移动、连接和去重，不进行语义重写；统一置于核心构造之后 | 后续研究 LP 子族时的扩展入口 | 改写既有数学主张或重复 balanced tensor 主笔记 |
 | 与 S007 的连接 | 只写一段短接口：S007 给出一个 `3×7` 单项式矩阵和四阶段执行，详细解释链接到新应用笔记 | 从一般 LP 跳转到论文特例 | 在一般 LP 主笔记中塞入完整论文执行流程 |
 
 ## `S007 中 LP 码的分层执行.md`
 
 | 章节 | 必须推进的内容 | 本节结束后可使用 | 不在本节重复 |
 |---|---|---|---|
-| 来源、实例与已知边界 | 登记 S007 v1、§6、式 (2)、图 12、表 3；把 `ℓ=45`、`[[2610,744,d≤16]]` 明确写成论文给定参数；立即说明第二因子与参数推导不在现有来源中 | 后文可以安全使用的实例数据 | 猜测 self-product 或推导 `744` |
+| 来源、实例与已知边界 | 登记 S007 v1、§6、式 (2)、图 12、表 3；式 (2) 的 `3×7` 矩阵只作为 S007 已展示的 seed base matrix；把 `ℓ=45` 与 $[\![2610,744,d\le 16]\!]$ 只记为论文给定参数；把译文“示例 LP 码 [2]”按英文原文解释为“式 (2)”，但不修改译文 | 后文可以安全使用的实例数据与来源边界 | 猜测 self-product、补建第二因子或推导 `2610`、`744`、距离界 |
 | 外层乘积方向 | 用链接继承 HGP 的两类数据扇区、四类边和 row/column decomposition，只写它们如何成为 S007 的 outer product directions | 水平／竖直方向的来源 | 重写 HGP blocks 全部推导 |
-| lift-level graph 与式 (2) | 说明 `3×7` seed base matrix 的行、列对应外层调度单元，每个非零单项式同时表示一条 base edge 和一个内层 shift label；解释 data/X/Z check lift 是包含 `ℓ` 个副本的一组量子比特 | 提升间图与提升内匹配的区分 | 声称来源已经给出完整第二因子 |
-| 单项式与提升内配对 | 采用本库 `Pe_t=e_{t+1}` convention，解释 `x^k` 对副本指标的作用；明确图 12(b) 的 `ℓ=6,x^2` 是机制示意，而实例为 `ℓ=45` | 可把矩阵条目翻译为具体副本配对 | 把方向 convention 冒充原文唯一约定 |
+| lift-level graph 与式 (2) | 每个单项式只解释为一条 base edge 携带的 cyclic-shift label；data lift、X-check lift、Z-check lift 的具体角色只采用图 12 和 S007 正文明示的内容，不把矩阵 `A` 的行、列自行指派为完整 data/X/Z-check sectors | 提升间图与提升内标签的来源内区分 | 仅凭矩阵 `A` 重建完整 LP 两因子数据或完整 data/X/Z-check sector 映射 |
+| 单项式与提升内配对 | 采用本库 `Pe_t=e_{t+1}` convention，解释 `x^k` 作为某条已给 base edge 的 cyclic-shift label 如何作用于副本指标；明确图 12(b) 的 `ℓ=6,x^2` 是机制示意，而实例为 `ℓ=45` | 可读取单条 base edge 的 inner-lift shift 含义 | 把方向 convention 冒充原文唯一约定，或据此补出未展示的完整连接图 |
 | 四阶段执行 | 依次解释提升间重排、提升内重排、门执行、定向转移；每阶段都写清处理的节点集合、使用的数据和产生的结果，并说明前三阶段在另一个 product direction 上重复 | 完整读取图 12(a)–(d) | 展开 ONEX 求解器内部算法 |
 | 层级关系与性能分解 | 用一张总结表对应 outer product、inter-lift、intra-lift、gate alignment、direction transfer；用表 3 只验证论文确实分别统计这些时长，不把数值结果写成一般定律 | 能解释 S007 §6 的理论构造与执行接口 | 泛化 diagonal parking 或 ONEX-Z 优势 |
 | 回到一般 LP | 最后一节明确哪些结论来自一般 LP，哪些只属于该实例和中性原子布局，并链接回 `[[Lifted product code]]` | 避免论文特例污染 canonical 定义 | 新增未核对的 LP 定理 |
@@ -230,37 +216,17 @@ H_Z=\mathbb B(\widehat H_Z).
 
 必须明确写出：
 
-- 式 (2) 的 `A∈R_ℓ^{3×7}` 和 21 个单项式是来源事实；
-- `ℓ=45`、`[[2610,744,d≤16]]` 是来源给定参数；
-- S007 §6 没有写出第二个因子，因此正文不能声称式 (2) 独自定义了完整一般 `LP(A,B)` 数据；
+- 式 (2) 的 `3×7` 矩阵 `A` 只作为 S007 已展示的 seed base matrix 使用；
+- 每个单项式只解释为一条 base edge 携带的 cyclic-shift label；
+- 不得仅凭矩阵 `A` 重建完整 LP 两因子数据；
+- 不得仅凭矩阵 `A` 给出完整 data/X/Z-check sector 映射；
+- data lift、X-check lift、Z-check lift 的具体角色只采用图 12 和 S007 正文明示的内容；
+- `ℓ=45` 与 $[\![2610,744,d\le 16]\!]$ 只作为来源给定参数，不推导 `2610`、`744` 或距离界；
 - 不从 `2610/45=58=7^2+3^2` 推断 self-product；
-- 不独立推导 `k=744`；
+- 译文中的“示例 LP 码 [2]”按 PDF 英文原文解释为“式 (2)”，但本任务不修改译文；
 - 图 12(b) 的 `ℓ=6,x^2` 只是可视化示意。
 
-## Künneth 证明链
-
-必须让以下逻辑连续出现：
-
-```text
-比较映射 κ_n 已定义且良定义
-→ 域上选择 C=\widetilde{\mathcal H}(C)⊕Q(C)
-→ Q(C) 有 contracting homotopy
-→ tensor 展开为四个 summands
-→ 含 Q 的三个 summands 可缩
-→ 只剩零微分的 homology-representative summand
-→ κ_n 为同构。
-```
-
-补空间选择只用于证明可逆性；`κ_n` 的定义与最终自然性不得被写成依赖补空间。
-
 # 例子安排
-
-## Künneth 的最小可缩复形
-
-- 具体对象：`E: 0→k·e_1 --id→ k·e_0→0`。
-- 计算：定义 `s(e_0)=e_1`、`s(e_1)=0`，逐 degree 验证 `∂s+s∂=id_E`；再说明 `E⊗D` 的收缩怎样作用。
-- 只说明：`Q(C)` 由 boundary 与其一个原像配对而成，为什么它不贡献同调。
-- 不承担：完整 Künneth 证明或一般环结论。
 
 ## HGP 的单个非零矩阵元
 
@@ -304,25 +270,62 @@ H_Z=\mathbb B(\widehat H_Z).
 - S007 应用：登记为论文特例，不作为一般 LP 定义；来源固定为 S007 v1 的译文 §2.2、§3.1、§6、图 1、图 12、表 3及 PDF pp.12–13；边界中写明第二因子和参数推导缺失。
 - 不机械重写未触及条目，不把单次任务状态写入 canonical index。
 
+# 执行批次
+
+各批次依次门控；本批次的 blocker 未解决、数学与来源检查未通过或需要超出授权范围时，必须停止并升级，不得进入下一批次。
+
+## 批次 1：HGP 核心主线
+
+- 只修改 `Notes/07-Lifted-Product Code/Hypergraph product code.md`。
+- 完成两个物理扇区、CSS blocks、S007 convention、四类 Tanner 边与行／列一维分解。
+- qLDPC、距离与 family 参数段落只允许移动、连接和去重，不进行语义重写。
+- 完成后运行数学与来源检查。
+- blocker 未解决前不得进入批次 2。
+
+## 批次 2：LP 核心主线
+
+- 只修改 `Notes/07-Lifted-Product Code/Lifted product code.md`。
+- 修改 cyclic lift、环值矩阵、HGP 型 LP blocks、outer product / inner lift 接口。
+- anti-diagonal quotient、`B=[1+x]`、非阿贝尔、距离、渐近参数和解码段落只允许移动、连接和去重，不进行语义重写。
+- 完成后运行数学与来源检查。
+- blocker 未解决前不得进入批次 3。
+
+## 批次 3：S007 应用笔记
+
+- 新建 `Notes/07-Lifted-Product Code/S007 中 LP 码的分层执行.md`。
+- 严格遵守式 (2)、图 12、具体参数和 data/X/Z-check roles 的来源边界。
+- 运行三类只读检查：仓库一致性、数学与来源、正文与格式。
+- blocker 未解决前不得进入批次 4。
+
+## 批次 4：索引收尾
+
+- 最小更新 `Notes/00-index.md` 和 `CANONICAL_KNOWLEDGE.md`。
+- 只同步已完成正文所需的阅读入口、ownership、前置和来源边界。
+- 做最终仓库一致性检查。
+
 # 执行边界
 
 ## Executor 可自行决定
 
 - 不改变数学含义的局部措辞、段落连接和标题短语。
-- 按本计划移动现有章节、删除重复过渡、统一局部 LaTeX。
-- 保留现有三篇文件名，创建已批准的新应用笔记。
+- 只在 HGP、LP 两篇目标笔记内按本计划移动现有章节、删除重复过渡、统一局部 LaTeX；不得触碰 `Künneth 分解.md` 正文。
+- 保留 HGP、LP 与 Künneth 的现有文件名，创建已批准的新应用笔记。
 - 按计划增加或修复 wikilinks、section anchors、`00-index` 和相关 canonical entries。
 - 在新应用笔记中复用现有图 12 snapshot 的链接，但不得复制或修改图片文件。
-- 对旧笔记中本计划未要求改写的高级段落，仅做必要的顺序移动和去重。
+- HGP 中 qLDPC、距离与 family 参数段落，以及 LP 中 anti-diagonal quotient、`B=[1+x]`、非阿贝尔、距离、渐近参数和解码段落，只做必要的移动、连接和去重，不进行语义重写。
 
 ## 必须停止并升级
 
-- 需要猜测 S007 具体码的第二个因子、adjoint/self-product convention 或 `k=744` 的推导。
+- 试图仅凭式 (2) 的矩阵 `A` 猜测或重建具体码的第二个因子、adjoint/self-product convention 或完整 LP 两因子数据。
+- 试图仅凭矩阵 `A` 给出完整 data/X/Z-check sector 映射，或给 data lift、X-check lift、Z-check lift 添加图 12 和 S007 正文没有明示的具体角色。
+- 试图从矩阵 `A` 或现有段落推导 `2610`、`744`、距离界或完整 stabilizer matrix。
+- 需要把译文中的“示例 LP 码 [2]”解释成“式 (2)”之外的含义，或需要修改译文本身。
 - 需要新增 S007 参考文献 [6] 或其它外部资料才能兑现正文承诺。
 - 发现本库 shift convention 与现有公式不能一致对齐。
 - 需要删除、重命名或再拆出本计划未列出的正式笔记。
 - 需要修改翻译、PDF、截图或 Papers 管理文件。
-- 需要改变 Künneth 证明策略、LP 的适用环条件、非阿贝尔左右模条件或任何定理条件。
+- 需要修改 `Künneth 分解.md` 正文，包括证明策略、证明链、例子或一般系数边界。
+- 需要改变 LP 的适用环条件、非阿贝尔左右模条件或任何定理条件。
 - 当前工作树或 canonical ownership 已发生使 `context_version: 1` 失效的实质变化。
 - 来源与 legacy note 的数学主张冲突；不得以模型常识静默裁决。
 
@@ -340,7 +343,7 @@ H_Z=\mathbb B(\widehat H_Z).
 6. `R_ℓ` 和 `x^k` 如何表示 `ℓ` 个副本之间的 cyclic permutation；
 7. S007 图 12 的提升间重排、提升内重排、门执行、定向转移分别处理什么；
 8. 为什么 Künneth 对 HGP 逻辑空间有用，却不是 S007 构造与执行的强制前置；
-9. 哪些关于具体 `[[2610,744,d≤16]]` 码的数据是来源直接给定，哪些不能从现有材料推出。
+9. 哪些关于具体 $[\![2610,744,d\le 16]\!]$ 码的数据是来源直接给定，哪些不能从现有材料推出。
 
 ## 数学
 
@@ -348,12 +351,12 @@ H_Z=\mathbb B(\widehat H_Z).
 - 所有 index 的范围、固定坐标和变化坐标明确。
 - `x^k` 的正负方向与转置关系按一个固定 convention 使用。
 - LP CSS 对易所用的交换性、反对合和二进制展开条件没有遗漏。
-- Künneth 的比较映射、链级分裂、contracting homotopy 和存活 summand 形成连续证明。
+- `Künneth 分解.md` 正文保持不变；HGP、LP、索引和 canonical 对其可选支线定位彼此一致。
 - 域上结论、一般环边界与 S007 的来源给定参数没有混淆。
 
 ## 仓库一致性
 
-- 三篇原有主笔记无失效互链。
+- `Künneth 分解.md` 正文无改动；HGP、LP 与 Künneth 之间无失效互链。
 - 新应用笔记只引用正式笔记和稳定来源，不引用 `WORKING` 任务文件。
 - `Notes/00-index.md` 反映核心路径与可选支线。
 - `CANONICAL_KNOWLEDGE.md` 的 ownership、前置和边界与正文一致。
@@ -372,9 +375,9 @@ H_Z=\mathbb B(\widehat H_Z).
 请用户审阅本计划，重点确认：
 
 1. 是否同意把核心阅读顺序改为 `HGP → LP → S007 中 LP 码的分层执行`；
-2. 是否同意把 Künneth 改为可选数学支线，但本任务仍重排并改善其证明主线；
+2. 是否同意本任务不修改 `Künneth 分解.md` 正文，只在 HGP、LP、`Notes/00-index.md` 和 `CANONICAL_KNOWLEDGE.md` 中将其标为可选数学支线；
 3. 是否同意新建 `Notes/07-Lifted-Product Code/S007 中 LP 码的分层执行.md`；
-4. 是否接受本任务不补猜第二因子、不推导 `k=744`，也不修改翻译和 Papers 管理文件。
+4. 是否接受本任务不补猜第二因子、不重建完整 data/X/Z-check sector 映射、不推导 `2610`、`744` 或距离界，也不修改翻译和 Papers 管理文件。
 
 批准时回复：
 
@@ -383,3 +386,13 @@ H_Z=\mathbb B(\widehat H_Z).
 ```
 
 计划保存到任务目录后，只把 `TASK.md` 状态改为 `plan_proposed`；在用户明确批准前，`PLAN.md` 的 `approval` 必须保持 `pending`，不得修改正式笔记。
+
+# 后续独立任务候选：Künneth 证明主线重写
+
+本节只保存从本计划移出的想法，不属于本任务的 `target_files`、执行批次或验收条件。即使用户批准当前 PLAN，也不授权修改 `Künneth 分解.md`；若要实施，必须另建任务、重新构造 CONTEXT、生成独立 PLAN 并单独获得用户批准。
+
+- 候选目标：在不改变定理条件的前提下，让比较映射、域上的链级分裂、可缩部分和 Künneth 同构形成连续证明，再把 HGP 逻辑空间与一般系数边界放到后置部分。
+- 候选分节：比较映射及良定义；域上的补空间分裂；可缩部分；域上的 Künneth 同构；二项复形与 HGP 逻辑空间；自然性；PID 与一般系数环边界。
+- 候选证明链：`κ_n` 良定义 → `C=\widetilde{\mathcal H}(C)⊕Q(C)` → `Q(C)` 具有 contracting homotopy → tensor 展开 → 含 `Q` 的 summands 可缩 → 只剩 homology-representative summand → `κ_n` 为同构。
+- 候选最小例子：`E: 0→k·e_1 --id→ k·e_0→0`，以 `s(e_0)=e_1`、`s(e_1)=0` 验证 `∂s+s∂=id_E`，只用于解释可缩部分为何不贡献同调。
+- 候选验收重点：比较映射的定义与自然性不依赖补空间选择；补空间只服务于域上可逆性证明；HGP 特化、PID／一般环边界和 `R_2` 反例的位置清楚；来源与现有 canonical ownership 重新核验。
