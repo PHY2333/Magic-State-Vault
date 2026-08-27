@@ -14,6 +14,7 @@
 
 3. Magic-state injection
    - [[State injection]]：从 gate teleportation 推导 $U$-injection、in-place gadget、$T$ injection 和 byproduct correction。
+   - [[MGT 的反向传播与稳定子码构造]]：区分物理、反向传播与稳定子码表示，并推导一般 commuting-Pauli 资源态的分支门和确定性前馈。
 
 4. 横向 $T$ 与 triorthogonal distillation
    - [[汉明重量展开]]：把 XOR 和码字汉明重量写成整数多项式，是横向 $T$ 模 $8$ 相位分析的工具。
@@ -39,6 +40,11 @@
    - [[Symmetric triple cup-product]]：解释 Menon 如何用 $\int_R$、symmetric integrated Leibniz、sector 和 preorientation 选择得到 physical $CCZ$ 三元组判据。
    - [[Menon 2025 Magic Tricycles]]：finite-block qLDPC tricycle codes、logical hypergraph magic state 和 single-shot $CCZ$ factory。
 
+7. Lifted-product qLDPC 构造
+   - [[Künneth 分解]]：构造 product homology 的自然比较映射，用域上的分裂与 contracting homotopy 证明直接和公式，并区分 PID 与一般环的 $\operatorname{Tor}$ 边界。
+   - [[Hypergraph product code]]：从两个经典二项链复形推导 HGP 的 CSS 校验矩阵、长度与标准 $\Theta(\sqrt N)$ 距离基准，并调用 Künneth 分解计算维数。
+   - [[Lifted product code]]：用群代数记录图 lift，在 $R$ 上取 HGP 型 balanced tensor product，并区分 QC、阿贝尔自由作用与非阿贝尔构造的适用条件。
+
 ---
 ### 当前目录归属
 
@@ -48,9 +54,22 @@
 - `Notes/04-Magic State Injection/`：state injection、gate teleportation 和 byproduct correction。
 - `Notes/05-Magic State Distillation/`：triorthogonal code、Reed-Muller、distillation protocol、compact factory 和相关资源计数。
 - `Notes/06-CCZ Distillation/`：CCZ/qLDPC factory、tricycle code、cochain complex、balanced product、metacheck 和 single-shot state preparation。
-- `Notes/07-论文与协议笔记/`：论文导读、协议专题和暂不拆入主线目录的扩展内容。
+- `Notes/07-Lifted-Product Code/`：HGP 前置、lifted-product code、群 lift 与相关 qLDPC 构造。
 
 容错架构与资源估算主题仍未建立；若后续建立 surface-code factory、lattice surgery、code distance selection、T-count/T-depth 和 spacetime volume，可另开编号目录并同步更新这里。
+
+---
+### 知识库维护
+
+以下入口只用于维护正式知识笔记，不属于上述正式阅读顺序：
+
+- [正文写作规范](WRITING_GUIDE.md)
+- [复杂笔记任务流程](WORKFLOWS/note-writing.md)
+- [上下文与规划契约](WORKFLOWS/planning-contract.md)
+- [执行契约](WORKFLOWS/execution-contract.md)
+- [只读 subagent 检查规则](WORKFLOWS/subagents.md)
+
+`Notes/WORKING/` 是单次任务的临时交接区，不属于正式阅读索引；这里不列出任何单次任务目录。
 
 ---
 ### 后续应补主题

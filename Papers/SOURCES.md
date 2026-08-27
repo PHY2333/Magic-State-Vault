@@ -17,7 +17,9 @@
 - 版本或版次：arXiv v1
 - 阅读状态：已选读
 - 主文献笔记：无
-- 全文翻译：未计划
+- 翻译计划：无
+- 当前全文译本：无
+- 局部摘译：无
 
 ### S002
 
@@ -30,7 +32,9 @@
 - 版本或版次：*Communications in Mathematical Physics* 407:86 (2026)
 - 阅读状态：已选读
 - 主文献笔记：无
-- 全文翻译：未计划
+- 翻译计划：无
+- 当前全文译本：无
+- 局部摘译：无
 
 ### S003
 
@@ -43,4 +47,66 @@
 - 版本或版次：arXiv v2
 - 阅读状态：已选读
 - 主文献笔记：[Menon 2025 Magic Tricycles](<../Notes/06-CCZ Distillation/Menon 2025 Magic Tricycles.md>)
-- 全文翻译：未计划
+- 翻译计划：全文翻译
+- 当前全文译本：[S003 全文译本](../Translations/S003.full.zh-CN.md)
+- 局部摘译：无
+
+### S004
+
+- 类型：paper
+- 题名：*Improving threshold for fault-tolerant color code quantum computing by flagged weight optimization*
+- 作者或编者：Yugo Takada；Keisuke Fujii
+- 年份：2024
+- 外部标识：arXiv:2402.13958；DOI: 10.1103/PRXQuantum.5.030352
+- 本地文件：[S004_2024_Takada_flagged_weight_optimization.pdf](S004_2024_Takada_flagged_weight_optimization.pdf)
+- 版本或版次：arXiv v2
+- 阅读状态：已通读
+- 主文献笔记：无
+- 翻译计划：全文翻译
+- 当前全文译本：[S004 全文译本](../Translations/S004.full.zh-CN.md)
+- 局部摘译：无
+
+### S005
+
+- 类型：paper
+- 题名：*Decoding 3D color codes with boundaries*
+- 作者或编者：Friederike Butt；Lars Esser；Markus Müller
+- 年份：2025
+- 外部标识：arXiv:2512.13436
+- 本地文件：[S005_2025_Butt_decoding_3D_color_codes.pdf](S005_2025_Butt_decoding_3D_color_codes.pdf)
+- 版本或版次：arXiv v2
+- 阅读状态：已通读
+- 主文献笔记：无
+- 翻译计划：全文翻译
+- 当前全文译本：[S005 全文译本](../Translations/S005.full.zh-CN.md)
+- 局部摘译：无
+
+### S006
+
+- 类型：paper
+- 题名：*Magic Gate Teleportation: Structure, Useful Resource States, and Simpler Feedforward*
+- 作者或编者：Yunzhe Zheng；Allen Zang；Aleksander Kubica
+- 年份：2026
+- 外部标识：arXiv:2607.08508
+- 本地文件：[S006_2026_Zheng_magic_gate_teleportation.pdf](S006_2026_Zheng_magic_gate_teleportation.pdf)
+- 版本或版次：arXiv v1
+- 阅读状态：已通读
+- 主文献笔记：无
+- 翻译计划：全文翻译
+- 当前全文译本：[S006 全文译本](../Translations/S006.full.zh-CN.md)
+- 局部摘译：无
+
+### S007
+
+- 类型：paper
+- 题名：*Architecture and Compilation Co-Design for High-Rate Quantum Product Codes on Neutral Atom Arrays*
+- 作者或编者：Adrian Liu；Wan-Hsuan Lin；Daniel Bochen Tan；Qian Xu；Jason Cong
+- 年份：2026
+- 外部标识：arXiv:2608.20164
+- 本地文件：[S007_2026_Liu_architecture_compilation_codesign.pdf](S007_2026_Liu_architecture_compilation_codesign.pdf)
+- 版本或版次：arXiv v1
+- 阅读状态：已通读
+- 主文献笔记：无
+- 翻译计划：全文翻译
+- 当前全文译本：[S007 全文译本](../Translations/S007.full.zh-CN.md)
+- 局部摘译：无

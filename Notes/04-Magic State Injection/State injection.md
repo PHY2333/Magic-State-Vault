@@ -896,6 +896,7 @@ $$
 ---
 ### 与其它笔记的连接
 
+- [[MGT 的反向传播与稳定子码构造]]：把本笔记的单量子比特 $T$ injection 放入 commuting-Pauli 资源态的 MGT 构造，并区分物理线路、反向传播测量，以及在相应对易条件下成立的测量分支码表示。
 - [[Clifford Twirling 与魔态错误模型]]：说明何时可以进一步把 coherent error 化为 stochastic $Z$ error，以及独立输入模型需要哪些额外假设。
 - [[Distillation protocol]]：从多次 noisy injection 得到 syndrome、输出错误与资源公式。
 - [[Reed-Muller码]]：给出 15-to-1 distillation 所使用的具体码与错误阶数。

@@ -1,6 +1,6 @@
 # CANONICAL_KNOWLEDGE.md
 
-本文件是知识库的“主笔记与可复用结论清单”。它用于写新笔记前查重和归属：如果某个概念、公式、协议或资源估算结论已经在这里登记，新内容应链接对应主笔记，只摘取当前需要的最短结论，不重新证明、不重复铺背景。
+本文件是面向 agent 的知识索引，记录 canonical ownership、别名、适用范围和必要来源关系。它用于写新笔记前查重和归属：如果某个概念、公式、协议或资源估算结论已经在这里登记，新内容应链接对应主笔记，只摘取当前需要的最短结论，不重新证明、不重复铺背景；它不承担面向读者的阅读顺序、正式正文复述或单次任务日志。
 
 > 本文件只登记已经形成稳定主笔记的知识。临时想法、未核对推导和论文摘录不要直接登记为 canonical；应先放在对应草稿或论文笔记中。
 
@@ -52,7 +52,7 @@
 
 ## 4. 当前范围
 
-本清单不按目录整批纳入，而只登记已经形成稳定主笔记的结论。目前覆盖 `Notes/01-量子纠错基础/` 至 `Notes/05-Magic State Distillation/` 的已整理主线，以及 `Notes/06-CCZ Distillation/` 中已经稳定的 cochain/CSS、tensor 与 balanced product、tricycle complex、cup/integrated Leibniz、STCP 和 Menon 协议级归属。
+本清单不按目录整批纳入，而只登记已经形成稳定主笔记的结论。目前覆盖 `Notes/01-量子纠错基础/` 至 `Notes/05-Magic State Distillation/` 的已整理主线，`Notes/06-CCZ Distillation/` 中已经稳定的 cochain/CSS、tensor 与 balanced product、tricycle complex、cup/integrated Leibniz、STCP 和 Menon 协议级归属，以及 `Notes/07-Lifted-Product Code/` 中的 Künneth 分解、HGP 与 LP 构造。
 
 尚未拆成独立概念主笔记的 single-shot CCZ factory、hypergraph magic state 等主题继续由 [[Menon 2025 Magic Tricycles]] 承担论文语境；形成稳定概念笔记后再单独登记，不在本文件预先复制论文内容。
 
@@ -61,7 +61,7 @@
 ## 主路线图
 
 - 主笔记：[[Notes/00-index|00-index]]，路径 `Notes/00-index.md`。
-- 已有结论：基础主线由 stabilizer 与 magic-state 基础推进到 injection、twirling、distillation、Reed-Muller、triorthogonal、compact factory、canonical family 和 SAT 搜索。CCZ/qLDPC 延伸沿 cochain/CSS → ordinary tensor 与 balanced product → tricycle complex/metachecks → cup product 与 integrated Leibniz → STCP/logical $CCZ$ → Menon single-shot CCZ factory 推进。
+- 已有结论：基础主线由 stabilizer 与 magic-state 基础推进到 injection、twirling、distillation、Reed-Muller、triorthogonal、compact factory、canonical family 和 SAT 搜索。CCZ/qLDPC 延伸沿 cochain/CSS → ordinary tensor 与 balanced product → tricycle complex/metachecks → cup product 与 integrated Leibniz → STCP/logical $CCZ$ → Menon single-shot CCZ factory 推进；lifted-product 分支沿 Künneth 分解 → HGP → cyclic/group lift → LP → balanced quotient 与 asymptotic qLDPC 参数推进。
 - 写新内容时引用它：新增主线主题、改变学习路线或加入新的一级主题目录时更新这里；普通局部补充不需要把背景重复写进路线图。
 
 ---
@@ -177,8 +177,36 @@
   在 $\mathbb F_2$ 上 $-1=1$，Koszul sign 消失。两个二项 complexes 给出三项 total complex；三个二项 complexes 的 degree-sector 数量是 $1,3,3,1$。
 - 当前笔记只保留：total-degree decomposition、Koszul product differential、$\delta^2=0$ 的交叉项抵消，以及二项/三项 product 的 sector 计数。
 - 写新内容时引用它：使用 total degree、product coboundary、Koszul sign，解释 tricycle 的 $1,3,3,1$ sectors，或进入 balanced product、cup product 与 ordinary integrated-Leibniz 推导时引用这里。
-- 不要在当前笔记重复：ordinary tensor product 对 direct sum 的自然同构证明放在 [[Tensor product 对 direct sum 的分配律]]；module sidedness、coinvariant quotient 与 balanced relation 放在 [[Balanced tensor product 与 coinvariant quotient]]；Menon 的具体 $R\to R^3\to R^3\to R$ matrices 放在 [[Tricycle complex 的 balanced-product 构造]]。
+- 不要在当前笔记重复：ordinary tensor product 对 direct sum 的自然同构证明放在 [[Tensor product 对 direct sum 的分配律]]；product homology 的分解放在 [[Künneth 分解]]；module sidedness、coinvariant quotient 与 balanced relation 放在 [[Balanced tensor product 与 coinvariant quotient]]；Menon 的具体 $R\to R^3\to R^3\to R$ matrices 放在 [[Tricycle complex 的 balanced-product 构造]]。
 - 边界：这里的 $\otimes_k$ 是 algebraic ordinary tensor product，不是 Hilbert-space tensor product，也不是 $\otimes_R$ balanced product。一般系数下必须保留 Koszul sign；无负号的 block matrices 只在 $\mathbb F_2$ convention 下使用。
+- 状态：已整理。
+
+---
+## Künneth 分解
+
+- 主笔记：[[Künneth 分解]]，路径 `Notes/07-Lifted-Product Code/Künneth 分解.md`。
+- 前置依赖：[[Chain complex 与 cochain complex]] 中的 cycle、boundary 与 homology quotient，以及 [[Cochain complex 的 tensor product]] 中的 total degree 与 Koszul sign。
+- 已有结论：比较映射
+  $$
+  \kappa_n:
+  \bigoplus_{p+q=n}H_p(C)\otimes_kH_q(D)
+  \longrightarrow H_n(C\otimes_kD),
+  \qquad
+  [c]\otimes[d]\longmapsto[c\otimes d]
+  $$
+  在域 $k$ 上是自然同构。证明把每个因子非典范地拆成零微分的同调代表元部分与可缩部分，并显式收缩所有含可缩因子的 tensor summands。对两个二项复形，
+  $$
+  H_1(\mathcal A\otimes_k\mathcal B)
+  \cong
+  \ker A\otimes_k\operatorname{coker}B
+  \oplus
+  \operatorname{coker}A\otimes_k\ker B,
+  $$
+  在 $\mathbb F_2$ 上取维数得到 $K=k_Ak_B^T+k_A^Tk_B$。PID 上的标准结论是含 $\operatorname{Tor}_1$ 的自然短正合列，其 splitting 一般不自然；一般交换环使用 bounded derived Künneth spectral sequence，不能把高阶 $\operatorname{Tor}$ 直接读成额外直和。
+- 当前笔记只保留：比较映射的良定义、域上 complement/contracting-homotopy 证明、二项复形的 degree-$1$ 特化、PID 与一般环边界，以及 $R_2=\mathbb F_2[\varepsilon]/(\varepsilon^2)$ 上比较映射失败的反例。
+- 写新内容时引用它：推导 HGP 逻辑比特数、解释 kernel/cokernel 两个逻辑扇区，或判断域上的 product-homology 公式能否用于 LP 时引用这里。
+- 不要在当前笔记重复：product differential 平方为零引用 [[Cochain complex 的 tensor product]]；HGP blocks、CSS 对易和距离引用 [[Hypergraph product code]]；LP 的 balanced relation、环值 blocks 与二进制展开引用 [[Lifted product code]]。
+- 边界：域上的 $\kappa_n$ 自然，但证明使用的链级补空间分裂不自然；“系数环不是域”只表示直接和公式不再自动成立，不表示每个实例必有非零 $\operatorname{Tor}$。非交换系数环还须固定右模与左模侧别。
 - 状态：已整理。
 
 ---
@@ -233,6 +261,81 @@
 - 当前笔记只保留：right/left module 类型、balanced relation、anti-diagonal coinvariants、balanced-product complex、三重 bimodule interfaces、regular-module orbit 与乘法同构。
 - 写新内容时引用它：定义 balanced product、解释 balanced product 与 coinvariant quotient 是同一构造、使用 $G^2$ interfaces、或区分 balanced quotient 与 cohomology quotient 时引用这里。
 - 边界：Balanced quotient 的定义不需要 free action；free basis action 只用于 [[Balanced quotient 上的 inherited product 与 integrated Leibniz]] 中的 averaging transport。
+- 状态：已整理。
+
+---
+## Hypergraph product code
+
+- 主笔记：[[Hypergraph product code]]，路径 `Notes/07-Lifted-Product Code/Hypergraph product code.md`。
+- 前置依赖：[[Chain complex 与 cochain complex]]、[[CSS码中的cochain complex]]、[[Cochain complex 的 tensor product]] 与 [[Künneth 分解]]；固定 chain convention $H_X=\partial_1,H_Z=\partial_2^T$，其对偶是本库 $H_X^T\to H_Z$ 的 cochain convention。
+- 已有结论：对
+  $$
+  A\in\mathbb F_2^{m_A\times n_A},
+  \qquad
+  B\in\mathbb F_2^{m_B\times n_B},
+  $$
+  两个二项 chain complexes 的 product 中间项是
+  $$
+  C_1=\mathbb F_2^{n_Am_B}\oplus\mathbb F_2^{m_An_B},
+  $$
+  并给出
+  $$
+  H_X=[A\otimes I_{m_B}\mid I_{m_A}\otimes B],
+  \qquad
+  H_Z=[I_{n_A}\otimes B^T\mid A^T\otimes I_{n_B}],
+  $$
+  $$
+  H_XH_Z^T=A\otimes B+A\otimes B=0.
+  $$
+  若 $k_A=\dim\ker A$、$k_A^T=\dim\ker A^T$，并类似定义 $B$ 的记号，则
+  $$
+  N=n_Am_B+m_An_B,
+  \qquad
+  K=k_Ak_B^T+k_A^Tk_B.
+  $$
+  $A,B$ 的行重和列重统一有界时才得到 qLDPC family。等尺度、线性经典距离的标准选择可给出常数率和 $d=\Theta(\sqrt N)$；这不是任意 HGP 输入的统一距离公式。
+- 当前笔记只保留：二项 product complex 到 CSS blocks 的转换、两个 physical-qubit sectors、$N/K$ 和标准平方根距离基准。
+- 写新内容时引用它：出现 HGP blocks、product-slice logical、HGP 与 LP/GB/surface code 的关系，或把 $\sqrt N$ 作为乘积码距离基准时引用这里。
+- 不要在当前笔记重复：一般 product differential 引用 [[Cochain complex 的 tensor product]]；Künneth 同构及其 kernel/cokernel 推导引用 [[Künneth 分解]]；CSS logical quotient 引用 [[CSS码中的cochain complex]]；群坐标的 balancing 引用 [[Balanced tensor product 与 coinvariant quotient]]。
+- 状态：已整理。
+
+---
+## Lifted product code
+
+- 主笔记：[[Lifted product code]]，路径 `Notes/07-Lifted-Product Code/Lifted product code.md`。
+- 前置依赖：[[Künneth 分解]]、[[Hypergraph product code]]、[[Balanced tensor product 与 coinvariant quotient]]、[[CSS码中的cochain complex]]；循环 lift 使用 $Pe_t=e_{t+1}$，所以 $x^s\mapsto P^s$ 表示 $v_t\leftrightarrow c_{t+s}$。
+- 已有结论：在最常见的交换情形，$R$ 是具有 transpose-compatible involution 的有限维 $\mathbb F_2$-代数，$A\in R^{m_A\times n_A}$、$B\in R^{m_B\times n_B}$。在 $R$ 上取两个二项 complexes 的 balanced tensor product，并令
+  $$
+  \widehat H_X=[A\otimes I_{m_B}\mid I_{m_A}\otimes B],
+  \qquad
+  \widehat H_Z=[I_{n_A}\otimes B^*\mid A^*\otimes I_{n_B}].
+  $$
+  因 $A,B$ 的系数交叉对易、$\mathbb B(M^*)=\mathbb B(M)^T$，二进制展开
+  $$
+  H_X=\mathbb B(\widehat H_X),
+  \qquad
+  H_Z=\mathbb B(\widehat H_Z)
+  $$
+  满足 CSS 对易。若 $\dim_{\mathbb F_2}R=\ell$，则
+  $$
+  N=\ell(n_Am_B+m_An_B),
+  \qquad
+  K=N-\operatorname{rank}_{\mathbb F_2}H_X-\operatorname{rank}_{\mathbb F_2}H_Z.
+  $$
+  一般没有统一的简洁 $K$ 公式；对 QC 特例 $B=[1+x]$，
+  $$
+  K=\dim_{\mathbb F_2}\ker A(1)
+  +\dim_{\mathbb F_2}\ker\!\bigl(A(1)^T\bigr).
+  $$
+  当 $R=\mathbb F_2[G]$ 且选定基上的群作用相容、自由时，$\otimes_R$ 等价于 expanded HGP complex 对
+  $$
+  h\cdot(g_1,g_2)=(g_1h^{-1},hg_2)
+  $$
+  的 anti-diagonal quotient，长度由 $\ell^2Q$ 降为 $\ell Q$。非阿贝尔情形在抽象层分别使用自由 right/left $R$-modules，满足 $(ua)\otimes v=u\otimes(av)$；二进制层按原论文 Appendix B 单独采用 $A\mapsto(\rho_a)$、$B\mapsto(\lambda_b)$ 的块替换，其中 $\rho_a(u)=ua$、$\lambda_b(u)=bu$ 只是 $\mathbb F_2$-线性块，CSS 对易来自 $\rho_a\lambda_b=\lambda_b\rho_a$。
+- 当前笔记只保留：循环 lift 的可核对例子、反对合与二进制展开、LP 块矩阵、自由反对角 quotient、QC $1+x$ 特例、距离直觉、已证明的渐近参数和解码适用范围。
+- 写新内容时引用它：使用 QC/QA/非阿贝尔 lifted product、比较 expanded HGP 与 LP 长度、解释近线性或渐近良好 qLDPC 码族，或讨论 LP 解码时引用这里。
+- 不要在当前笔记重复：域上 product homology 与一般环的 Künneth 边界引用 [[Künneth 分解]]；HGP 的完整推导引用 [[Hypergraph product code]]；一般 balanced relation 和 coinvariant quotient 引用 [[Balanced tensor product 与 coinvariant quotient]]；三因子构造引用 [[Tricycle complex 的 balanced-product 构造]]。
+- 边界：LP 只自动保证相容条件下的 CSS 构造。只有二进制行重和列重统一有界时才是 qLDPC；低重量 stabilizers 不自动给出二维几何局域性；近线性距离、线性距离与解码保证都属于附带扩张性等假设的特定子族。
 - 状态：已整理。
 
 ---
@@ -577,6 +680,65 @@
   若 $U$ 为 $Z$ 基对角门，则 $R_U=I$；若进一步 $U\in\mathcal C_3$，条件校正 $C_U$ 是 Clifford。对 $T=\operatorname{diag}(1,e^{i\pi/4})$，
   $m=1$ 分支只需 $S$ correction。资源态上的 $Z$ 错误直接成为数据上的 $Z$ 错误；$X$ 型资源错误在 syndrome measurement 前是相干错误，经过能区分 $Z$ 错误的检查后才可按随机 $Z$ 错误处理。
 - 写新内容时引用它：说明每个 noisy $|T\rangle$ 如何变成一次 $T$ 或 parity-phase injection、解释 byproduct correction 或 magic-state error 如何进入数据时引用这里。不要重新画单比特 teleportation 推导，除非当前笔记专门比较线路约定。
+
+---
+## MGT 的反向传播与稳定子码构造
+
+- 主笔记：[[MGT 的反向传播与稳定子码构造]]，路径 `Notes/04-Magic State Injection/MGT 的反向传播与稳定子码构造.md`。
+- 已有结论：物理末端投影 $\Delta_{\boldsymbol m}$ 可沿 Clifford $V$ 回拉为
+  $$
+  \Pi_{\boldsymbol m}=V^\dagger\Delta_{\boldsymbol m}V,
+  \qquad
+  M_k=V^\dagger(Z_{R,k}\otimes I_D)V.
+  $$
+  这与利用
+  $$
+  [\Pi_{\boldsymbol m},U_R(\boldsymbol\theta)\otimes I_D]=0
+  $$
+  把资源分解中的 $U_R$ 移到测量分支之后，是条件不同的两次代数变换。前者用于 $V\mapsto\mathcal M$ 的线路分析；一般构造则先选 $\mathcal M$，再综合满足 $VM_kV^\dagger=Z_{R,k}$ 的解码器 $V$。
+- 通过 Clifford 变换分离由稳定子固定的 $|0\rangle$ 因子，再对这些因子做结果确定的 $Z$ 测量并停用相应量子比特，可以得到只保留非稳定子部分的资源态；逆向只需制备 $|0\rangle$ 并施加逆 Clifford。把保留态的量子比特数重记为 $n$ 后，$\nu(|\eta\rangle)=n$。若交换旋转子群的独立生成元数为 $g$，二进制对易矩阵的秩—零化度计数给出
+  $$
+  \nu(|\eta\rangle)\le g\le n,
+  $$
+  因而 $g=n$。选择
+  $$
+  M_k=G_k^{(R)}\otimes G_k^{(D)}
+  $$
+  得到一个 $[\![2n,n]\!]$ 分支码。令
+  $$
+  E_{\boldsymbol m}
+  :=
+  \Pi_{\boldsymbol m}(|s\rangle_R\otimes I_D),
+  $$
+  则完整联合投影满足
+  $$
+  E_{\boldsymbol m}^\dagger E_{\boldsymbol m}=2^{-n}I,
+  \qquad
+  W_{\boldsymbol m}=2^{n/2}E_{\boldsymbol m},
+  $$
+  所以每个结果概率为 $2^{-n}$，且 $W_{\boldsymbol m}$ 是不泄露任意输入信息的等距编码。
+- 若
+  $$
+  P_\alpha=\prod_{k\in\mathcal I_\alpha}G_k,
+  \qquad
+  q_\alpha=\left(\sum_{k\in\mathcal I_\alpha}m_k\right)\bmod2,
+  $$
+  则 $I_R\otimes P_\alpha^{(D)}$ 是本构造所需的逻辑 Pauli 代表，但不是完整逻辑 Pauli 群。资源旋转在分支码上实现
+  $$
+  U_{\boldsymbol m}
+  =
+  \prod_\alpha
+  P_\alpha\left((-1)^{q_\alpha}\theta_\alpha\right),
+  $$
+  确定性前馈可取
+  $$
+  F_{\boldsymbol m}
+  =
+  \prod_\alpha
+  \left[P_\alpha(2\theta_\alpha)\right]^{q_\alpha}.
+  $$
+  若 $U_{\boldsymbol0}\in\mathcal C_\ell$，则 $F_{\boldsymbol m}\in\mathcal C_{\ell-1}$；特别地，$\mathcal C_3$ 目标具有 Clifford 前馈。
+- 写新内容时引用它：讨论一般 MGT、反向传播联合测量、测量分支稳定子码、commuting-Pauli 资源态或 MGT 前馈层级时引用这里。必须区分两次换序、压缩前后的量子比特数，并把 $I\otimes P_\alpha$ 称为所需逻辑代表而不是所有逻辑 Pauli。
 
 ---
 ## Twirling 与 magic-state 错误模型
