@@ -1,56 +1,28 @@
 # Notes/WORKFLOWS/integration-contract.md
 
-Repository Integrator 只在 `MANUSCRIPT_VERDICT.md: pass` 后把 staged drafts 写入正式仓库。
+Repository Integrator 只在 `MANUSCRIPT_VERDICT: pass` 且 `INTEGRATION_PREVIEW: ready` 后写正式仓库。
 
 ## 1. 输入
 
-- 通过双审查的 staged drafts；
-- `DIDACTIC_DESIGN.md` 的文件与插入决策；
-- 目标正式文件；
-- `Notes/NOTE_TYPES.md`；
-- `Notes/LANGUAGE_PROFILE.md`；
-- `CANONICAL_KNOWLEDGE.md`、`Notes/00-index.md`；
-- 相关链接与来源文件。
+通过的 drafts、ready preview、目标文件、NOTE_TYPES、LANGUAGE_PROFILE、index/canonical 与相关链接。
 
 ## 2. 权限
 
-Integrator 可以：
+可以按 preview 替换／插入正文、删除旧竞争文本、补 frontmatter、在独立成立的句子后加自然链接、必要时最小更新 index/canonical 和修路径格式。
 
-- 按 design 替换、插入或新建正文；
-- 删除被新正文完全替代的旧竞争开头；
-- 补 frontmatter；
-- 在句子已经独立成立后添加自然 wikilinks；
-- 必要时更新 index 和 canonical；
-- 修复路径、anchors 和局部格式。
+不得改变教学顺序、claims、explanation depth、optional placement 或数学主张。任何偏离 preview 都返回相应阶段。
 
-Integrator 不得：
-
-- 改变教学顺序、claim 依赖或数学主张；
-- 为避免重复删除 guided reference 的必要局部解释；
-- 用 canonical 摘要替换通过审查的读者正文；
-- 在整合时重新引入中英混合速记或维护语言。
-
-## 3. 索引职责
-
-- `Notes/00-index.md`：读者路线、入口和各入口能获得什么；
-- `CANONICAL_KNOWLEDGE.md`：稳定知识归属、约定、边界和来源关系。
-
-只有实际职责变化时更新。
-
-## 4. 最终检查
+## 3. 最终检查
 
 - 正式文件无 WORKING 链接；
-- note type 与 entry mode 一致；
-- 旧开头和新开头不并存；
-- links、anchors、相对路径有效；
-- 中文术语与语言规范一致；
+- note type/entry mode 一致；
+- 旧新开头不并存；
+- optional/upstream detail 与 owner 一致；
+- links/anchors 有效；
+- 中文术语一致；
 - 无无关 diff；
 - `git diff --check` 通过。
 
-## 5. Retention
+## 4. 输出
 
-按 TASK 的 `retain_mode` 处理任务文件，并生成 `AUTHORING_SUMMARY.md`。
-
-## 6. 输出
-
-生成 `INTEGRATION_REPORT.md`，记录修改文件、draft 位置、frontmatter、links、index/canonical 更新、未解决事项和 diff 检查。
+生成 `INTEGRATION_REPORT.md`，记录修改、replacement range、links、frontmatter、index/canonical、preview 一致性与未解决事项。

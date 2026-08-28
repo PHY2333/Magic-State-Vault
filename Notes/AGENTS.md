@@ -17,16 +17,17 @@
 ## 2. 角色
 
 - **Orchestrator**：维护状态机、分配角色和返修路由；不替代专业角色直接写正文。
-- **Repository Mapper**：建立 `DOMAIN_MODEL.md` 与 `SOURCE_PACKET.md`，不设计教学顺序。
+- **Repository Mapper**：建立 `DOMAIN_MODEL.md` 与 `SOURCE_PACKET.md`，登记来源、premises 和已有 canonical detail，不设计教学顺序。
 - **Learner Modeler**：建立 faceted `LEARNER_SNAPSHOT.md`，只依据证据。
-- **Didactic Architect**：设计 units、phases、讲解模式、concept actions、definition cards、explanation claims 和语言合同。
+- **Didactic Architect**：设计 units、phases、讲解模式、definition/claim ledger、explanation depth、mainline contract 与 detail placement。
 - **Design Auditor**：独立审查设计；不写正文。
 - **Packet Builder**：把通过的设计编译成 `PACKETS/` 与 `READER_CARDS/`。
 - **Writer**：在干净上下文中只读取当前 packet、授权来源和目标片段，生成 staged draft。
-- **Contract Auditor**：读取 packet、来源和 draft，检查数学、claim ledger 与合同执行。
-- **Blind Reader**：只读取 reader card、draft 和语言规范，进行真正的冷启动阅读审查。
+- **Contract Auditor**：读取 packet、来源和 draft，检查数学、claims、depth、mainline 与合同执行。
+- **Blind Reader**：只读取 reader card、draft 和语言规范，进行冷启动阅读与比例性审查。
 - **Manuscript Gatekeeper**：合并两道独立审查，生成 `MANUSCRIPT_VERDICT.md`。
-- **Repository Integrator**：最终 verdict 通过后写入正式文件并处理链接、索引与 canonical。
+- **Repository Fit Planner**：在 manuscript pass 后只读正式仓库，生成 `INTEGRATION_PREVIEW.md`；不写正式文件。
+- **Repository Integrator**：preview ready 后按预览写入正式文件并处理链接、索引与 canonical。
 
 这些是逻辑角色，可由主 agent、subagent 或多次独立调用承担。角色边界不能因工具限制而省略。
 
@@ -40,51 +41,34 @@
 4. 已通过 `DESIGN_AUDIT.md` 的教学设计；
 5. 当前 Writer packet；
 6. `Notes/LANGUAGE_PROFILE.md` 与 `Notes/WRITING_GUIDE.md`；
-7. 仓库整合规则。
+7. 已通过的 `INTEGRATION_PREVIEW.md`；
+8. 仓库整合规则。
 
-不得静默调和冲突。来源或数学冲突返回 mapping；读者状态冲突返回 learner model；教学顺序、claim closure 或定义问题返回 design。
+不得静默调和冲突。来源或数学冲突返回 mapping；读者状态冲突返回 learner model；定义、claim、解释深度或主线比例返回 design。
 
-## 4. 三类上下文隔离
+## 4. 上下文隔离
 
-### 4.1 Writer
+### Writer
 
-Writer 必须在新 subagent、独立会话或等价干净上下文中工作，只可读取：
+只可读取：当前 packet、packet 授权来源、目标正文片段和 packet 内嵌语言子集。不得读取 Brief、Domain、Learner、完整 Design、canonical、index 或 audit。
 
-- 当前 `PACKETS/Uxx.md`；
-- packet 授权的来源片段；
-- packet 指定的目标正文片段；
-- packet 内嵌的语言规范子集。
+### Contract Auditor
 
-Writer 不得读取 Brief、Domain、Learner、Design、canonical、index 或 audit。
+可读取：当前 packet、授权来源、staged draft 和语言规范。不得先看 Blind Reader 的 verdict。
 
-### 4.2 Contract Auditor
+### Blind Reader
 
-可以读取：
+只可读取：Reader Card、Draft、语言规范。不得读取 packet、design、domain、source、canonical、index、Contract Audit 或旧 audit。
 
-- 当前 packet；
-- packet 授权来源；
-- staged draft；
-- `Notes/LANGUAGE_PROFILE.md`。
+### Repository Fit Planner
 
-不得读取 Blind Reader 的结论后再形成首次 verdict。
+只在 manuscript pass 后读取：通过的 drafts、目标正式文件、note type、通过设计中与目标 unit 对应的 depth/placement ledger、index/canonical 和相关链接。Ledger 只用于核对 duplication rationale；不得更改 reader-visible text，发现需要文本变化时返回设计阶段。
 
-### 4.3 Blind Reader
-
-只可读取：
-
-- `READER_CARDS/Uxx.md`；
-- `DRAFTS/Uxx.md`；
-- `Notes/LANGUAGE_PROFILE.md`。
-
-不得读取 packet、design、domain、source、canonical、index、Contract Audit 或此前的审查结论。
-
-若环境不能保证相应隔离，流程停在前一阶段；不得用同一污染上下文伪装独立审查。
+若环境不能保证相应隔离，流程停在前一阶段。
 
 ## 5. 内部返修
 
-非阻塞问题在同一次任务中自动返回正确阶段修复并重新审查。
-
-只有以下情况需要用户决定：
+非阻塞问题在同一次任务中自动返回正确阶段修复并重新审查。只有以下情况需要用户决定：
 
 - 删除、移动、合并、拆分或重命名正式文件；
 - 改变学习目标或显著扩大范围；
@@ -96,19 +80,20 @@ Writer 不得读取 Brief、Domain、Learner、Design、canonical、index 或 au
 
 - 正式 Notes 不得引用 `Notes/WORKING/`。
 - 任务产物只放在 `Notes/WORKING/authoring-tasks/<task-id>/`。
-- Writer 默认只写 staged drafts；正式文件由 Integrator 修改。
+- Writer 默认只写 staged drafts；Integrator 才修改正式文件。
 - `CANONICAL_KNOWLEDGE.md` 管理知识归属；`Notes/00-index.md` 管理读者路线。
-- 发布后按 `retain_mode` 处理任务产物，不在正式目录积累教学脚手架。
+- 发布后按 `retain_mode` 处理任务产物。
 
 ## 7. 阶段回执
 
 ```md
-### Notes v4 流程回执
+### Notes v5 流程回执
 - task_id：
 - 当前状态：
 - 已完成产物：
 - design 返修次数：
 - manuscript 返修次数：
+- integration preview 状态：
 - blocker：
 - 下一位角色：
 - 下一步唯一动作：

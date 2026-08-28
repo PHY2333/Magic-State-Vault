@@ -1,61 +1,45 @@
 # Notes/WORKFLOWS/audits.md
 
-本文件规定双审查门和最终 manuscript verdict。
+本文件规定双审查门和 manuscript verdict。
 
-## 1. 两道审查必须独立
+## 1. 两道审查独立
 
-1. `CONTRACT_AUDIT.md`：packet-aware，检查数学、来源、claims 与合同。
-2. `COLD_READ_AUDIT.md`：blind，检查真实教材阅读体验。
+1. Contract Audit：packet-aware，检查数学、claims、depth 与合同。
+2. Blind Cold-Read：blind，检查真实阅读、mainline latency、比例性与 optional skip test。
 
-Blind Reader 在形成首次 verdict 前不得看到 Contract Audit。
+Blind Reader 首次 verdict 前不得看到 Contract Audit。
 
 ## 2. Final gate
 
-Manuscript Gatekeeper 只有在两份审查都完成后读取：
+Gatekeeper 读取两份审查与相同 draft revision，输出 `MANUSCRIPT_VERDICT.md`。两者都 pass 才能 manuscript pass。
 
-- Contract Audit；
-- Cold-Read Audit；
-- 当前 draft revision 标识。
-
-输出 `MANUSCRIPT_VERDICT.md`：
-
-```yaml
-status: pass | changes_required | blocked
-contract_audit_status:
-cold_read_audit_status:
-reviewed_draft_revision:
-```
-
-两者都为 `pass` 才能得到最终 `pass`。
+Manuscript pass 只授权 `INTEGRATION_PREVIEW.md`，不直接授权写正式文件。
 
 ## 3. 返修路由
 
 | 问题 | 返回 |
 |---|---|
-| 数学、来源、约定 | mapping |
-| learner facet 错配 | learner model |
-| 隐含 premise、定义、claim 顺序、负荷 | didactic design |
-| packet 污染或缺项 | Packet Builder |
-| 局部语言、术语渲染、公式执行 | Writer |
-| 文件与索引 | Integrator |
+| 数学、来源、detail owner | mapping |
+| learner facet | learner model |
+| premise、definition、depth、placement、mainline、比例 | didactic design |
+| packet 污染 | Packet Builder |
+| 局部语言与公式执行 | Writer |
+| 仓库适配 | Integration Preview / Integrator |
 
 ## 4. 重审规则
 
-Draft 改动后：
+Draft 改动后两道审查都重跑；不得只改旧结论。相同 major 三轮未闭合则 blocked。
 
-- Contract Audit 必须重新运行；
-- Blind Cold-Read 必须在新的干净上下文中重新运行；
-- 不得只修改旧审查结论；
-- 同类 major 两轮仍未闭合则标记 blocked，并说明根因。
-
-## 5. v4 回归测试
+## 5. v5 回归测试
 
 Final gate 至少确认：
 
-- concept identity 与 context role 未混淆；
-- explanation claims 的事实前提闭合；
-- 定义非循环且有 operational hook；
-- 第一对象稳定，不是词典多义开头；
+- concept/role 分离；
+- claim premises 闭合；
+- definitions 在首次依赖前闭合且句法自然；
+- evidence state 未决定 full depth；
+- mainline latency 与比例性通过；
+- optional detail 可跳过；
 - 中文术语统一；
-- Blind Reader 没有读取 packet/design；
-- Writer 没有直接写正式文件。
+- Writer/Blind Reader 隔离；
+- Writer 未写正式文件。

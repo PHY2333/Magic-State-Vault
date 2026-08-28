@@ -1,78 +1,45 @@
 # Notes/WORKFLOWS/contract-audit.md
 
-Contract Auditor 是 packet-aware 正文审查。它不改文件。
+Contract Auditor 是 packet-aware 正文审查，不改文件。
+
+`depth-and-mainline.md` 的可执行决定由当前 packet 承载；本审查按该合同核对 depth、placement 与 mainline，不据此扩大允许输入。
 
 ## 1. 允许读取
 
-- 当前 `PACKETS/Uxx.md`；
-- packet 授权来源；
-- `DRAFTS/Uxx.md`；
-- `Notes/LANGUAGE_PROFILE.md`。
-
-不得读取 Blind Reader 的首次结论后再形成初始 verdict。
+当前 packet、packet 授权来源、draft、LANGUAGE_PROFILE。不得先看 Blind Reader verdict。
 
 ## 2. 检查项
 
-### 2.1 数学与来源
+### 数学与来源
 
-检查定义、公式、尺寸、指标、条件、约定和来源边界。Writer 不得用模型常识补齐 packet 缺口。
+定义、公式、尺寸、条件、约定和来源边界。
 
-### 2.2 Packet compliance
+### Packet compliance
 
-- phase 顺序；
-- concept actions；
-- delay/omit 边界；
-- notation/load budget；
-- link 和 language contract。
+Phase、concept actions、delay/omit、notation/load、link/language。
 
-### 2.3 Definition cards
+### Definition 与 claim ledger
 
-正文中的局部定义是否完成：
+逐项核对正文位置、capability premises、prior claims、closure method/deadline、来源与实际闭合。不得因 packet 写了就判通过。
 
-- category；
-- current function；
-- 非循环；
-- 可区分；
-- 可操作；
-- 不使用未授权专名。
+### Depth and placement
 
-### 2.4 Claim ledger
+- Writer 是否按 depth 执行；
+- 是否擅自把 reminder 写成 full derivation；
+- optional block 是否可跳过；
+- upstream bridge 是否本地自足；
+- canonical detail 重复是否符合 design rationale。
 
-逐 claim 建立：
+### Mainline contract
 
-```text
-packet claim
-→ draft 位置
-→ capability premises
-→ prior claims
-→ closure method
-→ source/calculation
-```
+- supporting paragraphs 与 notation 是否在预算内；
+- 是否按约定回到主问题；
+- 是否把辅助推导变成新的主线。
 
-不得只因 claim 出现在 packet 中就判通过；正文必须实际闭合。
+### Exit capability 与语言
 
-### 2.5 Exit capability
+正文是否真正支持出口能力，并符合中文语体。
 
-正文是否真正支持 unit 出口能力，而不只是提到相关词。
+## 3. 输出与路由
 
-### 2.6 Language contract
-
-检查术语、英文缩写、标题和中文连续性；避免设计文件中的中英混合速记直接进入正文。
-
-## 3. 输出
-
-生成 `CONTRACT_AUDIT.md`：
-
-```yaml
-status: pass | changes_required | blocked
-reviewed_draft_revision: <n>
-```
-
-发现写明 severity、位置、问题、影响、return_to 和 suggested_fix。
-
-## 4. 路由
-
-- 数学、来源、premise 缺失：Mapper 或 Design；
-- definition card / claim order / phase：Design；
-- 局部表达、术语渲染、公式执行：Writer；
-- blocker：用户。
+生成 `CONTRACT_AUDIT.md`。数学／来源返回 Mapper；definition/claim/depth/mainline 返回 Design；局部执行返回 Writer；blocker 交用户。
