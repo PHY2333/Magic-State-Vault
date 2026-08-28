@@ -64,11 +64,14 @@
 
 以下入口只用于维护正式知识笔记，不属于上述正式阅读顺序：
 
+- [Notes 统一入口](AGENTS.md)
+- [笔记类型与读者入口模式](NOTE_TYPES.md)
+- [中文教材语体](LANGUAGE_PROFILE.md)
 - [正文写作规范](WRITING_GUIDE.md)
-- [复杂笔记任务流程](WORKFLOWS/note-writing.md)
-- [上下文与规划契约](WORKFLOWS/planning-contract.md)
-- [执行契约](WORKFLOWS/execution-contract.md)
-- [只读 subagent 检查规则](WORKFLOWS/subagents.md)
+- [Notes v4 主流程](WORKFLOWS/authoring.md)
+- [教学设计审查](WORKFLOWS/design-audit.md)
+- [双正文审查与最终门](WORKFLOWS/audits.md)
+- [读者反馈闭环](WORKFLOWS/feedback-loop.md)
 
 `Notes/WORKING/` 是单次任务的临时交接区，不属于正式阅读索引；这里不列出任何单次任务目录。
 

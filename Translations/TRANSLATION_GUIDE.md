@@ -2,7 +2,7 @@
 
 本文件规定 paper、book 等来源的全文翻译、局部摘译、进度记录、截图归属和译文验收。文献管理任务先读取 `Papers/PAPER_MANAGEMENT.md`；稳定文献 ID、原文件和精确版本以其入口指向的 `Papers/SOURCES.md` 当前登记为准，主辅关系以 `Papers/RELATIONS.md` 为准。
 
-译文是原始来源的中文阅读入口，不是知识笔记，也不能替代原始来源作为最终引用依据。从译文建立概念笔记、论文导读或继续推导时，执行 `Notes/WORKFLOWS/note-writing.md`。
+译文是原始来源的中文阅读入口，不是知识笔记，也不能替代原始来源作为最终引用依据。翻译任务同时创建或重写 Notes 时，转交 `Notes/AGENTS.md`。
 
 ---
 

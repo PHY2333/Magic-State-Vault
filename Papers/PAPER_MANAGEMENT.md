@@ -1,6 +1,6 @@
 # Papers/PAPER_MANAGEMENT.md
 
-本文件是 `Papers/` 的唯一管理入口，负责 paper、book 等来源的稳定身份、文件版本、阅读状态、主辅关系和链接安全。全文翻译规则见 `Translations/TRANSLATION_GUIDE.md`；从文献建立或改写知识笔记时，执行 `Notes/WORKFLOWS/note-writing.md`。
+本文件是 `Papers/` 的唯一管理入口，负责 paper、book 等来源的稳定身份、文件版本、阅读状态、主辅关系和链接安全。全文翻译规则见 `Translations/TRANSLATION_GUIDE.md`；文献任务同时创建或重写 Notes 时，转交 `Notes/AGENTS.md`。
 
 本文件只保留稳定规则。动态来源登记保存到 `Papers/SOURCES.md`，主辅关系保存到 `Papers/RELATIONS.md`。所有文献管理任务仍先读取本文件，再进入对应登记文件。
 
