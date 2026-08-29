@@ -1,6 +1,6 @@
 ---
 status: pass
-reviewed_draft_revision: 4
+reviewed_draft_revision: 5
 task_id: 20260828-hgp-v5-pilot
 reviewed_units:
   - U01
@@ -21,6 +21,7 @@ Auditor 在独立上下文中只读取 `PACKETS/U01.md`、`PACKETS/U02.md`、`SO
 | 2 | pass | 局部措辞返修未引入合同偏差；等待独立 cold read |
 | 3 | pass | design revision 4 packet 下的完整最终重审通过 |
 | 4 | pass | design revision 5 packet 下的 heading-only 返修完整重审通过 |
+| 5 | pass | 重新审查 U01/U02 全文；U02 新过渡句与 design revision 5 packet 一致 |
 
 每次 draft 改动后均重新执行完整 Contract Audit；旧 pass 没有自动覆盖新文本。
 
@@ -57,6 +58,12 @@ Auditor 在独立上下文中只读取 `PACKETS/U01.md`、`PACKETS/U02.md`、`SO
 | 全部对易 | PASS | \(H_XH_Z^T=0\) 精确汇总每条 X 型校验与每条 Z 型校验对易 |
 | 最小反例 | PASS | \([1]\) 只说明共享列不自动保证零乘积 |
 | P1 boundary | PASS | 无 \(C_2,C_1,C_0\)、链复形、HGP blocks 或“已证明具体输出”的断言 |
+
+Revision 5 的首句为：
+
+> 要回答上一节的问题，第一步是把输出必须满足的对易要求化成一个可检验的矩阵条件。
+
+该句正确承接 U01 末问，并把 U02 的当前任务限定为“第一步”：先求输出必须满足的矩阵条件。它没有提前声称具体 HGP 输出已满足该条件，也没有改变后续 claim 顺序、depth 或段落预算。
 
 两处阶段标题严格使用 packet 规定的三级标题：`### 从局部交换到矩阵条件` 与 `### 三个空间与两支映射`。标题文字不变，正文未引入其它 ATX 标题。
 
@@ -95,4 +102,4 @@ Auditor 在独立上下文中只读取 `PACKETS/U01.md`、`PACKETS/U02.md`、`SO
 
 # 结论
 
-Draft revision 4 通过 Contract Audit。无需返回 Mapper、Design、Packet Builder 或 Writer；等待同 revision 的独立 Blind Cold Read 合并 verdict。
+Draft revision 5 通过完整 Contract Audit。U01 虽未修改，仍从头复核；U02 也按全文而非只按新句复核。无需返回 Mapper、Design、Packet Builder 或 Writer；等待同 revision 的独立 Blind Cold Read 合并 verdict。

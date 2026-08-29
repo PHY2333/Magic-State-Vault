@@ -3,55 +3,69 @@ status: pass
 task_id: 20260828-hgp-v5-pilot
 contract_audit_status: pass
 cold_read_audit_status: pass
-reviewed_draft_revision: 4
+reviewed_draft_revision: 5
+reviewed_units:
+  - U01
+  - U02
+draft_fingerprints:
+  U01_sha256: 3713ad6565c3f992f402b4372db00efa37b798e56f6ac2d0fde9a04b5a46c585
+  U02_sha256: b5fe54e31c51308230fb356373ae3c13c86325991805eff92cc43ebb36de531a
 authorized_next_stage: integration_preview_read_only
 formal_integration_authorized: false
 ---
 
 # Manuscript Verdict
 
-## Gatekeeper history
+## 审查输入一致性
 
-| gatekeeper run | result | disposition |
+Contract Audit 与 Blind Cold Read 均为 `pass`，均审查 `task_id: 20260828-hgp-v5-pilot` 的 U01/U02 draft revision 5。
+
+当前两份正文的 SHA-256 与 `ISOLATION_LOG.md` 登记指纹一致：
+
+| unit | SHA-256 | 结果 |
 |---|---|---|
-| 1 | blocked | 稿件 gate 全部通过，但初始读取白名单缺少 Writer 写入范围证据 |
-| 2 | pass | Draft revision 3：读取 `ISOLATION_LOG.md` 后，以 Writer handoff 与 Git 受保护基线共同关闭流程证据项 |
-| 3 | pass | Draft revision 4：Integration Preview 的 heading-only 返修经同 revision 双审查后重新通过完整 final gate |
+| U01 | `3713ad6565c3f992f402b4372db00efa37b798e56f6ac2d0fde9a04b5a46c585` | match |
+| U02 | `b5fe54e31c51308230fb356373ae3c13c86325991805eff92cc43ebb36de531a` | match |
 
-第一次 blocker 只涉及证据范围，不要求正文返修。随后 Integration Preview 返回标题层级适配，形成 draft revision 4；旧 revision 3 verdict 没有覆盖新稿。
+因此两份 audit 审查的是同一 revision、同一组正文。
 
-## 双审查合并条件
+## 独立性与写入边界
 
-| audit | status | reviewed draft revision |
-|---|---|---:|
-| Contract Audit | `pass` | 4 |
-| Blind Cold Read | `pass` | 4 |
+- Contract Auditor 与 Blind Reader 使用两个全新、相互独立的上下文。
+- Contract Auditor 未读取 Reader Cards、Cold Read 或旧 verdict。
+- Blind Reader 未读取 packets、source、Contract Audit 或旧 verdict，并从 U01 开始按 U01→U02 完整重读。
+- Blind Reader 的 schema 校准没有读取新文件，也未获知 Contract Audit 结论，不破坏 blind 隔离。
+- Revision 5 的唯一正文替换由 Orchestrator 按用户给定文本写入任务目录。
+- 正式 HGP、`Notes/00-index.md` 与 `CANONICAL_KNOWLEDGE.md` 的 blob 均未改变；没有正式文件写入。
 
-两份审查均针对相同的 U01/U02 draft revision 4，且均由新上下文进行完整重审。Cold Read 的首次 revision 4 run 只暴露 Reader Card 数量笔误；修正 Card 后由另一 blind context 全量重读并 pass。合并条件成立。
+## v5 Final Gate
 
-## v5 final gate
-
-| item | result | evidence summary |
+| 检查项 | 结果 | Gatekeeper 核验 |
 |---|---|---|
-| concept / role 分离 | PASS | 构造／所得码、A/B 输入／H_X/H_Z 输出、支撑／泡利类型、三个空间／两支映射均分开 |
-| claim premises | PASS | 同比特、异比特、总符号、重叠奇偶、矩阵条件与零复合依赖顺序闭合 |
-| definition closure / natural syntax | PASS | 定义均在首次承重使用前闭合；首句稳定且无 same-sentence overload |
-| evidence state / depth | PASS | 完整矩阵计算保持 optional；无一般 Pauli 或同调理论扩张 |
-| mainline latency / proportionality | PASS | U01 三短段；U02-P1/P2 各五个必要主线阶段；辅助推导未压过 HGP |
-| repository-fit heading | PASS | U02 两标题只改变层级标记为 `###`；标题文字、正文、主线和出口不变 |
-| optional skip | PASS | 跳过 \(2\times2\) callout 后全部主线结论与出口保持完整 |
-| 中文术语 | PASS | 自然统一的简体中文教材语体；无不必要英文或维护语言 |
-| Writer / Blind isolation | PASS | Writer 只读 unit packet；Blind Reader 只读 card/draft/language，未见 packet/source/Contract Audit |
-| Writer 未写正式文件 | PASS | Writer 只返回文本，Orchestrator 只写任务目录；Git 无 tracked/staged diff，受保护 blobs 与基线一致 |
+| concept / role 分离 | PASS | U01 区分构造方法与所得 HGP 码、经典输入 \(A,B\) 与量子输出 \(H_X,H_Z\)；行、列、支撑及 X/Z 类型角色稳定。 |
+| claim premises 闭合 | PASS | 二进制与模 2 语境、局部 \(X/Z/I\) 作用、同位反对易、异位对易、重叠奇偶、矩阵元及两支映射的承重前提均在使用处给出。 |
+| definition closure / natural syntax | PASS | 支撑、张量积记号、\(w\)、三个空间、两支映射和链复形均在首次承重依赖前闭合；句法自然。 |
+| depth | PASS | 承重推导完整；完整矩阵核验位于 optional callout；未扩展到一般同调理论或尚未开始的 HGP blocks。 |
+| mainline latency | PASS | U01 用三个短段落抵达唯一对易问题；U02-P1/P2 各用五个必要阶段抵达矩阵条件与零复合用途。 |
+| proportionality | PASS | 局部交换、总符号、矩阵汇总、最小反例和映射视角各占与其作用相称的篇幅；辅助内容未压过主线。 |
+| optional skip | PASS | 跳过“补充推导：直接核对 \(XZ=-ZX\)”后，计算基推导、异位对易、\((-1)^w\)、偶重叠、零矩阵条件及 P2 出口仍独立闭合。 |
+| cross-unit continuity | PASS | U01 末问→U02 “第一步”→矩阵条件→末句“下一步构造”保持同一问题，没有把通用条件冒充为具体 HGP 证明。 |
+| 中文与术语 | PASS | 简体中文教材语体连续；术语统一，没有审查或维护语言进入正文。 |
+| Writer / Blind 隔离 | PASS | Writer、Contract Auditor 与 Blind Reader 的白名单及上下文相互分离；Blind Reader 不可见 Contract Audit。 |
+| 正式文件未写 | PASS | Git 范围与受保护 blob 核验显示正式 HGP、index、canonical 及其它 task 目录外文件未改变。 |
 
-# 合并结论
+Cold Read 保留的两条 non-blocking observation——首次出现 \(I\) 时未另释“恒等作用”，以及未单列“线性算符由基上作用确定”——均已由相邻展示充分承接，不形成 hidden premise 或出口阻断，不要求正文返修。
 
-Draft revision 4 通过 manuscript final gate。
+未发现 blocker、required finding、`待核对`、`TODO：补引用` 或 `待补推导`。
 
-本 pass **只授权生成只读 `INTEGRATION_PREVIEW.md`**。它不授权正式 integration，不授权修改、移动或覆盖正式 HGP、`Notes/00-index.md`、`CANONICAL_KNOWLEDGE.md` 或其它正式文件。
+## Verdict 与授权边界
 
-若 U01 或 U02 draft 发生任何 reader-visible 修改，本 verdict 立即失效，必须对新 revision 重跑 Contract Audit 与 Blind Cold Read。
+Draft revision 5 通过 manuscript final gate。
+
+本 verdict 只授权下一阶段执行 **read-only Integration Preview**。该阶段可以核对拟议放置、衔接与仓库适配，但不得写入正式 HGP、`Notes/00-index.md`、`CANONICAL_KNOWLEDGE.md` 或其它正式知识文件。
+
+`formal_integration_authorized: false`。任何正式集成都需要后续独立授权。
 
 # 返修路由
 
-当前无返修。下一位执行者为 Repository Fit Planner，只执行只读 Integration Preview。
+当前无 manuscript 返修。下一位执行者为 Repository Fit Planner，只执行只读 Integration Preview。

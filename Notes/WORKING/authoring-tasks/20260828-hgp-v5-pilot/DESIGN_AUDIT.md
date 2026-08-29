@@ -61,4 +61,4 @@ Revision 5 由 Integration Preview 重开设计，只把 U02 两个标题固定�
 
 # 结论
 
-设计门通过。下一位执行者为 Packet Builder；只可根据 design revision 3 编译 U01/U02 packet 与 Reader Card。
+设计门通过。下一位执行者为 Packet Builder；只可根据 design revision 5 编译 U01/U02 packet 与 Reader Card。

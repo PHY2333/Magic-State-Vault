@@ -25,4 +25,4 @@ target_files:
 
 # 当前阶段
 
-`integration_previewed` — draft revision 4 的 manuscript verdict 为 pass，最终只读 Integration Preview 为 ready；任务在此停止，不执行 formal integration。
+`integration_previewed` — final-review draft revision 5 的 manuscript verdict 为 pass，重新生成的只读 Integration Preview 为 ready；任务在此停止，不执行 formal integration。

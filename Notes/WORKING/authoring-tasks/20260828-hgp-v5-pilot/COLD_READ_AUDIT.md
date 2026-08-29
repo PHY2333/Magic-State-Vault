@@ -1,6 +1,6 @@
 ---
 status: pass
-reviewed_draft_revision: 4
+reviewed_draft_revision: 5
 task_id: 20260828-hgp-v5-pilot
 reviewed_units:
   - U01
@@ -21,12 +21,13 @@ Blind Reader 在另一干净上下文中只读取 `READER_CARDS/U01.md`、`READE
 | 2 | changes_required | U01 支撑闭合暴露 DEF05 设计矛盾；另有张量记号、术语与输出类别清理 |
 | 3 | pass | 全部 required findings 关闭 |
 | 4 | pass | 首次 blind run 因 Reader Card 将“两支映射”误写为“三项映射”而 blocked；Card Builder 只修正该数量笔误后，新 blind context 完整重读并 pass |
+| 5 | pass | 全新 blind context 从 U01 第一字开始按 U01→U02 完整重读；新增 cross-unit question continuity 并通过 |
 
 Revision 2 的支撑问题返回 Didactic Design，形成并通过 revision 4；其余局部执行问题返回 Packet Builder / Writer。每次 draft 改动后均由新的 blind context 从 U01 开始重读。
 
 ## 总判定
 
-`pass`。U01 完成方法／对象、经典输入／量子输出与行列／支撑角色区分；U02 把局部交换、重叠奇偶、矩阵零条件和三个空间／两支映射连成可复述的推理链。两个三级标题在 staged fragment 中语义平级；虽无可见父级，但不妨碍阅读和出口。未发现会阻止清楚或准确阅读的真实问题。
+`pass`。U01 完成方法／对象、经典输入／量子输出与行列／支撑角色区分；U02 把局部交换、重叠奇偶、矩阵零条件和三个空间／两支映射连成可复述的推理链。U02 新首句以“第一步”精确承接 U01 末问，且没有把矩阵条件冒充为已完成的 HGP 构造证明。两个三级标题在 staged fragment 中语义平级；虽无可见父级，但不妨碍阅读和出口。未发现会阻止清楚或准确阅读的真实问题。
 
 ## Reader trace
 
@@ -61,6 +62,7 @@ Revision 2 的支撑问题返回 Didactic Design，形成并通过 revision 4；
 ## 第一句、定义与 hidden premises
 
 - U01 第一句建立单一稳定对象，不像词典、维护说明或链接串；第二句再闭合奇偶校验矩阵提醒，没有 same-sentence overload。
+- U02 首句以“要回答上一节的问题”直接回指 U01，又用“第一步”限定当前承诺，既不词典化也不过载。
 - 构造／HGP 码、\(A,B\)／\(H_X,H_Z\)、支撑、逐位置作用、重叠奇偶、三个空间、两映射和链复形均在首次承重使用前闭合。
 - 线性算符由基上作用确定、单条 Z 校验是“一组选择”的特例等基础事实可由现有展示直接跟随，不构成阻断性的 hidden premise。
 - 模 2 语境、不同张量因子的交换和矩阵元的重叠含义均已显式说明。
@@ -111,12 +113,26 @@ Revision 2 的支撑问题返回 Didactic Design，形成并通过 revision 4；
 | U02 | 解释三个坐标空间、两支映射和零复合用途 | pass |
 | U02 | 指出下一步需由 \(A,B\) 给出具体构造 | pass |
 
+## Cross-unit question continuity
+
+结果：`pass`。
+
+1. U01 末问是“怎样由构造本身保证两类校验彼此对易”；U02 以“要回答上一节的问题”明确回指，没有换成无关的链复形介绍。
+2. U02 首句明确说“第一步”是将输出必须满足的对易要求化成可检验的矩阵条件，因此范围预期清楚。
+3. U02 只建立通用对易条件及其映射表达，没有声称 \(A,B\) 已产生满足条件的具体矩阵。
+4. U02 末句把“由 \(A,B\) 构造两支映射并证明复合恒为零”保留为下一步。
+
+因此跨 unit 问题链为：U01 末问 → U02 “第一步” → 局部交换 → 偶重叠 → \(H_XH_Z^T=0\) → 链复形表达 → 下一步具体构造。
+
 ## Findings
 
 Required findings：无。
 
-不影响路由的观察：计算基证明隐含基础线性代数事实；“任意选择”包含单条选择未另列一句，但两者均由当前展示充分支持，不构成出口缺失。
+Non-blocking observations：
+
+- `CR5-BR-01`：首次出现 \(I\) 时可选择再明说“恒等作用”；但正文已规定二进制位为 0 时作用 \(I\)，支撑又已定义为非零位置，后续张量等式直接展示了 \(I\) 的角色，不阻断出口。
+- `CR5-BR-02`：从计算基核对推出 \(XZ=-ZX\) 可选择再明说“线性算符由其在一组基上的作用确定”；但正文已逐一展示 \(|0\rangle,|1\rangle\) 上的作用并指出始终相差负号，足以支持 Reader Card 要求的交换理由，不是 required finding。
 
 # 结论
 
-Draft revision 4 通过 Blind Cold Read。路由至 Gatekeeper，与同 revision 的 Contract Audit 合并；本结论不判断未读取材料。
+Draft revision 5 通过 Blind Cold Read。本结论由新 blind context 从 U01 开始完整顺读得出，不要求修改 U01/U02。路由至 Gatekeeper，与同 revision 的 Contract Audit 合并；本结论不判断未读取材料。
