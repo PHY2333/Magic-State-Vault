@@ -65,12 +65,14 @@
 以下入口只用于维护正式知识笔记，不属于上述正式阅读顺序：
 
 - [Notes 统一入口](AGENTS.md)
+- [模型路由与角色绑定](MODEL_ROUTING.md)
+- [Obsidian 数学格式](OBSIDIAN_MATH.md)
 - [笔记类型与读者入口模式](NOTE_TYPES.md)
 - [中文教材语体](LANGUAGE_PROFILE.md)
 - [正文写作规范](WRITING_GUIDE.md)
-- [Notes v5 主流程](WORKFLOWS/authoring.md)
-- [教学设计审查](WORKFLOWS/design-audit.md)
-- [双正文审查与最终门](WORKFLOWS/audits.md)
+- [Notes v6.1 混合主流程](WORKFLOWS/authoring.md)
+- [跨模型交接协议](WORKFLOWS/handoff-protocol.md)
+- [Git 自动化边界](WORKFLOWS/git-automation.md)
 - [正式整合预览](WORKFLOWS/integration-preview.md)
 - [读者反馈闭环](WORKFLOWS/feedback-loop.md)
 

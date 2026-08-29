@@ -1,85 +1,60 @@
 # Notes/NOTE_TYPES.md
 
-正式 Notes 有两个独立维度：`note_type` 决定长期知识职责，`entry_mode` 决定读者怎样进入正文。
+正式 Notes 有三个独立维度：知识职责、读者入口和审查状态。
 
 ## 1. Frontmatter
 
-新建或被实质修改的正式笔记至少写：
+新建或实质修改的正式笔记至少写：
 
 ```yaml
 ---
 note_type: reference | lesson | derivation | paper-guide | index
 entry_mode: guided | direct | lookup
-status: draft | reviewed | stable | deprecated
+status: draft | partially-reviewed | reviewed | stable | deprecated
 ---
 ```
 
-旧笔记不批量迁移。只有在 v5 任务中被实质修改、拆分或纳入新路线时才补字段。
-
-## 2. `note_type`
-
-### `reference`
-
-保存一个概念、构造、定理、协议或判断标准的 canonical 表述。
-
-- 可以包含短小 guided onboarding；
-- 不要求整篇都采用第一次学习者节奏；
-- 一个 reference 通常只承担一个稳定对象或一组不可分割结论；
-- 若完整辅助推导已有 canonical owner，当前 reference 默认保留必要 local bridge，而不是无条件重复整段证明。
-
-### `lesson`
-
-让读者完成一次明确的学习状态转移：
-
-```text
-入口能力 → 讲解、示范与推导 → 出口能力
-```
-
-可以跨越多个 canonical concepts，也可以局部重述 reference 内容。
-
-### `derivation`
-
-保存一条完整证明、推导、计算或算法论证。复杂推导可先给结果与证明地图。
-
-### `paper-guide`
-
-帮助读者完成一个明确的来源阅读任务；保留版本、约定和 source-specific 边界。
-
-### `index`
-
-只负责导航、顺序和入口，不承担定义、证明或 canonical ownership。
-
-## 3. `entry_mode`
-
-### `guided`
-
-正文承担第一次或不稳定接触的入口责任。开头先建立对象、问题或必要整体，不以维护路由开头。
-
-### `direct`
-
-面向已有 `operational` 或 `fluent` 证据的读者，可较快进入正式构造或推导。
-
-### `lookup`
-
-主要供查询，不承诺连续首次阅读体验；不应作为没有替代入口的首站。
-
-## 4. 两个维度不能互相替代
+可选：
 
 ```yaml
-note_type: reference
-entry_mode: guided
+review_scope:
+  - <稳定标题或语义范围>
 ```
 
-表示文件仍是 canonical reference，但开头承担读者进入该对象的责任。`guided` 不等于所有上游事实都要在主线完整重证。
+## 2. note_type
+
+- `reference`：保存一个概念、构造、定理或判断标准的 canonical 表述。
+- `lesson`：完成一次明确的入口能力到出口能力转变，可跨越多个 canonical concepts。
+- `derivation`：保存完整证明、计算或算法论证。
+- `paper-guide`：服务特定来源阅读，保留版本、记号和 source-specific 边界。
+- `index`：只负责导航和顺序。
+
+## 3. entry_mode
+
+- `guided`：正文承担首次或不稳定接触的入口责任。
+- `direct`：面向已有 operational/fluent 证据的读者。
+- `lookup`：主要供查询，不承诺连续首次阅读。
+
+`reference + guided` 只说明入口受引导，不自动证明整篇都具有教材连续性。
+
+## 4. status 的严格语义
+
+- `draft`：整篇尚未通过混合流程的 whole-note gate。
+- `partially-reviewed`：只有明确列出的 `review_scope` 通过；其余内容不得被解释为已审查。
+- `reviewed`：完整 `ASSEMBLED_DRAFT.md` 已同时通过 Sol Contract Audit 与 Pro Whole-Note Review，并按同一指纹精确整合。
+- `stable`：在 `reviewed` 基础上，来源、ownership、links 与长期职责已稳定。
+- `deprecated`：不再作为有效入口。
+
+Unit-level pass、Integration Preview 或 coverage audit 均不得单独把整篇升级为 `reviewed`。
 
 ## 5. 拆分判断
 
 考虑拆分的情况：
 
-- 一个文件长期承担互相冲突的 note type；
-- guided onboarding 已扩展成完整 lesson；
-- 一个推导足够长，压倒 reference 主体；
-- paper-specific 约定污染一般定义；
-- detail placement 无法在同一文件中保持清楚。
+- 一个文件长期承担冲突的 note types；
+- source-specific adapter 打断一般理论主线；
+- optional derivation 实际成为后文隐藏前置；
+- 一个证明或背景推导压过主要对象；
+- whole-note Pro design 判断两条读者路线不可兼容。
 
-短小 onboarding 或 optional derivation 不自动触发拆分。
+拆分、移动和改名需要用户决定；technical unit 边界不需要用户审批。

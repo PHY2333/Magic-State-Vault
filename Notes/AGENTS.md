@@ -1,102 +1,117 @@
 # Notes/AGENTS.md
 
-本文件是 `Notes/` 的稳定入口。它只负责路由、角色边界、权威顺序和上下文隔离；模板与检查项在 `Notes/WORKFLOWS/`。
+本文件是 Notes v6.1 的稳定入口。它规定模型路由、跨模型 handoff、Git 自动化、公式渲染和阶段门；详细合同位于 `Notes/WORKFLOWS/`。
 
 ## 1. 必读入口
 
-涉及新增、重写、拆分、教学顺序或读者反馈时，先读取：
+涉及新增、重写、拆分、复杂推导、教学顺序或读者反馈时，依次读取：
 
-1. `Notes/NOTE_TYPES.md`
-2. `Notes/LANGUAGE_PROFILE.md`
-3. `Notes/WORKFLOWS/authoring.md`
-4. 当前角色对应 contract
-5. `Notes/WRITING_GUIDE.md`，仅在设计、写作或审查读者正文时读取
+1. `Notes/MODEL_ROUTING.md`
+2. `Notes/OBSIDIAN_MATH.md`
+3. `Notes/NOTE_TYPES.md`
+4. `Notes/LANGUAGE_PROFILE.md`
+5. `Notes/WORKFLOWS/authoring.md`
+6. `Notes/WORKFLOWS/handoff-protocol.md`
+7. `Notes/WORKFLOWS/git-automation.md`
+8. 当前角色对应合同
+9. 设计、写作或审查读者正文时再读 `Notes/WRITING_GUIDE.md`
 
-错字、链接和不改变知识引入顺序的纯格式修改可跳过完整流程。
+错字、链接、frontmatter 和不改变学习路径的纯格式任务可走 `sol-only`。
 
-## 2. 角色
+## 2. 模型绑定
 
-- **Orchestrator**：维护状态机、分配角色和返修路由；不替代专业角色直接写正文。
-- **Repository Mapper**：建立 `DOMAIN_MODEL.md` 与 `SOURCE_PACKET.md`，登记来源、premises 和已有 canonical detail，不设计教学顺序。
-- **Learner Modeler**：建立 faceted `LEARNER_SNAPSHOT.md`，只依据证据。
-- **Didactic Architect**：设计 units、phases、讲解模式、definition/claim ledger、explanation depth、mainline contract 与 detail placement。
-- **Design Auditor**：独立审查设计；不写正文。
-- **Packet Builder**：把通过的设计编译成 `PACKETS/` 与 `READER_CARDS/`。
-- **Writer**：在干净上下文中只读取当前 packet、授权来源和目标片段，生成 staged draft。
-- **Contract Auditor**：读取 packet、来源和 draft，检查数学、claims、depth、mainline 与合同执行。
-- **Blind Reader**：只读取 reader card、draft 和语言规范，进行冷启动阅读与比例性审查。
-- **Manuscript Gatekeeper**：合并两道独立审查，生成 `MANUSCRIPT_VERDICT.md`。
-- **Repository Fit Planner**：在 manuscript pass 后只读正式仓库，生成 `INTEGRATION_PREVIEW.md`；不写正式文件。
-- **Repository Integrator**：preview ready 后按预览写入正式文件并处理链接、索引与 canonical。
+- Codex Sol：仓库勘察、来源核验、learner evidence、coverage、Pro request 编译、Pro artifact 接收、机械内容、合同审查、仓库适配、Git 写入和推送。
+- ChatGPT Pro：整篇教学架构、核心正文、复杂推导和整篇最终教学审查。
 
-这些是逻辑角色，可由主 agent、subagent 或多次独立调用承担。角色边界不能因工具限制而省略。
+凡 `MODEL_ROUTING.md` 判定为 Pro-required 的任务，没有真实 Pro artifact 时必须停止。Sol 不得用同模型 subagent 冒充 Pro gate。
 
-## 3. 权威顺序
+## 3. 强制 handoff
 
-发生冲突时按以下顺序处理：
+每个模型完成自己的阶段后，必须给出下一模型可直接执行的完整提示词：
 
-1. 用户最新的明确学习目标与范围；
-2. 已核对来源、数学事实和当前仓库事实；
-3. 有证据的 faceted learner capability；
-4. 已通过 `DESIGN_AUDIT.md` 的教学设计；
-5. 当前 Writer packet；
-6. `Notes/LANGUAGE_PROFILE.md` 与 `Notes/WRITING_GUIDE.md`；
-7. 已通过的 `INTEGRATION_PREVIEW.md`；
-8. 仓库整合规则。
+- Sol 只有在当前阶段已验证、commit 且 push 成功后，才能输出 Pro 提示词；
+- Pro 必须生成约定 artifact，并在回复末尾输出 `NEXT_SOL_PROMPT`；
+- 提示词必须包含 task、branch、commit、request/artifact 路径、下一角色、允许操作和停止点；
+- 不允许只写“把文件交给 Pro”或“让 Sol 继续”。
 
-不得静默调和冲突。来源或数学冲突返回 mapping；读者状态冲突返回 learner model；定义、claim、解释深度或主线比例返回 design。
+跨模型细节见 `handoff-protocol.md`。
 
-## 4. 上下文隔离
+## 4. Obsidian 数学硬规则
 
-### Writer
+所有读者可见 Markdown 必须使用：
 
-只可读取：当前 packet、packet 授权来源、目标正文片段和 packet 内嵌语言子集。不得读取 Brief、Domain、Learner、完整 Design、canonical、index 或 audit。
+- 行内数学：`$...$`
+- 块数学：单独成行的 `$$` 开始与结束
 
-### Contract Auditor
+不得使用 `\(...\)`、`\[...\]`、`/(...)` 或 JSON 双重转义后的 Markdown。每次保存 Pro draft、组装稿和正式写入后都必须运行 `Notes/TOOLS/check_obsidian_math.py`。失败即为 blocker。
 
-可读取：当前 packet、授权来源、staged draft 和语言规范。不得先看 Blind Reader 的 verdict。
+## 5. Git 自动化
 
-### Blind Reader
+当 `TASK.md` 中 `automation.auto_commit` 与 `automation.auto_push` 为 `true`：
 
-只可读取：Reader Card、Draft、语言规范。不得读取 packet、design、domain、source、canonical、index、Contract Audit 或旧 audit。
+- Sol 在每个 Sol 阶段完成后自动 commit/push；
+- 只提交 allowlist 内的任务文件和获授权正式文件；
+- 不使用 `git add -A`；
+- 不 push 到 `main`；
+- 不 force push；
+- push 失败时不得发出 Pro handoff；
+- 正式整合可以在 Pro final pass 后自动发生，但只限任务已预授权且不涉及删除、移动、拆分、合并或改名。
 
-### Repository Fit Planner
+## 6. 权威边界
 
-只在 manuscript pass 后读取：通过的 drafts、目标正式文件、note type、通过设计中与目标 unit 对应的 depth/placement ledger、index/canonical 和相关链接。Ledger 只用于核对 duplication rationale；不得更改 reader-visible text，发现需要文本变化时返回设计阶段。
+发生冲突时：
 
-若环境不能保证相应隔离，流程停在前一阶段。
+1. 用户最新明确学习目标与文件级授权；
+2. 已核对数学、来源和当前仓库事实；
+3. 有证据的 learner capability；
+4. 经 Sol 验证的 `PRO_DESIGN.md`；
+5. Pro 起草的 reader-visible 正文；
+6. `OBSIDIAN_MATH.md`、`LANGUAGE_PROFILE.md` 与 `WRITING_GUIDE.md`；
+7. 通过的整篇 Pro review 与 Integration Preview。
 
-## 5. 内部返修
+Sol 可以因来源或数学问题阻止 Pro 设计，但不能自己改写教学架构。Pro 可以否决 Sol 的教学组织，但不能覆盖已核对事实。
 
-非阻塞问题在同一次任务中自动返回正确阶段修复并重新审查。只有以下情况需要用户决定：
+## 7. Whole-note 规则
 
-- 删除、移动、合并、拆分或重命名正式文件；
-- 改变学习目标或显著扩大范围；
-- 两条互斥路线会产生不同长期知识结构；
-- 来源冲突或缺失使关键承诺无法确定；
-- 需要新增外部研究任务。
+- unit pass 不等于 whole-note pass；
+- coverage 只提供勘察假设；
+- 整篇组装稿必须经过新的 Pro 会话终审；
+- `status: reviewed` 只用于整篇通过并按同一指纹精确整合后；
+- 未被 Pro whole-note review 覆盖的 legacy 内容不得混入 pass。
 
-## 6. 正式文件与任务文件
+## 8. 用户决定边界
 
-- 正式 Notes 不得引用 `Notes/WORKING/`。
-- 任务产物只放在 `Notes/WORKING/authoring-tasks/<task-id>/`。
-- Writer 默认只写 staged drafts；Integrator 才修改正式文件。
-- `CANONICAL_KNOWLEDGE.md` 管理知识归属；`Notes/00-index.md` 管理读者路线。
-- 发布后按 `retain_mode` 处理任务产物。
+只有以下事项交用户：
 
-## 7. 阶段回执
+- 删除、移动、拆分、合并或重命名正式文件；
+- 改变学习目标或明显扩大范围；
+- 两条互斥路线会形成不同长期知识结构；
+- 关键来源冲突或缺失；
+- 是否合并任务分支到主分支。
+
+technical unit map、模式、depth、作者分配和普通返修由 Pro/Sol 按合同处理。
+
+## 9. 阶段回执
+
+Sol 回执必须在 push 成功后包含：
 
 ```md
-### Notes v5 流程回执
+### Notes v6.1 Handoff
 - task_id：
+- route：
 - 当前状态：
+- 分支：
+- 已推送提交：
 - 已完成产物：
-- design 返修次数：
-- manuscript 返修次数：
-- integration preview 状态：
+- 数学渲染检查：
 - blocker：
-- 下一位角色：
-- 下一步唯一动作：
+- 下一位执行者：
+- 下一份 request：
+
+### COPY THIS PROMPT TO <MODEL>
+```text
+<完整可执行提示词>
+```
 ```
 
-不得在阶段门未满足时自动越级。
+Pro 回执必须包含 artifact 下载入口以及 `NEXT_SOL_PROMPT`。不得在阶段门未满足时越级。

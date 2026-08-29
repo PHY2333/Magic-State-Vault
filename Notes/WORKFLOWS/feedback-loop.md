@@ -1,24 +1,32 @@
 # Notes/WORKFLOWS/feedback-loop.md
 
-读者反馈是学习证据，不是教材审批表。
+用户的正常阅读问题是 learner evidence，不是要求用户承担教材审计。
 
-## 1. 用户只需正常提问
+## 1. 记录
 
-例如：术语没概念、公式会算但不知道为何、局部懂却目标丢了、解释默认了事实、定义同义反复、这一段太长、补充推导压过主线、像维基或中英混杂。
+在 `Notes/LEARNER/QUESTIONS.md` 记录：
 
-## 2. 失败类型
+- 位置；
+- 用户原问题；
+- 当时已知内容；
+- 失败类型；
+- 影响范围；
+- 返回角色。
 
-`learner-state-mismatch | concept-role-collapse | term-too-early | hidden-claim-premise | circular-or-thin-definition | missing-motivation | lost-global-map | explanation-depth-mismatch | mainline-latency | proportionality-failure | duplication-cost | pattern-mismatch | load-overflow | derivation-gap | language-register-mismatch | source-or-math-error | repository-leakage | type-or-entry-mode-mismatch`
+## 2. 路由
 
-## 3. 路由
+| 反馈 | 返回 |
+|---|---|
+| 数学、来源、约定或范围错误 | Codex Sol mapping/source verification |
+| 读者前提判断错误 | Sol learner snapshot，再交 Pro design |
+| 整篇像百科、视角错误、目标丢失、难度断崖 | ChatGPT Pro architecture |
+| 局部概念解释、证明地图或过渡失败 | ChatGPT Pro author |
+| 错字、链接、公式排版、机械表格 | Codex Sol |
+| 文件职责、拆分或 source-specific/general 冲突 | Pro design；需要结构操作时再询问用户 |
 
-- Learner 假设／concept-role：learner model；
-- premise、definition、动机、depth、mainline、比例：didactic design；
-- 局部推导／中文：Writer；
-- 数学／来源：Mapper；
-- duplication、links、index：Integration Preview / Integrator；
-- type/entry mode：Architect + Integrator。
+## 3. 禁止
 
-## 4. 记录与 reopen
-
-稳定问题写入 `Notes/LEARNER/QUESTIONS.md`，记录位置、原问题、失败类型、facet、返回阶段和状态。不得把问题原句直接追加到正文。
+- 不把用户问题直接附加为 FAQ 式正文；
+- 不要求用户填写 unit map、depth 或审查表；
+- 不因一处局部问题重跑无关的全部 mapping；
+- 不让 Sol 在 Pro-required 反馈后自行重写主线。

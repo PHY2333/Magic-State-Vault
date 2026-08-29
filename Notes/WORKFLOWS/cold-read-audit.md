@@ -1,58 +1,24 @@
 # Notes/WORKFLOWS/cold-read-audit.md
 
-Blind Reader 进行真正独立的冷启动审查。它不核对 packet，只判断正文是否实际像教材。
+v6.1 中 Sol Blind Cold Read 是可选 preflight，不替代 Pro Whole-Note Review。
 
-本文件承接 `depth-and-mainline.md` 的 cold-read gate；为保持 blind context，不向 Blind Reader 提供具体设计预算或该设计文件的内容。
+## 1. 输入隔离
 
-## 1. 允许读取
+只读取 `PRO_REVIEW_CARD.md`、`ASSEMBLED_DRAFT.md`、`OBSIDIAN_MATH.md` 与语言规范；不读 packets、source、design、Sol contract verdict 或旧 review。
 
-只读取 Reader Cards、Drafts 与 LANGUAGE_PROFILE。不得读取 packet、design、domain、source、canonical/index、Contract Audit 或旧 verdict。
+## 2. 检查
 
-## 2. Reader trace
+- hidden premises；
+- 前一 unit 实际末问、当前 unit 首句、子问题和回返的连续性；
+- mainline latency 与 explanation proportionality；
+- optional / conditional skip；
+- 中文术语与明显 checklist prose；
+- section 间难度断崖；
+- 删除或迁移后概念首次再次出现是否有落点；
+- 公式在 Obsidian 中是否可读，不出现错误 delimiter。
 
-逐段记录：读完知道什么、预先接受什么、产生什么问题、下一段是否推进、同时记住什么。
+## 3. 地位
 
-## 3. 审查项
-
-### 首句与定义
-
-稳定对象、非词典式、定义非循环、在首次依赖前闭合，且没有为了即时解释形成过载句法。
-
-### 隐含 claims
-
-逐问“我凭前文为什么接受这句话？”发现 hidden premise。
-
-### 问题流与主线
-
-- 当前主问题能否持续辨认；
-- 支持性细节结束后是否回到主问题；
-- 工具是否在需求后出现；
-- 是否像 checklist 句子化。
-
-### Mainline latency
-
-记录从问题到阶段主结论之间的支持性段落数、新记号组和明显绕行。若读者在返回前已忘记当前问题，标记 major。
-
-### Explanation proportionality
-
-- 辅助概念篇幅是否压过主要对象；
-- 当前详细程度是否与出口能力相称；
-- 是否存在安全但不必要的过度闭合。
-
-### Optional skip test
-
-跳过标记为 optional 的块后：
-
-- 主线是否仍连续；
-- 后文是否偷偷依赖其中未在主线出现的结论；
-- 回返句是否存在。
-
-### 认知负荷、中文语体与出口能力
-
-检查新增对象／符号、consolidation、回读需求、术语自然度，以及 reader card 出口是否真实达到。
-
-## 4. 输出与路由
-
-生成 `COLD_READ_AUDIT.md`，包含 reader trace、latency/proportionality 记录、findings 和 verdict。
-
-Hidden premise、深度、比例、问题流返回 Design；局部中文返回 Writer；Reader Card 冲突返回 Learner/Design；blocker 交用户。
+- 发现问题时在交给 Pro Final Reviewer 前修复；
+- `pass` 只表示 Sol preflight；
+- 它不能生成 whole-note `reviewed`，也不能替代 `PRO_FINAL_REVIEW.md`。

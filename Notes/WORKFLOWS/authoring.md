@@ -1,134 +1,132 @@
 # Notes/WORKFLOWS/authoring.md
 
-本文件规定 Notes v5 主流程。模板集中在 `task-artifacts.md`。
+本文件规定 Notes v6.1 的混合主流程。模型分工见 `../MODEL_ROUTING.md`，跨模型接口见 `handoff-protocol.md`，Git 写入见 `git-automation.md`。
 
-## 1. 适用范围
-
-完整流程用于新增或大段重写、调整教学顺序／entry mode／文件类型、长证明、论文导读，以及用户反馈“像百科、术语突然、局部懂但目标丢失、解释过长或重复”。短小不改变主线的修正可简化。
-
-## 2. 任务目录
-
-```text
-Notes/WORKING/authoring-tasks/<task-id>/
-├── TASK.md
-├── BRIEF.md
-├── DOMAIN_MODEL.md
-├── SOURCE_PACKET.md
-├── LEARNER_SNAPSHOT.md
-├── DIDACTIC_DESIGN.md
-├── DESIGN_AUDIT.md
-├── PACKETS/
-├── READER_CARDS/
-├── DRAFTS/
-├── CONTRACT_AUDIT.md
-├── COLD_READ_AUDIT.md
-├── MANUSCRIPT_VERDICT.md
-├── INTEGRATION_PREVIEW.md
-├── INTEGRATION_REPORT.md
-└── AUTHORING_SUMMARY.md
-```
-
-只创建当前阶段需要的文件。正式笔记不得链接任务目录。
-
-## 3. 状态机
+## 1. 状态机
 
 ```text
 brief_ready
-→ mapped
-→ learner_ready
-→ designed
-→ design_validated
-→ packet_ready
-→ drafting
-→ contract_audited
-→ cold_read_audited
-→ manuscript_validated
+→ sol_mapped
+→ whole_note_audited             # whole-note / legacy 任务
+→ awaiting_pro_design            # Sol 已 commit/push 并输出 Pro prompt
+→ pro_design_ready               # Sol 已接收 Pro artifact
+→ sol_design_validated
+→ awaiting_pro_drafts            # Sol 已 commit/push 并输出 Pro prompt
+→ drafts_ready                   # Sol 已接收并验证 Pro drafts
+→ assembled
+→ sol_contract_validated
+→ awaiting_pro_final_review       # Sol 已 commit/push 并输出 Pro prompt
+→ pro_final_reviewed              # Sol 已接收 Pro final review
 → integration_previewed
-→ integrating
-→ published
+→ integrated
+→ published_branch
 ```
 
-任意阶段可进入 `blocked`；published 后可因读者反馈进入 `reopened`。
+任意阶段可进入 `blocked`；发布后可因真实读者反馈进入 `reopened`。
 
-## 4. 主流程
+## 2. Route
 
-### Brief
+### `sol-only`
 
-把“理解 X”改成可观察表现，并限定当前主问题。
+只处理不改变读者理解路径的机械任务。Sol 可以自动 commit/push，但不得顺便重写概念正文。
 
-### Domain mapping
+### `hybrid-local`
 
-输出知识单元、来源、四类关系、explanatory premises 和已有 canonical detail inventory。
+Sol mapping → Pro design/author → Sol validation/assembly → 新 Pro 会话 final review → Sol integration。
 
-### Learner snapshot
+小型 local task 可以让 Pro 在同一次输出中给出 design 与 draft，但最终 review 必须是新 Pro 会话。
 
-建立 faceted capability snapshot。Evidence state 不决定解释深度。
+### `hybrid-whole-note`
 
-### Didactic design
+```text
+Sol mapping + whole-note coverage
+→ Sol commit/push + Pro Architecture Prompt
+→ Pro whole-note architecture + Next Sol Prompt
+→ Sol source/repository validation
+→ Sol commit/push + Pro Draft Prompt
+→ Pro core drafts + Next Sol Prompt
+→ Sol mechanical content + assembly + contract audit
+→ Sol commit/push + Pro Final Review Prompt
+→ fresh Pro whole-note review + Next Sol Prompt
+→ Sol preview / integration / commit / push
+```
 
-决定 note type、entry mode、units/phases、concept actions、definitions/claims、explanation depth、detail placement、mainline contract、notation/load 与语言合同。
+Coverage audit 结束后不得要求用户批准 technical unit boundaries；下一位必须是 Pro Architect。
 
-### Design audit
+## 3. Handoff invariant
 
-独立检查 claim closure、depth、主线比例与 duplication rationale。
+每次跨模型 handoff 均满足：
 
-### Packet 与 Reader Card
+1. 当前模型完成并验证自己的 artifact；
+2. Sol 阶段必须先通过数学格式检查；
+3. Sol 更新 `TASK.md` 的状态和 `next_actor`；
+4. Sol 只暂存 allowlist；
+5. Sol commit 并 push；
+6. Sol 获取精确 commit；
+7. 当前模型输出下一模型的完整提示词；
+8. 下一模型 artifact 记录它依据的 commit 和 request hash。
 
-编译隔离 Writer packets 和 Blind Reader cards。
+push 失败时不得进入 `awaiting_pro_*`。
 
-### Staged drafting
+## 4. 三个 Pro gate
 
-Writer 在新上下文中逐 unit 写入 DRAFTS，默认不修改正式文件。
+### Architecture
 
-### Contract Audit
+Sol 生成并推送 `PRO_REQUESTS/ARCHITECTURE.md`。Pro 输出 `PRO_DESIGN.md` 和精确 `NEXT_SOL_PROMPT`。
 
-检查数学、来源、definition/claim、depth placement、phase 和 mainline contract。
+### Authoring
 
-### Blind Cold-Read Audit
+Sol 验证设计后生成并推送一个或多个 `PRO_REQUESTS/DRAFT-BATCH-xx.md`。Pro 输出 `PRO_DRAFTS/` artifact 和精确 `NEXT_SOL_PROMPT`。
 
-只读 reader card、draft 和语言规范；检查真实阅读、mainline latency、比例性与 optional skip test。
+### Whole-note review
 
-### Manuscript Verdict
+Sol 组装并通过合同审查后生成并推送 `PRO_REQUESTS/FINAL-REVIEW.md`。新的 Pro 会话输出 `PRO_FINAL_REVIEW.md` 和精确 `NEXT_SOL_PROMPT`。
 
-两道审查均 pass 才得到 manuscript pass。
+## 5. Sol 自动 Git
 
-### Integration Preview
+当 `TASK.md` 授权自动化时，以下 Sol 阶段结束后自动 commit/push：
 
-只读生成仓库适配方案；不得更改已通过文本。若需要 reader-visible 改动，返回 design/writer 并重新双审查。
+- mapping / coverage / Pro handoff；
+- Pro design 接收与 Sol validation；
+- Pro draft 接收、assembly 与 contract audit；
+- Pro final review 接收与 integration preview；
+- 正式 integration。
 
-### Integration
+具体 allowlist、分支和失败策略见 `git-automation.md`。
 
-Preview ready 后写入正式文件，删除旧竞争文本并处理链接、index、canonical。
+## 6. 数学渲染 gate
 
-## 5. 内部返修
+以下内容在 commit 前必须通过 `check_obsidian_math.py`：
 
-同一次运行默认允许三轮 design/manuscript 返修。相同 major 仍未闭合则 blocked，并说明根因。
+- `PRO_DRAFTS/`；
+- `SOL_DRAFTS/`；
+- `ASSEMBLED_DRAFT.md`；
+- 正式目标文件的 reader-visible diff。
 
-## 6. 用户决定边界
+Pro artifact 使用错误 delimiter 时，Sol 不静默转换，而是生成精确 revision request 并交回 Pro。
 
-只有文件结构、学习目标、互斥长期路线、关键来源冲突或新外部研究需要用户决定。用户不负责逐项审批 learner state、depth 或 claim ledger。
+## 7. 自动返修
 
-## 7. 阶段门
+- Sol validation 发现来源或数学问题：生成 revision request，commit/push，再输出 Pro 修订提示词。
+- Pro final review 为 `changes_required`：Sol 按 route 生成 design 或 draft revision request，commit/push，再输出 Pro 提示词。
+- 同一 required finding 连续三轮未关闭时进入 `blocked`。
 
-- mapped 前不得设计顺序；
-- learner_ready 前不得推断掌握；
-- design_validated 前不得生成 packet；
-- packet_ready 前不得启动 Writer；
-- 双审查前不得修改正式笔记；
-- manuscript pass 前不得做 integration preview；
-- preview ready 前不得写正式文件。
+## 8. 自动 integration
 
-## 8. 失败路由
+若同时满足：
 
-| 问题 | 返回阶段 |
-|---|---|
-| 数学、来源、约定、detail owner | mapped |
-| learner facet 错配 | learner_ready |
-| definition、claim、depth、mainline、模式、负荷 | designed |
-| packet/reader card 缺失或污染 | packet_ready |
-| 局部正文执行 | drafting |
-| 仓库重复、链接、索引、ownership | integration preview / integrating |
+- Pro final review 与 Sol contract audit 审查同一 assembled hash 并均为 pass；
+- Integration Preview 为 ready；
+- `TASK.automation.auto_integrate_after_pro_pass: true`；
+- 没有删除、移动、拆分、合并、改名或其它用户级结构决定；
+- 目标 blob、draft hash 和 remote branch 未漂移；
 
-## 9. Retention
+Sol 可以在同一次调用中执行正式 integration、检查、commit 和 push，无需再要求用户批准。
 
-`retain_mode: full | summary`。Pilot 保留全部；正式发布任务可只保留 summary、verdict、preview 与 integration report。
+自动 integration 只发生在任务分支。合并到主分支始终由用户决定。
+
+## 9. 用户只处理什么
+
+用户负责：真实目标、真实阅读反馈、文件级结构决定、把提示词和 artifact 在两个模型之间转交、最终是否合并任务分支。
+
+用户不负责 technical unit map、learner facet、depth、普通返修或每次 commit/push。
