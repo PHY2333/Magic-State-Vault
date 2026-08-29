@@ -1,6 +1,6 @@
 ---
 task_id: 20260828-hgp-v5-pilot
-status: integration_previewed
+status: published
 retain_mode: full
 final_design_revision: 5
 final_draft_revision: 5
@@ -8,9 +8,9 @@ final_draft_revision: 5
 
 # Goal and stop point
 
-为 `Notes/07-Lifted-Product Code/Hypergraph product code.md` 的 U01/U02 完成一次 Notes v5 全流程 pilot：mapping、faceted learner snapshot、didactic/definition/claim/depth/mainline design、Design Audit、隔离 packets/cards、staged drafts、双审查、manuscript verdict 与只读 Integration Preview。
+为 `Notes/07-Lifted-Product Code/Hypergraph product code.md` 的 U01/U02 完成一次 Notes v5 全流程：mapping、faceted learner snapshot、didactic/definition/claim/depth/mainline design、Design Audit、隔离 packets/cards、staged drafts、双审查、manuscript verdict、只读 Integration Preview，以及用户授权后的 formal integration。
 
-最终状态为 `integration_previewed`。没有执行 formal integration，也没有修改任何正式笔记、index 或 canonical。
+最终状态为 `published`。revision 5 U01/U02 已严格按 ready preview 写入正式 HGP 文件；没有修改 index 或 canonical，也没有暂存、提交、推送或合并。
 
 # Final artifacts
 
@@ -33,10 +33,11 @@ COLD_READ_AUDIT.md
 MANUSCRIPT_VERDICT.md
 ISOLATION_LOG.md
 INTEGRATION_PREVIEW.md
+INTEGRATION_REPORT.md
 AUTHORING_SUMMARY.md
 ```
 
-`retain_mode: full`：全部任务产物保留，不创建 `INTEGRATION_REPORT.md`，不归档或删除历史。
+`retain_mode: full`：全部任务产物与 `INTEGRATION_REPORT.md` 保留，不归档或删除历史。
 
 # Revision history
 
@@ -99,6 +100,7 @@ Manuscript 返修次数：**4**（draft 1→2→3→4→5）。
 | `COLD_READ_AUDIT.md` | pass | draft 5 |
 | `MANUSCRIPT_VERDICT.md` | pass | draft 5 |
 | `INTEGRATION_PREVIEW.md` | ready | draft 5 |
+| `INTEGRATION_REPORT.md` | pass | integrated draft 5 |
 
 Mainline latency、explanation proportionality 与 optional skip test 均 pass。
 
@@ -111,14 +113,21 @@ Mainline latency、explanation proportionality 与 optional skip test 均 pass�
 - 新增 link 计划 0。
 - 规划最小 frontmatter：`reference + guided + reviewed`。
 - index 与 canonical 无需改变。
-- Preview `ready` 只表示适配方案可执行；`formal_integration_authorized: false`。
+- Preview 原本以 `formal_integration_authorized: false` 停止；用户于 2026-08-29 明确授权后，Repository Integrator 才执行写入。
+
+# Formal integration result
+
+- 写入前，目标 HGP、`Notes/00-index.md`、`CANONICAL_KNOWLEDGE.md` 的 Git blob 与 preview 基线全部一致；U01/U02 SHA-256 与 revision 5 verdict 全部一致。
+- 添加最小 frontmatter：`note_type: reference`、`entry_mode: guided`、`status: reviewed`。
+- revision 5 U01 替换原第 1 行，revision 5 U02 紧接插入；原第 3–51 行逐字保留，原第 53–70 行删除，原第 72 行及之后逐字保留。
+- 机器装配比较结果为 `expected_lines=532`、`current_lines=532`、`delta_count=0`；独立只读 Integration Verifier 结论为 pass。
+- Assembled flow、13 个同级 heading、现有入站 anchors、全部出站 wikilinks 与 logical-space 落点均通过检查；没有加入新链接或新桥梁。
+- 完整正式正文 unified diff 与各项指纹记录在 `INTEGRATION_REPORT.md`。
 
 # Repository and protection result
 
-- `git status --short`：只有本任务目录未跟踪。
-- `git diff --name-only` 与 `git diff --cached --name-only`：空。
-- 正式 HGP、`Notes/00-index.md`、`CANONICAL_KNOWLEDGE.md` blobs 与 pilot 前基线一致。
-- 没有修改正式主题笔记、学习路线、canonical 条目、论文、译文或截图。
+- 未提交工作树只包含正式 HGP 的 preview-authorized diff 与本任务目录内的流程记录更新。
+- `Notes/00-index.md`、`CANONICAL_KNOWLEDGE.md` blobs 与写入前基线一致；没有修改学习路线、canonical 条目、其它正式主题笔记、论文、译文或截图。
 - 没有新增前置笔记。
 - 没有 `待核对`、`TODO：补引用` 或 `待补推导`。
 
@@ -126,4 +135,4 @@ Mainline latency、explanation proportionality 与 optional skip test 均 pass�
 
 Blocker：无。
 
-下一步唯一动作：由用户与 ChatGPT Pro 审查 v5 结果；本任务不执行 formal integration。
+下一步唯一动作：由用户审查尚未提交的 formal integration 精确 diff。
