@@ -1,3 +1,18 @@
+BINDING_VERIFIED
+task_id: 20260830-hgp-v7-pro-first-rewrite
+request_id: R02
+binding_nonce: 8151dda721a142e89cc300a76c7c394d
+response_token: d78df7fee1e44d9798c0ea82b199feac
+based_on_repository: PHY2333/Magic-State-Vault
+based_on_branch: notes/20260830-hgp-v7-pro-first-rewrite
+based_on_commit: 0ad549efc7c7eacc7f003f88f38034d6eea27640
+request_sha256: 41ff93b8ff8abe1ca018cd35818ab833ca31ab7f0284ba8546be7f5c8726f875
+END_BINDING
+PRO_STATUS: COMPLETE
+BEGIN_FILE::d78df7fee1e44d9798c0ea82b199feac
+path: Notes/07-Lifted-Product Code/Hypergraph product code.md
+mode: replace
+`````markdown
 ---
 note_type: reference
 entry_mode: guided
@@ -1540,3 +1555,6 @@ $$
 - [[S007 中 LP 码的分层执行]]：S007 的外层乘积与内层提升两层执行语义。
 - [S007 全文译本](../../Translations/S007.full.zh-CN.md)：式 (1)、四类边、图 1(b)、第 3.1 节和第 6 节。
 - [S007 来源登记](../../Papers/SOURCES.md#S007)：arXiv:2608.20164 v1 的版本与本地文件信息。
+`````
+END_FILE::d78df7fee1e44d9798c0ea82b199feac
+END_RESPONSE::d78df7fee1e44d9798c0ea82b199feac
