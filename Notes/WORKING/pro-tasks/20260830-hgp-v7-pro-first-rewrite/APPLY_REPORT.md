@@ -1,0 +1,25 @@
+# Apply Report
+
+- task_id: `20260830-hgp-v7-pro-first-rewrite`
+- request_id: `R01`
+- route: `pro-write-review`
+- checkpoint_commit: `6eddb010413902dfbe2607dda65c1986ace82f62`
+- request_sha256: `7d64f3ec684aab5814ab939999b960848da161b145e5d7929c3ac986b667a6f9`
+- response_sha256: `f48030050cf5c108d6ffd9b4219cce61688b4ef89a9f8eb21a82ee03ef07a516`
+- binding_verified: `true`
+- pro_status: `COMPLETE`
+- capture_method: Browser rendered response; `END_FILE` and `END_RESPONSE` were verified before the single Markdown code block was reconstructed into `response.raw.md`
+- applied_files:
+  - `Notes/07-Lifted-Product Code/Hypergraph product code.md`
+- file_sha256_after_apply: `1b7f3de5a514666ceae80bc76c184976354a065794d3d3e29afd1f57b104cd5d`
+- allowlist_check: `PASS` — parser manifest contains exactly one `mode: replace` target and no unauthorized path
+- obsidian_math_check: `PASS: checked 1 Markdown file(s).`
+- link_check: `PASS` for all five wikilinks and both repository-relative Markdown links
+- git_diff_check: `PASS` — no whitespace errors; Git only reports expected LF/CRLF normalization warnings
+- commit: pending author-apply commit
+- pushed_branch: pending `notes/20260830-hgp-v7-pro-first-rewrite`
+- remaining_issues:
+  - Fresh whole-file review is required before `status: reviewed`.
+  - Restore the exact headings `从两张经典校验矩阵开始` and `行与列的乘积方向` inside the HGP file so three existing formal inbound anchors resolve; other formal files are outside the allowlist.
+  - Review and compress the repeated CSS quotient, Künneth and LP owner material so this note supplies only the bridge needed by its main line.
+  - Review the conditional square-root-distance benchmark and its Tillich–Zémor citation against the request's local-source boundary; do not leave an unscoped exact theorem claim.

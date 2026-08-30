@@ -1,7 +1,7 @@
 ---
 task_id: 20260830-hgp-v7-pro-first-rewrite
 route: pro-write-review
-status: request-prepared
+status: author-applied-pushed
 target_files:
   - Notes/07-Lifted-Product Code/Hypergraph product code.md
 git:
@@ -55,4 +55,4 @@ automation:
 
 # 当前阶段
 
-`request-prepared`：R01 作者请求已准备，等待 checkpoint commit/push 后通过 Browser 交给 ChatGPT Pro。
+`author-applied-pushed`：R01 已完成绑定校验、staging 解析、数学与 allowlist 检查，完整候选已应用；本状态随作者应用 commit 推送后生效。下一阶段准备 fresh whole-file review 请求。

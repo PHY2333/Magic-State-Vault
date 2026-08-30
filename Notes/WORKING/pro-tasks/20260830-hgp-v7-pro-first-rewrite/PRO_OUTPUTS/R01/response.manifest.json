@@ -1,0 +1,23 @@
+{
+  "input": "Notes\\WORKING\\pro-tasks\\20260830-hgp-v7-pro-first-rewrite\\PRO_OUTPUTS\\R01\\response.raw.md",
+  "response_sha256": "f48030050cf5c108d6ffd9b4219cce61688b4ef89a9f8eb21a82ee03ef07a516",
+  "binding_verified": true,
+  "status": "COMPLETE",
+  "files": [
+    {
+      "path": "Notes/07-Lifted-Product Code/Hypergraph product code.md",
+      "sha256": "1b7f3de5a514666ceae80bc76c184976354a065794d3d3e29afd1f57b104cd5d",
+      "mode": "replace"
+    }
+  ],
+  "binding": {
+    "task_id": "20260830-hgp-v7-pro-first-rewrite",
+    "request_id": "R01",
+    "binding_nonce": "c99284ea8cf94703b00265f5c1c226bb",
+    "response_token": "ffa96fd2e0f2450b948d97abc248ef24",
+    "based_on_repository": "PHY2333/Magic-State-Vault",
+    "based_on_branch": "notes/20260830-hgp-v7-pro-first-rewrite",
+    "based_on_commit": "6eddb010413902dfbe2607dda65c1986ace82f62",
+    "request_sha256": "7d64f3ec684aab5814ab939999b960848da161b145e5d7929c3ac986b667a6f9"
+  }
+}

@@ -1,3 +1,18 @@
+BINDING_VERIFIED
+task_id: 20260830-hgp-v7-pro-first-rewrite
+request_id: R01
+binding_nonce: c99284ea8cf94703b00265f5c1c226bb
+response_token: ffa96fd2e0f2450b948d97abc248ef24
+based_on_repository: PHY2333/Magic-State-Vault
+based_on_branch: notes/20260830-hgp-v7-pro-first-rewrite
+based_on_commit: 6eddb010413902dfbe2607dda65c1986ace82f62
+request_sha256: 7d64f3ec684aab5814ab939999b960848da161b145e5d7929c3ac986b667a6f9
+END_BINDING
+PRO_STATUS: COMPLETE
+BEGIN_FILE::ffa96fd2e0f2450b948d97abc248ef24
+path: Notes/07-Lifted-Product Code/Hypergraph product code.md
+mode: replace
+`````markdown
 ---
 note_type: reference
 entry_mode: guided
@@ -1717,3 +1732,6 @@ $$
 - [S007 全文译本](../../Translations/S007.full.zh-CN.md)：式 (1)、四类边、图 1(b)、第 3.1 节和第 6 节。
 - [S007 来源登记](../../Papers/SOURCES.md#S007)：arXiv:2608.20164 v1 的版本与本地文件信息。
 - Jean-Pierre Tillich and Gilles Zémor, [Quantum LDPC Codes With Positive Rate and Minimum Distance Proportional to the Square Root of the Blocklength](https://arxiv.org/abs/0903.0566)：原始 HGP 构造与标准参数基准。
+`````
+END_FILE::ffa96fd2e0f2450b948d97abc248ef24
+END_RESPONSE::ffa96fd2e0f2450b948d97abc248ef24
