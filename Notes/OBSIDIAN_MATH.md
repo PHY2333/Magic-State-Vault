@@ -4,10 +4,10 @@
 
 ## 允许
 
-行内：
+行内公式：
 
 ```md
-矩阵必须满足 $H_XH_Z^T=0$。
+矩阵满足 $H_XH_Z^T=0$。
 ```
 
 块公式：
@@ -18,7 +18,7 @@ C_2 \xrightarrow{H_Z^T} C_1 \xrightarrow{H_X} C_0
 $$
 ```
 
-两个 `$$` 必须分别独占一行。
+两个 `$$` 必须各自单独成行。
 
 ## 禁止
 
@@ -30,17 +30,16 @@ $$
 $$ equation $$
 ```
 
-也禁止把本应渲染的公式放入反引号代码中。
+不得把需要渲染的公式放在反引号代码中；不得把整份 Markdown 作为 JSON 字符串输出；正常 LaTeX 命令只写一个反斜杠，例如 `\mathbb F_2`。
 
-## 原始 Markdown
+## 表格与 callout
 
-LaTeX 命令正常写成 `\mathbb`、`\otimes`、`\ker`。不要把 Markdown 包装成 JSON 字符串，不要把普通命令双重转义成 `\\mathbb`。只有矩阵行换行本身使用 `\\`。
+表格中只使用短行内公式。复杂公式移到表格外。
 
-## Callout
+Callout 中块公式的每一行都保留 `>`：
 
 ```md
 > [!note]- 补充推导
-> 下面核对等式。
 >
 > $$
 > XZ=-ZX
@@ -50,7 +49,7 @@ LaTeX 命令正常写成 `\mathbb`、`\otimes`、`\ker`。不要把 Markdown 包
 ## 检查
 
 ```bash
-python Notes/TOOLS/check_obsidian_math.py <path> [<path> ...]
+python Notes/TOOLS/check_obsidian_math.py <file-or-directory>
 ```
 
-任何错误阻止应用和 commit。
+失败时不得提交 reader-visible 文件。

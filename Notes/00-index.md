@@ -66,7 +66,7 @@
 
 - [Notes 统一入口](AGENTS.md)
 - [正文写作规范](WRITING_GUIDE.md)
-- [Notes v7 Pro-first 流程](PRO_WORKFLOW.md)
+- [Notes Pro-First 1.0 流程](PRO_WORKFLOW.md)
 - [Pro 输出协议](PRO_OUTPUT_PROTOCOL.md)
 - [Obsidian 数学格式](OBSIDIAN_MATH.md)
 

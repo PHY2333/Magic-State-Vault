@@ -11,10 +11,10 @@ from pathlib import Path
 from typing import Iterable
 
 FORBIDDEN = [
-    (re.compile(r"\\\("), r"forbidden TeX inline opener \\\("),
-    (re.compile(r"\\\)"), r"forbidden TeX inline closer \\\)"),
-    (re.compile(r"\\\["), r"forbidden TeX display opener \\\["),
-    (re.compile(r"\\\]"), r"forbidden TeX display closer \\\]"),
+    (re.compile(r"\\\("), r"forbidden TeX inline opener \\\\("),
+    (re.compile(r"\\\)"), r"forbidden TeX inline closer \\\\)"),
+    (re.compile(r"\\\["), r"forbidden TeX display opener \\\\["),
+    (re.compile(r"\\\]"), r"forbidden TeX display closer \\\\]"),
     (re.compile(r"/\("), "suspicious slash opener /("),
     (re.compile(r"/\)"), "suspicious slash closer /)"),
     (re.compile(r"/\["), "suspicious slash opener /["),
@@ -115,18 +115,18 @@ def main() -> int:
     ns = ap.parse_args()
     try:
         paths = paths_from(ns.paths)
-    except FileNotFoundError as e:
-        print(f"Path does not exist: {e}", file=sys.stderr)
+    except FileNotFoundError as exc:
+        print(f"Path does not exist: {exc}", file=sys.stderr)
         return 2
     if not paths:
         print("No Markdown files found.", file=sys.stderr)
         return 2
-    issues = [i for p in paths for i in check(p)]
+    issues = [item for path in paths for item in check(path)]
     if issues:
-        for i in issues:
-            print(f"{i.path}:{i.line}: {i.message}", file=sys.stderr)
-            if i.text:
-                print(f"    {i.text}", file=sys.stderr)
+        for item in issues:
+            print(f"{item.path}:{item.line}: {item.message}", file=sys.stderr)
+            if item.text:
+                print(f"    {item.text}", file=sys.stderr)
         print(f"FAILED: {len(issues)} issue(s).", file=sys.stderr)
         return 1
     print(f"PASS: checked {len(paths)} Markdown file(s).")
