@@ -1,117 +1,95 @@
 # Notes/AGENTS.md
 
-本文件是 Notes v6.1 的稳定入口。它规定模型路由、跨模型 handoff、Git 自动化、公式渲染和阶段门；详细合同位于 `Notes/WORKFLOWS/`。
+本文件是 Notes v7 的稳定入口。复杂写作由 ChatGPT Pro 主导；Codex App负责仓库、Browser、文件和 Git。
 
-## 1. 必读入口
+## 1. 路由
 
-涉及新增、重写、拆分、复杂推导、教学顺序或读者反馈时，依次读取：
+### `codex-only`
 
-1. `Notes/MODEL_ROUTING.md`
-2. `Notes/OBSIDIAN_MATH.md`
-3. `Notes/NOTE_TYPES.md`
-4. `Notes/LANGUAGE_PROFILE.md`
-5. `Notes/WORKFLOWS/authoring.md`
-6. `Notes/WORKFLOWS/handoff-protocol.md`
-7. `Notes/WORKFLOWS/git-automation.md`
-8. 当前角色对应合同
-9. 设计、写作或审查读者正文时再读 `Notes/WRITING_GUIDE.md`
+仅限不改变理解路径的机械操作：错字、链接、路径、frontmatter、纯格式、用户已经给出精确成文内容的替换。
 
-错字、链接、frontmatter 和不改变学习路径的纯格式任务可走 `sol-only`。
+### `pro-write`
 
-## 2. 模型绑定
+概念解释、新笔记、局部或中等规模重写。Pro 直接输出最终文件，Codex 应用、检查并推送。
 
-- Codex Sol：仓库勘察、来源核验、learner evidence、coverage、Pro request 编译、Pro artifact 接收、机械内容、合同审查、仓库适配、Git 写入和推送。
-- ChatGPT Pro：整篇教学架构、核心正文、复杂推导和整篇最终教学审查。
+### `pro-write-review`
 
-凡 `MODEL_ROUTING.md` 判定为 Pro-required 的任务，没有真实 Pro artifact 时必须停止。Sol 不得用同模型 subagent 冒充 Pro gate。
+整篇笔记、复杂证明、多个章节、论文一般化，或用户反馈“像百科”“视角错误”“失去目标”。先由 Pro 写完整文件，再由新的 Pro 会话整篇审查。
 
-## 3. 强制 handoff
+只要任务需要决定读者怎样理解、为什么此时引入概念或复杂内容如何组织，就不能降为 `codex-only`。
 
-每个模型完成自己的阶段后，必须给出下一模型可直接执行的完整提示词：
+## 2. 必读文件
 
-- Sol 只有在当前阶段已验证、commit 且 push 成功后，才能输出 Pro 提示词；
-- Pro 必须生成约定 artifact，并在回复末尾输出 `NEXT_SOL_PROMPT`；
-- 提示词必须包含 task、branch、commit、request/artifact 路径、下一角色、允许操作和停止点；
-- 不允许只写“把文件交给 Pro”或“让 Sol 继续”。
+- `Notes/WRITING_GUIDE.md`
+- `Notes/PRO_WORKFLOW.md`
+- `Notes/PRO_OUTPUT_PROTOCOL.md`
+- `Notes/OBSIDIAN_MATH.md`
 
-跨模型细节见 `handoff-protocol.md`。
+## 3. Codex 的职责
 
-## 4. Obsidian 数学硬规则
+- 读取本地仓库并生成简洁 `PRO_REQUEST.md`；
+- 建立任务分支和 GitHub checkpoint；
+- 通过 `@Browser` 调用 chatgpt.com 的 Pro 模式；
+- 验证 GitHub 绑定；
+- 原样保存完整网页回复；
+- 使用解析脚本提取完整文件；
+- 检查路径、Obsidian 数学和 diff；
+- 应用文件并 commit/push；
+- 复杂任务在新 Pro 会话中完成 fresh review；
+- 不自动合并主分支。
 
-所有读者可见 Markdown 必须使用：
+Codex 不得在保存或应用时重写 Pro 的教学正文。若 Pro 输出不合格，应要求 Pro 重发完整文件。
 
-- 行内数学：`$...$`
-- 块数学：单独成行的 `$$` 开始与结束
+## 4. Pro 的职责
 
-不得使用 `\(...\)`、`\[...\]`、`/(...)` 或 JSON 双重转义后的 Markdown。每次保存 Pro draft、组装稿和正式写入后都必须运行 `Notes/TOOLS/check_obsidian_math.py`。失败即为 blocker。
+- 根据请求中列出的 GitHub 文件自行完成必要规划；
+- 直接写最终 reader-visible Markdown；
+- 复杂任务在 fresh review 中从头连续审查整篇；
+- 不修改仓库；
+- 不声称已执行 Git 操作。
 
-## 5. Git 自动化
+## 5. Snapshot 与绑定
 
-当 `TASK.md` 中 `automation.auto_commit` 与 `automation.auto_push` 为 `true`：
+Pro 只处理 Browser 提示绑定的 repository、branch、commit 和 request SHA-256。`binding_nonce` 与 `response_token` 只存在于请求文件中，不在 Browser 提示中公开。
 
-- Sol 在每个 Sol 阶段完成后自动 commit/push；
-- 只提交 allowlist 内的任务文件和获授权正式文件；
-- 不使用 `git add -A`；
-- 不 push 到 `main`；
-- 不 force push；
-- push 失败时不得发出 Pro handoff；
-- 正式整合可以在 Pro final pass 后自动发生，但只限任务已预授权且不涉及删除、移动、拆分、合并或改名。
+无法返回正确 nonce/token 时，Codex 必须停止，不得应用结果。
 
-## 6. 权威边界
+## 6. 原始响应优先
 
-发生冲突时：
+顺序必须是：
 
-1. 用户最新明确学习目标与文件级授权；
-2. 已核对数学、来源和当前仓库事实；
-3. 有证据的 learner capability；
-4. 经 Sol 验证的 `PRO_DESIGN.md`；
-5. Pro 起草的 reader-visible 正文；
-6. `OBSIDIAN_MATH.md`、`LANGUAGE_PROFILE.md` 与 `WRITING_GUIDE.md`；
-7. 通过的整篇 Pro review 与 Integration Preview。
-
-Sol 可以因来源或数学问题阻止 Pro 设计，但不能自己改写教学架构。Pro 可以否决 Sol 的教学组织，但不能覆盖已核对事实。
-
-## 7. Whole-note 规则
-
-- unit pass 不等于 whole-note pass；
-- coverage 只提供勘察假设；
-- 整篇组装稿必须经过新的 Pro 会话终审；
-- `status: reviewed` 只用于整篇通过并按同一指纹精确整合后；
-- 未被 Pro whole-note review 覆盖的 legacy 内容不得混入 pass。
-
-## 8. 用户决定边界
-
-只有以下事项交用户：
-
-- 删除、移动、拆分、合并或重命名正式文件；
-- 改变学习目标或明显扩大范围；
-- 两条互斥路线会形成不同长期知识结构；
-- 关键来源冲突或缺失；
-- 是否合并任务分支到主分支。
-
-technical unit map、模式、depth、作者分配和普通返修由 Pro/Sol 按合同处理。
-
-## 9. 阶段回执
-
-Sol 回执必须在 push 成功后包含：
-
-```md
-### Notes v6.1 Handoff
-- task_id：
-- route：
-- 当前状态：
-- 分支：
-- 已推送提交：
-- 已完成产物：
-- 数学渲染检查：
-- blocker：
-- 下一位执行者：
-- 下一份 request：
-
-### COPY THIS PROMPT TO <MODEL>
 ```text
-<完整可执行提示词>
-```
+Browser 读取完整回复
+→ 保存 response.raw.md
+→ 计算 SHA-256
+→ 解析 binding 与文件块
+→ 静态检查
+→ 应用
 ```
 
-Pro 回执必须包含 artifact 下载入口以及 `NEXT_SOL_PROMPT`。不得在阶段门未满足时越级。
+不得先概括回复后只保存摘要。
+
+## 7. Obsidian 数学
+
+所有 reader-visible Markdown 只能使用 `$...$` 与独立成行的 `$$...$$`。提交前运行：
+
+```bash
+python Notes/TOOLS/check_obsidian_math.py <file-or-directory>
+```
+
+发现 `\\(...\\)`、`\\[...\\]`、`/(...)` 或未配对分隔符时停止；不要静默改写 Pro 正文。
+
+## 8. Git 自动化
+
+- 使用任务分支；
+- 只显式暂存 allowlist，禁止 `git add -A`；
+- 不向 `main` 直接 push；
+- 不 force push；
+- push 失败时停止；
+- 合并主分支始终由用户决定。
+
+## 9. 用户决定边界
+
+仅在以下情况暂停用户：删除、移动、拆分、合并、重命名正式文件；显著改变学习范围；关键来源冲突；两条长期路线互斥；最终是否合并分支。
+
+普通教学结构、解释深度和正文行文交给 Pro。

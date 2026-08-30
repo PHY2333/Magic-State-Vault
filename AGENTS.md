@@ -13,11 +13,11 @@
 - `Translations/`：全文或局部翻译稿；规则入口为 `Translations/TRANSLATION_GUIDE.md`。
 - `Translations/Snapshots/<文献ID>/`：翻译中使用的原文截图，按来源自身的稳定 ID 分目录保存。
 
-不要在多个文件中重复展开同一条规则。Notes 类型、教学设计与写作统一路由到 `Notes/AGENTS.md`；`Notes/WORKFLOWS/`、`Notes/LEARNER/` 和 `Notes/WORKING/` 是系统区，不属于正式知识笔记。正式知识笔记位于 `Notes/00-index.md` 和各主题目录中；单次任务产物按 `Notes/AGENTS.md` 指定的路径保存，不得散落在正式主题目录或 `Notes/WORKFLOWS/`。
+不要在多个文件中重复展开同一条规则。Notes 写作统一路由到 `Notes/AGENTS.md`；`Notes/WORKING/` 是系统区，不属于正式知识笔记。正式知识笔记位于 `Notes/00-index.md` 和各主题目录中；单次任务产物按 `Notes/AGENTS.md` 指定的路径保存，不得散落在正式主题目录。
 
 ## 2. Notes 任务入口
 
-新增正式笔记、整篇重写、长推导整理、论文转写、合并、拆分、学习路径重组，或处理 Notes 类型、教学设计与读者反馈时，先读取 `Notes/AGENTS.md`，再按其路由进入对应流程与角色 contract。
+新增正式笔记、整篇重写、长推导整理、论文转写、合并、拆分、学习路径重组，或处理教学设计与读者反馈时，先读取 `Notes/AGENTS.md`，再按其路由执行活动流程。
 
 改错字、修链接、移动文件、纯格式化和用户明确指定的短小局部修改可跳过完整 Notes 流程，但不得改变数学含义、笔记边界或 canonical ownership。
 
@@ -34,7 +34,7 @@
 - 任务范围和目标：用户最新的明确指令。
 - 仓库事实：当前工作树和 `Notes/AGENTS.md` 指定的当前阶段产物。
 - 数学事实与出处：已核对的论文、教材、翻译及 canonical note。
-- Notes 类型、教学设计、正文写作与流程阶段：`Notes/AGENTS.md` 及其路由的 contract。
+- Notes 类型、教学设计、正文写作与流程阶段：`Notes/AGENTS.md`。
 
 这些来源发生冲突时，不得静默选择、折中或猜测。停止相关步骤，按对应权威入口记录冲突，并在交付回执中写明所需决定。
 
@@ -53,7 +53,7 @@ Notes 任务的角色、阶段门、修改权限与上下文隔离统一由 `Not
 - 是否应拆成前置笔记；
 - 是否需要更新 `CANONICAL_KNOWLEDGE.md` 或 `Notes/00-index.md`。
 
-已有主笔记能承担的背景是否在当前笔记局部重述，按 `Notes/AGENTS.md` 对 note type、entry mode 与教学设计的规定判断，不得另立第二个 canonical owner。引用已有笔记时，说明采用哪个结论，以及它用于当前哪一步。新增、合并、拆分或迁移方案必须按 `Notes/AGENTS.md` 完成设计、审查与整合阶段，不得绕过阶段门实施。
+已有主笔记能承担的背景是否在当前笔记局部重述，按 `Notes/AGENTS.md` 与 `Notes/WRITING_GUIDE.md` 判断，不得另立第二个 canonical owner。引用已有笔记时，说明采用哪个结论，以及它用于当前哪一步。新增、合并、拆分或迁移方案必须按 `Notes/AGENTS.md` 完成设计、审查与整合阶段，不得绕过阶段门实施。
 
 ## 7. 强制交付回执
 

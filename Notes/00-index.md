@@ -65,16 +65,10 @@
 以下入口只用于维护正式知识笔记，不属于上述正式阅读顺序：
 
 - [Notes 统一入口](AGENTS.md)
-- [模型路由与角色绑定](MODEL_ROUTING.md)
-- [Obsidian 数学格式](OBSIDIAN_MATH.md)
-- [笔记类型与读者入口模式](NOTE_TYPES.md)
-- [中文教材语体](LANGUAGE_PROFILE.md)
 - [正文写作规范](WRITING_GUIDE.md)
-- [Notes v6.1 混合主流程](WORKFLOWS/authoring.md)
-- [跨模型交接协议](WORKFLOWS/handoff-protocol.md)
-- [Git 自动化边界](WORKFLOWS/git-automation.md)
-- [正式整合预览](WORKFLOWS/integration-preview.md)
-- [读者反馈闭环](WORKFLOWS/feedback-loop.md)
+- [Notes v7 Pro-first 流程](PRO_WORKFLOW.md)
+- [Pro 输出协议](PRO_OUTPUT_PROTOCOL.md)
+- [Obsidian 数学格式](OBSIDIAN_MATH.md)
 
 `Notes/WORKING/` 是单次任务的临时交接区，不属于正式阅读索引；这里不列出任何单次任务目录。
 
