@@ -24,3 +24,6 @@ $RECYCLE.BIN/
 *.log
 *.tmp
 *.temp
+
+# Local worktrees and Pro response staging
+.tmp/
