@@ -1,7 +1,7 @@
 ---
 task_id: 20260830-hgp-v7-pro-first-rewrite
 route: pro-write-review
-status: author-applied-pushed
+status: review-request-pushed
 target_files:
   - Notes/07-Lifted-Product Code/Hypergraph product code.md
 git:
@@ -55,4 +55,4 @@ automation:
 
 # 当前阶段
 
-`author-applied-pushed`：R01 已完成绑定校验、staging 解析、数学与 allowlist 检查，完整候选已应用；本状态随作者应用 commit 推送后生效。下一阶段准备 fresh whole-file review 请求。
+`review-request-pushed`：作者 draft commit `54ad77be70cc6e9ea9e3c26321be9ad088fce8a3` 已推送；R02 使用新 nonce/token，从完整 GitHub checkpoint 做 fresh whole-file review，并强制验收入链锚点、ownership 与距离来源边界。

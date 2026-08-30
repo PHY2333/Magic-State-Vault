@@ -16,8 +16,8 @@
 - obsidian_math_check: `PASS: checked 1 Markdown file(s).`
 - link_check: `PASS` for all five wikilinks and both repository-relative Markdown links
 - git_diff_check: `PASS` — no whitespace errors; Git only reports expected LF/CRLF normalization warnings
-- commit: pending author-apply commit
-- pushed_branch: pending `notes/20260830-hgp-v7-pro-first-rewrite`
+- commit: `54ad77be70cc6e9ea9e3c26321be9ad088fce8a3`
+- pushed_branch: `notes/20260830-hgp-v7-pro-first-rewrite`
 - remaining_issues:
   - Fresh whole-file review is required before `status: reviewed`.
   - Restore the exact headings `从两张经典校验矩阵开始` and `行与列的乘积方向` inside the HGP file so three existing formal inbound anchors resolve; other formal files are outside the allowlist.
