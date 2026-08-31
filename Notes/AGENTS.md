@@ -34,12 +34,12 @@
 - 通过 `@Browser` 自动调用 chatgpt.com 的 Pro 模式；
 - 捕获完整响应到临时目录；
 - 验证 binding、响应完整性和路径 allowlist；
-- 检查 Obsidian 数学与 diff，并在安全边界内机械修复纯格式问题；
+- 检查 Obsidian 数学与 diff；
 - 应用文件并自动 commit/push；
 - 对 `pro-write-review` 自动开启新的 Pro 会话；
 - 不自动合并主分支。
 
-Codex不得在应用时教学性改写 Pro 正文。若问题只涉及数学定界符、转义、空白/换行，或已经明确的同义记号规范化，并且不改变公式对象、运算、指标、假设、结论、论证结构或读者理解路径，Codex可以只在 staging 中机械修复。每项修复必须在 `APPLY_REPORT.md` 中记录“原文 → 修正”、出现次数和理由，保留原始响应不变，修复后重新运行 Obsidian 数学检查与 diff，并让后续 fresh review 审查正式应用稿。只要修复需要判断或补写数学含义，仍要求 Pro 重发完整文件。
+Codex不得在应用时教学性改写 Pro 正文。Pro 输出不合格时，要求 Pro 重发完整文件。
 
 ## 4. Pro 的职责
 
@@ -75,7 +75,7 @@ Codex只核对：task、request、binding ID、repository、branch、checkpoint 
 - 删除、移动、拆分、合并或重命名正式文件；
 - 输出路径不在 allowlist；
 - 来源或数学条件冲突；
-- Obsidian 数学检查失败，且不能在上述安全边界内机械修复，或机械修复后仍未通过；
+- Obsidian 数学检查失败且 Pro 未重发；
 - 需要合并主分支。
 
 ## 8. Git 安全

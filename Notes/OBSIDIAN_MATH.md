@@ -52,4 +52,4 @@ Callout 中块公式的每一行都保留 `>`：
 python Notes/TOOLS/check_obsidian_math.py <file-or-directory>
 ```
 
-失败时不得直接提交 reader-visible 文件。Codex可以依 `Notes/PRO_WORKFLOW.md` 的“纯格式机械修复”规则修改 staging，但必须保持原始 Pro 响应不变、记录逐项替换并重新检查；需要判断数学含义时必须退回 Pro。只有检查通过的正式文件才可提交。
+失败时不得提交 reader-visible 文件。
