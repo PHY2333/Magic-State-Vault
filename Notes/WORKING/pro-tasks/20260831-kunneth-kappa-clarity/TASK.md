@@ -1,7 +1,7 @@
 ---
 task_id: 20260831-kunneth-kappa-clarity
 route: pro-write
-status: PREPARE
+status: DONE
 target_files:
   - Notes/07-Lifted-Product Code/Künneth 分解.md
 
@@ -80,4 +80,4 @@ automation:
 
 # 当前阶段
 
-PREPARE：正在建立绑定当前目标文件与局部教学目标的 R01 checkpoint。
+DONE：R01 基于 checkpoint 0d4686a9e5d52c9d7ba392527cd484b043420a28 返回 COMPLETE，binding、完整性和 allowlist 均通过。完整候选经范围规范化后应用于唯一目标文件；内部数学、教学、格式与范围审查均通过，应用提交为 34495dbb90e6d7b0fe561f9902a463b1cb489551。
