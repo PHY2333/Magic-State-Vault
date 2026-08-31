@@ -32,7 +32,7 @@
   - `Notes/07-Lifted-Product Code/Künneth 分解.md`
 - Obsidian_math_check: `PASS: checked 1 Markdown file(s).`
 - git_diff_check: `PASS`
-- application_commit: `this commit; exact hash recorded during finalization`
+- application_commit: `5008758db30e34e4203c11cafc2c99508395d561`
 - fresh_review_required: `false`
 - notes:
   - Fresh reviewer used a new Pro conversation and read the complete target from the R01 application commit.
