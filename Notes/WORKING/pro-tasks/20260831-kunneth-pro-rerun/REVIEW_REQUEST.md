@@ -25,6 +25,7 @@ target_files:
 # 必须读取
 
 - `Notes/WORKING/pro-tasks/20260831-kunneth-pro-rerun/PRO_REQUEST.md`
+- `Notes/WORKING/pro-tasks/20260831-kunneth-pro-rerun/APPLY_REPORT.md`（若已存在；核对其中 R01 的 Codex 机械格式修复）
 - Browser 提示所绑定 commit 中的完整 `Notes/07-Lifted-Product Code/Künneth 分解.md`
 - `Notes/WRITING_GUIDE.md`
 - `Notes/OBSIDIAN_MATH.md`
@@ -86,6 +87,7 @@ target_files:
 - 是否保留 `# Künneth 分解` 和文字精确为 `PID 与一般系数环` 的二级 heading；
 - 所有数学是否遵守 `Notes/OBSIDIAN_MATH.md` 的行内与独立块公式规范；
 - 是否存在被禁用的公式定界、双重转义或其它无法正常渲染的形式。
+- 若 `APPLY_REPORT.md` 记录了 Codex 机械格式修复，其最小 diff 是否只改变格式且保持数学与叙述语义不变；若否，不得返回 `REVIEW_PASS`。
 
 # 写入边界
 

@@ -35,7 +35,7 @@ PREPARE
 → DONE
 ```
 
-异常：`PERMISSION_REQUIRED`、`NEEDS_CONTEXT`、`DECISION_REQUIRED`、`CHECK_FAILED`、`BLOCKED`。
+异常：`PERMISSION_REQUIRED`、`NEEDS_CONTEXT`、`DECISION_REQUIRED`、`CHECK_FAILED`、`BLOCKED`。其中数学格式的 `CHECK_FAILED` 只指修复需要语义判断、无法形成可审计的语义等价 diff，或机械修复后检查仍失败；首次发现可安全机械修复的格式问题不单独进入异常状态。
 
 内部捕获、解析和临时 staging 不单独成为需要用户感知的状态。
 
@@ -88,22 +88,34 @@ python Notes/TOOLS/parse_pro_response.py \
 
 1. 检查 allowlist；
 2. 对 staging 运行 Obsidian 数学检查；
-3. 比较完整候选和旧文件；
-4. 复制到目标；
-5. 再运行数学检查和 `git diff --check`；
-6. 生成或更新 `APPLY_REPORT.md`；
-7. 显式暂存目标和任务报告；
-8. commit/push；
-9. 成功后删除临时原始响应。
+3. 若失败，先按下述“纯格式机械修复”规则分类；允许修复时只修改 staging，并重新运行检查；
+4. 比较完整候选和旧文件；
+5. 复制到目标；
+6. 再运行数学检查和 `git diff --check`；
+7. 生成或更新 `APPLY_REPORT.md`；
+8. 显式暂存目标和任务报告；
+9. commit/push；
+10. 成功后删除临时原始响应；若发生过失败或 Codex 机械修复，则按审计保留规则处理原始响应。
 
 Codex不得对 Pro 正文做教学性润色。
+
+### 纯格式机械修复
+
+Codex可以修复能够逐字符说明、且不改变数学语义或读者理解路径的问题，包括：
+
+- 把仓库禁止的圆括号式、方括号式或同行块公式定界，规范为本仓库允许的行内或独立块定界格式；
+- 修正已经确认由传输产生、且不会被解释为 LaTeX 换行的重复反斜杠，补上闭合位置唯一的定界符，以及调整 MathJax 所需的空白或换行；
+- 在上下文已经明确同一对象时，把会触发检查器的记号改成等价规范记号，例如把已明确表示生成理想的 `(a)` 写成 `\langle a\rangle`。
+
+Codex不得借此改变变量、上下标、运算符、箭头、等号或不等号、求和范围、量词、假设、结论、证明文字或章节结构。修复只能发生在 staging；原始 Pro 响应保持不变。`APPLY_REPORT.md` 必须记录文件、原文与修正、出现次数、判定为语义等价的依据、修复前后 SHA-256、最小 unified diff，以及修复前后的检查结果。若无法机械证明等价，要求 Pro 重发完整文件。
 
 ## 8. Pro 的其它状态
 
 - `NEEDS_CONTEXT`：将消息保存到 `FAILURES/`，补充请求后重新 checkpoint；
 - `DECISION_REQUIRED`：只有文件结构、互斥路线或范围变化时暂停用户；
 - `BLOCKED` / `BINDING_FAILED`：停止；
-- 输出截断或数学格式失败：在同一 Pro chat 中要求重发完整响应，不应用部分文件。
+- 输出截断：在同一 Pro chat 中要求重发完整响应，不应用部分文件；
+- 数学格式失败：先执行“纯格式机械修复”分类。可安全修复时由 Codex 修复 staging 并留下审计记录；超出边界时要求 Pro 重发完整响应。重发后仍不能安全通过时停止。
 
 ## 9. 自动 R02
 
@@ -112,7 +124,7 @@ Codex不得对 Pro 正文做教学性润色。
 1. R01 应用 commit/push 成功后，Codex自动打开新的 Pro chat；
 2. 使用初始 checkpoint 已创建的 `REVIEW_REQUEST.md`，但 Browser 提示绑定最新应用 commit；
 3. 不询问用户是否发送 R02；
-4. Reviewer从头读取最新完整目标文件；
+4. Reviewer从头读取最新完整目标文件；若 `APPLY_REPORT.md` 记录 R01 的 Codex 机械修复，同时核对其 diff 只改变格式而未改变数学或叙述语义；
 5. 返回 `REVIEW_PASS` 或完整修正文件。
 
 若返回修正文件，Codex按相同方式检查、应用并 commit/push。默认只进行一次 fresh review；Reviewer 返回的完整修正版视为审查后的最终稿，不再自动启动 R03。

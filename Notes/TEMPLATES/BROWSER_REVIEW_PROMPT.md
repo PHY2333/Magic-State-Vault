@@ -6,7 +6,7 @@ commit: <latest-applied-commit>
 request_path: <REVIEW_REQUEST.md path>
 protocol_path: Notes/PRO_OUTPUT_PROTOCOL.md
 
-首先实际读取 request_path、protocol_path、同任务的 PRO_REQUEST.md，以及 request 中列出的完整目标文件。
+首先实际读取 request_path、protocol_path、同任务的 PRO_REQUEST.md、同任务的 APPLY_REPORT.md（若已存在），以及 request 中列出的完整目标文件。
 
 从 request 文件读取 task_id、request_id 和 binding_id。本消息没有给出 binding_id 的值。绑定失败时不要猜测。
 
