@@ -22,6 +22,8 @@ target_files:
 
 需要判断的是正文能否让目标读者形成可继续使用的理解。
 
+纯粹的 Markdown、Obsidian 数学分隔符、换行、callout 引用或可唯一判断的 LaTeX 语法问题由 Codex在应用层修复。它们本身不构成返回整篇修正版的理由。只有格式问题使数学含义不明确、存在多个解释或暴露出公式内容错误时，才视为实质问题。
+
 # 必须读取
 
 - `Notes/WORKING/pro-tasks/20260831-kunneth-pro-rerun/PRO_REQUEST.md`
@@ -79,13 +81,13 @@ target_files:
 - 是否严格遵守用户决定，不把 S003 式 (91) 当作一般定理；
 - 是否避免重写 HGP blocks、CSS 对易、距离、LP balanced relation、环值 blocks、二进制展开、非交换左右模或 S007 执行。
 
-## 7. 行文、重复与 Obsidian 渲染
+## 7. 行文、重复与数学含义
 
 - 中文是否自然统一，不像计划、审查表或 checklist 的改写；
 - 是否存在重复定义、竞争性解释、补丁式段落或无效过渡；
 - 是否保留 `# Künneth 分解` 和文字精确为 `PID 与一般系数环` 的二级 heading；
-- 所有数学是否遵守 `Notes/OBSIDIAN_MATH.md` 的行内与独立块公式规范；
-- 是否存在被禁用的公式定界、双重转义或其它无法正常渲染的形式。
+- 数学陈述本身是否明确、正确并与正文一致；
+- 若发现的只是孤立渲染格式问题，不要因此重写整篇；Codex会在应用层修复。
 
 # 写入边界
 
@@ -102,12 +104,15 @@ target_files:
 PRO_STATUS: REVIEW_PASS
 ```
 
-若存在需要修改的问题：
+纯格式问题不阻止 `REVIEW_PASS`。
+
+若存在实质问题：
 
 - 不要只列建议；
 - 直接返回唯一目标文件的完整修正版；
 - 不修改未列入 `target_files` 的文件；
 - 保留来源支持、正确公式和已有有效内容；
+- 尽量使用正确的 Obsidian 数学格式，但孤立格式错误仍由 Codex规范化；
 - 严格遵守 `Notes/PRO_OUTPUT_PROTOCOL.md`；
 - 使用 `PRO_STATUS: COMPLETE`；
 - 在 `END_RESPONSE` 后不再输出内容。

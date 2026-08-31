@@ -1,13 +1,21 @@
 ---
 task_id: 20260831-kunneth-pro-rerun
 route: pro-write-review
-status: PREPARE
+status: R01_APPLIED
 target_files:
   - Notes/07-Lifted-Product Code/Künneth 分解.md
 
 integrity: fast
-review_policy: fresh
+review_policy: independent
 audit_retention: errors-only
+
+format_handling:
+  policy: codex-contextual
+  auto_repair: true
+  rule_based_fixer: false
+  allow_markdown_and_delimiter_repair: true
+  allow_unambiguous_latex_syntax_repair: true
+  escalate_only_when_meaning_is_ambiguous: true
 
 git:
   remote: main
@@ -34,7 +42,9 @@ automation:
     - source_conflict
     - structural_file_change
     - path_outside_allowlist
-    - math_check_failure
+    - ambiguous_format_or_latex_repair
+    - math_content_uncertain
+    - format_check_failed_after_codex_repair
     - push_failure
     - merge_to_main
 ---
@@ -71,4 +81,4 @@ automation:
 
 # 当前阶段
 
-`PREPARE`：正在建立并推送新的 R01/R02 初始 checkpoint。
+`R01_APPLIED`：R01 已通过 binding 与完整性检查，完整正文已由提交 `9ea3c84b6ae65eefb49b6daa25eb22901f935cff` 应用。Codex 已依据上下文规范化 $R_2$ 反例中的商理想记号，目标文件通过 Obsidian 数学检查；下一步是绑定最新提交并运行独立 R02 全文审查。
