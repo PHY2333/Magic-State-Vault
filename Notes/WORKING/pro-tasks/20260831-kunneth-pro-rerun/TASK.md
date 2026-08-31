@@ -1,7 +1,7 @@
 ---
 task_id: 20260831-kunneth-pro-rerun
 route: pro-write-review
-status: R01_APPLIED
+status: DONE
 target_files:
   - Notes/07-Lifted-Product Code/Künneth 分解.md
 
@@ -81,4 +81,4 @@ automation:
 
 # 当前阶段
 
-`R01_APPLIED`：R01 已通过 binding 与完整性检查，完整正文已由提交 `9ea3c84b6ae65eefb49b6daa25eb22901f935cff` 应用。Codex 已依据上下文规范化 $R_2$ 反例中的商理想记号，目标文件通过 Obsidian 数学检查；下一步是绑定最新提交并运行独立 R02 全文审查。
+`DONE`：R01 已通过 binding 与完整性检查，完整正文已由提交 `9ea3c84b6ae65eefb49b6daa25eb22901f935cff` 应用；Codex 已依据上下文规范化 $R_2$ 反例中的商理想记号。独立 R02 基于 checkpoint `36a4034` 返回 `REVIEW_PASS`，最终 Obsidian 数学检查与 `git diff --check` 均通过。
