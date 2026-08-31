@@ -1,16 +1,34 @@
-Künneth 分解描述 tensor-product chain complex 的同调如何由两个因子的同调组成。[[Cochain complex 的 tensor product]] 已经给出升 degree 的 cochain 版本；以下采用 [[Hypergraph product code]] 的 chain convention，先构造从两个因子的同调到乘积复形同调的映射，再证明它在域上是同构，并把 degree-$1$ 分解用于 HGP 的逻辑空间。一般系数环下这个映射不再自动成为同构，这一边界决定同一公式能否用于 [[Lifted product code]]。
+# Künneth 分解
 
-### 链复形的乘积与比较映射
+给定两个链复形 $C_\bullet$ 和 $D_\bullet$，有两条看起来都很合理的计算路线：
 
-设 $k$ 是域，$C_\bullet,D_\bullet$ 是 $k$ 上的有界有限维链复形；有界表示只有有限多个 degree 的链群非零。它们的 tensor-product chain complex 按 total degree 分层：
+$$
+C,D
+\xrightarrow{\text{先分别取同调}}
+H(C),H(D)
+\xrightarrow{\text{再作 tensor product}}
+H(C)\otimes H(D),
+$$
+
+以及
+
+$$
+C,D
+\xrightarrow{\text{先作 tensor product}}
+C\otimes D
+\xrightarrow{\text{再取同调}}
+H(C\otimes D).
+$$
+
+Künneth 问题就是：**这两条路线什么时候给出同一个结果？**
+
+本文采用降低 degree 的 chain convention。对齐次元素 $c\in C_p$、$d\in D_q$，乘积复形按 total degree 分层，边界为
 
 $$
 (C\otimes_kD)_n
 =
-\bigoplus_{p+q=n}C_p\otimes_kD_q.
+\bigoplus_{p+q=n}C_p\otimes_kD_q,
 $$
-
-对 $c\in C_p$ 与 $d\in D_q$，乘积边界为
 
 $$
 \partial(c\otimes d)
@@ -19,536 +37,39 @@ $$
 +(-1)^p c\otimes\partial_Dd.
 $$
 
-符号由第一个因子的 degree $p$ 决定；只有在 $k=\mathbb F_2$ 时，$-1=1$ 才能把它省略。
-
-记
-
-$$
-Z_p(C)=\ker\bigl(\partial_p^C:C_p\to C_{p-1}\bigr),
-\qquad
-B_p(C)=\operatorname{im}\bigl(\partial_{p+1}^C:C_{p+1}\to C_p\bigr),
-\qquad
-H_p(C)=Z_p(C)/B_p(C),
-$$
-
-若 $c\in Z_p(C)$、$d\in Z_q(D)$，则
-
-$$
-\partial(c\otimes d)=0,
-$$
-
-所以 $c\otimes d$ 是 total degree $p+q$ 的 cycle。由此得到候选映射
-
-$$
-\kappa_{p,q}:
-H_p(C)\otimes_kH_q(D)
-\longrightarrow
-H_{p+q}(C\otimes_kD),
-\qquad
-[c]\otimes[d]\longmapsto[c\otimes d].
-$$
-
-它必须与两个商空间中的代表元选择无关。若 $x\in C_{p+1}$，用 $c+\partial_Cx$ 替换 $c$，新增项满足
-
-$$
-(\partial_Cx)\otimes d
-=
-\partial(x\otimes d),
-$$
-
-因为 $\partial_Dd=0$。若 $y\in D_{q+1}$，用 $d+\partial_Dy$ 替换 $d$，则
-
-$$
-c\otimes(\partial_Dy)
-=
-(-1)^p\partial(c\otimes y),
-$$
-
-因为 $\partial_Cc=0$。两种替换都只给 $C\otimes_kD$ 增加一个 boundary，因此 $[c\otimes d]$ 只依赖 $[c]$ 和 $[d]$。双线性使这些映射可以在 total degree $n$ 上合成
-
-$$
-\kappa_n:
-\bigoplus_{p+q=n}H_p(C)\otimes_kH_q(D)
-\longrightarrow
-H_n(C\otimes_kD).
-$$
-
-$\kappa_n$ 的两端对应两种运算顺序：定义域先分别取 $C,D$ 的同调，再将同调群作 tensor product，并收集 $p+q=n$ 的分量；陪域则先构造乘积链复形 $C\otimes_kD$，再取它的 $n$ 阶同调。映射 $\kappa_n$ 把第一种顺序得到的 $[c]\otimes[d]$ 送到第二种顺序中的 $[c\otimes d]$，所以称为 Künneth 比较映射。前面的代表元计算已经证明它是一个不随代表元选择改变的线性映射；下面还要证明它在域上是同构。
-
-### 域上的同调代表元分裂
-
-固定 $C_\bullet$。因为 $k$ 是域，$B_p(C)\subseteq Z_p(C)$ 是向量子空间的包含关系，可以逐 degree 为 $B_p(C)$ 选择一个 [[二进制空间性质#直和补空间|直和补空间]] $\widetilde H_p(C)$：
-
-$$
-Z_p(C)=B_p(C)\oplus\widetilde H_p(C).
-$$
-
-因此每个 $z\in Z_p(C)$ 都能唯一写成
-
-$$
-z=b+h,
-\qquad
-b\in B_p(C),\ h\in\widetilde H_p(C).
-$$
-
-定义商映射
-
-$$
-\pi_p:
-Z_p(C)
-\longrightarrow
-H_p(C)=Z_p(C)/B_p(C),
-\qquad
-z\longmapsto[z].
-$$
-
-把 $\pi_p$ 的定义域从 $Z_p(C)$ 缩小到 $\widetilde H_p(C)$，得到
-
-$$
-\left.\pi_p\right|_{\widetilde H_p(C)}:
-\widetilde H_p(C)
-\longrightarrow
-H_p(C),
-\qquad
-h\longmapsto[h].
-$$
-
-这个映射是满射。任取 $[z]\in H_p(C)$，利用上面的唯一分解写成 $z=b+h$。因为 $b\in B_p(C)$ 在商空间中代表零，
-
-$$
-[z]=[b+h]=[h],
-$$
-
-所以每个同调类都有一个来自 $\widetilde H_p(C)$ 的原像。它也是单射。若 $h\in\widetilde H_p(C)$ 且 $[h]=0$，则 $h\in B_p(C)$，从而
-
-$$
-h\in B_p(C)\cap\widetilde H_p(C)=\{0\}.
-$$
-
-因此
-
-$$
-\rho_p
-:=
-\left.\pi_p\right|_{\widetilde H_p(C)}:
-\widetilde H_p(C)
-\xrightarrow{\sim}
-H_p(C).
-$$
-
-这个同构表示：选定 $\widetilde H_p(C)$ 后，每个同调类都在该子空间中有唯一的 cycle 代表元。商空间 $H_p(C)$ 和商映射 $\pi_p$ 只由 $B_p(C)\subseteq Z_p(C)$ 决定，没有使用补空间。但链复形本身一般不会指定唯一的 $\widetilde H_p(C)$。若另选
-
-$$
-Z_p(C)=B_p(C)\oplus\widetilde H'_p(C),
-$$
-
-那么同一个同调类可能分别由 $h\in\widetilde H_p(C)$ 与 $h'\in\widetilde H'_p(C)$ 代表。因为 $[h]=[h']$，两个代表元满足
-
-$$
-h-h'\in B_p(C).
-$$
-
-所以随补空间改变的是代表元子空间 $\widetilde H_p(C)$，以及从 $H_p(C)$ 中每个类选出 cycle 代表元的逆映射
-
-$$
-\rho_p^{-1}:
-H_p(C)
-\longrightarrow
-\widetilde H_p(C)
-\subseteq Z_p(C),
-$$
-
-而不是 $H_p(C)$ 或 $\pi_p$ 本身。这些代表元只用于下面构造链级分裂。
-
-接着为另一个包含关系 $Z_p(C)\subseteq C_p$ 选择补空间 $L_p(C)$：
-
-$$
-C_p=Z_p(C)\oplus L_p(C).
-$$
-
-边界映射在 $L_p(C)$ 上限制为
-
-$$
-\left.\partial_p\right|_{L_p(C)}:
-L_p(C)\longrightarrow B_{p-1}(C).
-$$
-
-这个限制是单射。若 $\ell\in L_p(C)$ 且 $\partial_p\ell=0$，则 $\ell\in Z_p(C)\cap L_p(C)=0$。它也是满射：对任意 $b\in B_{p-1}(C)$，取 $x\in C_p$ 使 $\partial_px=b$，再写成 $x=z+\ell$，其中 $z\in Z_p(C)$、$\ell\in L_p(C)$，便有
-
-$$
-b=\partial_px=\partial_p\ell.
-$$
-
-因此
-
-$$
-\delta_p
-:=
-\left.\partial_p\right|_{L_p(C)}:
-L_p(C)\xrightarrow{\sim}B_{p-1}(C).
-$$
-
-令 $\widetilde{\mathcal H}(C)$ 是以 $\widetilde H_p(C)$ 为 degree-$p$ 分量、边界恒为零的链复形。若把 $H_\bullet(C)$ 也看成 degree-$p$ 分量为 $H_p(C)$、边界恒为零的链复形，那么各 degree 上的 $\rho_p$ 组合成链复形同构
-
-$$
-\rho_\bullet:
-\widetilde{\mathcal H}(C)_\bullet
-\xrightarrow{\sim}
-\bigl(H_\bullet(C),0\bigr).
-$$
-
-再令
-
-$$
-Q(C)_p=B_p(C)\oplus L_p(C).
-$$
-
-边界映射在 $Q(C)$ 上的限制记为
-
-$$
-d_p^Q:
-Q(C)_p
-\longrightarrow
-Q(C)_{p-1}.
-$$
-
-按定义域 $B_p(C)\oplus L_p(C)$ 和陪域 $B_{p-1}(C)\oplus L_{p-1}(C)$ 排列，它的分块矩阵为
-
-$$
-d_p^Q
-=
-\begin{bmatrix}
-0&\delta_p
-\\
-0&0
-\end{bmatrix},
-\qquad
-d_p^Q(b,\ell)=(\delta_p\ell,0).
-$$
-
-矩阵的列对应定义域，行对应陪域。第一列为零，因为 $B_p(C)\subseteq Z_p(C)$；唯一的非零块就是先前构造的同构 $\delta_p:L_p(C)\to B_{p-1}(C)$。因此 $\partial_pQ(C)_p\subseteq Q(C)_{p-1}$，$Q(C)$ 是链子复形。
-
-两次补空间分解在每个 degree 上给出
-
-$$
-C_p
-=
-B_p(C)\oplus\widetilde H_p(C)\oplus L_p(C)
-=
-\widetilde H_p(C)\oplus Q(C)_p.
-$$
-
-边界在这两个分量上的作用可画成
-
-$$
-\begin{array}{ccccc}
-C_p
-&=&
-\widetilde H_p(C)
-&\oplus&
-Q(C)_p
-\\
-\downarrow{\scriptstyle\partial_p}
-&&
-\downarrow{\scriptstyle 0}
-&&
-\downarrow{\scriptstyle d_p^Q}
-\\
-C_{p-1}
-&=&
-\widetilde H_{p-1}(C)
-&\oplus&
-Q(C)_{p-1}.
-\end{array}
-$$
-
-中间的零箭头来自 $\widetilde H_p(C)\subseteq Z_p(C)$；右边的箭头内部只有 $L_p(C)\xrightarrow{\delta_p}B_{p-1}(C)$ 这一个非零分块。因此边界分别保持 $\widetilde{\mathcal H}(C)$ 与 $Q(C)$，上述逐 degree 直和升级为链复形的直和分解：
-
-$$
-C_\bullet
-=
-\widetilde{\mathcal H}(C)_\bullet
-\oplus
-Q(C)_\bullet
-$$
-
-是链复形的直和分解。
-
-### 可缩部分的 tensor product
-
-定义 degree $+1$ 的线性映射
-
-$$
-s_p:Q(C)_p\longrightarrow Q(C)_{p+1},
-$$
-
-$$
-s_p(b+\ell)
-=
-\delta_{p+1}^{-1}(b),
-\qquad
-b\in B_p(C),\ \ell\in L_p(C).
-$$
-
-它把 $B_p(C)$ 送回唯一的 $L_{p+1}(C)$ 原像，并在 $L_p(C)$ 上取零。于是
-
-$$
-\partial_{p+1}s_p(b+\ell)=b,
-\qquad
-s_{p-1}\partial_p(b+\ell)=\ell,
-$$
-
-从而
-
-$$
-\partial s+s\partial=\operatorname{id}_{Q(C)}.
-$$
-
-满足这个等式的 $s$ 称为 contracting homotopy；该等式直接说明 $Q(C)$ 中的每个 cycle 都是 boundary。只有 $Q(C)$ 可缩，整个 $C$ 一般不可缩。
-
-若 $u\in Q(C)_p$、$d\in D_r$，在 $Q(C)\otimes_kD$ 上定义
-
-$$
-S_C(u\otimes d)=s_C(u)\otimes d.
-$$
-
-乘积边界中的交叉项系数为 $(-1)^{p+1}$ 与 $(-1)^p$，两者相加为零，因此
-
-$$
-\begin{aligned}
-(\partial S_C+S_C\partial)(u\otimes d)
-&=
-(\partial s_C+s_C\partial)u\otimes d
-\\
-&\quad+
-\bigl((-1)^{p+1}+(-1)^p\bigr)s_C(u)\otimes\partial_Dd
-\\
-&=u\otimes d.
-\end{aligned}
-$$
-
-所以 $Q(C)\otimes_kD$ 仍然可缩。若可缩部分位于第二个因子，符号必须随第一个因子的 degree 改变。对固定 degree 的 $h\in\widetilde H_p(C)$ 与 $q\in Q(D)$，定义
-
-$$
-S_D(h\otimes q)=(-1)^p h\otimes s_D(q).
-$$
-
-由于 $\partial h=0$，
-
-$$
-\partial S_D(h\otimes q)=h\otimes\partial s_D(q),
-$$
-
-$$
-S_D\partial(h\otimes q)=h\otimes s_D\partial(q),
-$$
-
-故
-
-$$
-\partial S_D+S_D\partial
-=
-\operatorname{id}_{\widetilde{\mathcal H}(C)\otimes_kQ(D)}.
-$$
-
-现在把两个因子的链级分裂代入 tensor product：
-
-$$
-\begin{aligned}
-C\otimes_kD
-={}&
-\widetilde{\mathcal H}(C)\otimes_k\widetilde{\mathcal H}(D)
-\\
-&\oplus
-\widetilde{\mathcal H}(C)\otimes_kQ(D)
-\\
-&\oplus
-Q(C)\otimes_k\widetilde{\mathcal H}(D)
-\\
-&\oplus
-Q(C)\otimes_kQ(D).
-\end{aligned}
-$$
-
-后三项都含有一个可缩因子。第二项由 $S_D$ 收缩，第三、四项由 $S_C$ 收缩，因此它们的同调为零。第一项的两个因子都具有零边界，乘积边界也为零。
-
-### Künneth 分解
-
-乘积复形的同调只剩 $\widetilde{\mathcal H}(C)\otimes_k\widetilde{\mathcal H}(D)$。它的 total degree-$n$ 分量是
-
-$$
-\bigoplus_{p+q=n}
-\widetilde H_p(C)\otimes_k\widetilde H_q(D).
-$$
-
-利用 $\widetilde H_p(C)\cong H_p(C)$ 与 $\widetilde H_q(D)\cong H_q(D)$，得到
-
-$$
-\boxed{
-H_n(C\otimes_kD)
-\cong
-\bigoplus_{p+q=n}
-H_p(C)\otimes_kH_q(D)
-}.
-$$
-
-上述链级直和与 contracting homotopy 依赖补空间选择，但存活分量进入乘积复形的映射正是先前定义的 $\kappa_n$。因此补空间只用于证明这个已经定义好的 $\kappa_n$ 可逆；$\kappa_n$ 的定义本身没有使用任何补空间。
-
-### 链映射下的自然性
-
-固定 $C,D$ 时，域上分裂已经证明比较映射是同构。若 $C,D$ 分别由链映射送到 $C',D'$，还需检查先传递同调类与先使用比较映射是否得到同一结果。
-
-设 $C',D'$ 也是 $k$ 上的链复形，degree-$0$ 链映射 $f:C\to C'$ 与 $g:D\to D'$ 的分量为
-
-$$
-f_p:C_p\to C'_p,
-\qquad
-g_q:D_q\to D'_q,
-$$
-
-它们满足
-
-$$
-\partial_p^{C'}f_p=f_{p-1}\partial_p^C,
-\qquad
-\partial_q^{D'}g_q=g_{q-1}\partial_q^D.
-$$
-
-若 $c\in Z_p(C)$，则
-
-$$
-\partial_p^{C'}f_p(c)
-=
-f_{p-1}\partial_p^C(c)
-=0,
-$$
-
-所以 $f_p(c)\in Z_p(C')$。若 $c\in B_p(C)$，写成 $c=\partial_{p+1}^Cx$，则
-
-$$
-f_p(c)
-=
-f_p\partial_{p+1}^C(x)
-=
-\partial_{p+1}^{C'}f_{p+1}(x)
-\in B_p(C').
-$$
-
-因此 $f_p$ 把 cycle 送到 cycle，也把 boundary 送到 boundary；对 $g_q$ 的计算同理。于是它们诱导出同调上的映射
-
-$$
-H_p(f):H_p(C)\to H_p(C'),
-\qquad
-[c]\longmapsto[f_p(c)],
-$$
-
-$$
-H_q(g):H_q(D)\to H_q(D'),
-\qquad
-[d]\longmapsto[g_q(d)].
-$$
-
-两个链映射还给出乘积复形之间的分次映射
-
-$$
-(f\otimes g)_n
-=
-\bigoplus_{p+q=n}f_p\otimes g_q,
-$$
-
-即
-
-$$
-(f\otimes g)(c\otimes d)=f_p(c)\otimes g_q(d),
-\qquad c\in C_p,\ d\in D_q.
-$$
-
-它确实是链映射。对上述齐次元，
-
-$$
-\begin{aligned}
-\partial^{C'\otimes D'}\bigl(f_p(c)\otimes g_q(d)\bigr)
-&=
-f_{p-1}(\partial_Cc)\otimes g_q(d)
-+(-1)^pf_p(c)\otimes g_{q-1}(\partial_Dd)
-\\
-&=(f\otimes g)\partial^{C\otimes D}(c\otimes d).
-\end{aligned}
-$$
-
-所以 $f\otimes g$ 诱导出
-
-$$
-H_n(f\otimes g):
-H_n(C\otimes_kD)
-\longrightarrow
-H_n(C'\otimes_kD').
-$$
-
-用 $\kappa_n^{C,D}$ 与 $\kappa_n^{C',D'}$ 分别标记由两对复形构造的比较映射。
-
-要求“先使用 $\kappa_n$ 合成乘积同调类，再沿 $f\otimes g$ 移动”与“先沿 $f,g$ 移动两个因子的同调类，再使用 $\kappa_n$ 合成”得到相同结果，就是要求以下等式成立：
-
-$$
-H_n(f\otimes g)\circ\kappa_n^{C,D}
-=
-\kappa_n^{C',D'}\circ
-\bigoplus_{p+q=n}\bigl(H_p(f)\otimes H_q(g)\bigr).
-$$
-
-对 $p+q=n$ 与任意 $[c]\otimes[d]$，等式左边的路径是
-
-$$
-[c]\otimes[d]
-\xrightarrow{\ \kappa_n^{C,D}\ }
-[c\otimes d]
-\xrightarrow{\ H_n(f\otimes g)\ }
-[f_p(c)\otimes g_q(d)],
-$$
-
-右边的路径是
-
-$$
-[c]\otimes[d]
-\xrightarrow{\ H_p(f)\otimes H_q(g)\ }
-[f_p(c)]\otimes[g_q(d)]
-\xrightarrow{\ \kappa_n^{C',D'}\ }
-[f_p(c)\otimes g_q(d)].
-$$
-
-两条路径得到同一个同调类；纯张量张成每个直和分量，所以上述映射等式成立。这个交换关系就是 $\kappa_n$ 的自然性：它保证不同复形上的 Künneth 映射能沿链映射一致地传递，而不是一族彼此无关的同构。自然性不负责证明 $\kappa_n$ 可逆；前面的域上分裂才负责这一点。这里的交换计算本身没有使用 $k$ 是域；域条件只用于把自然的比较映射升级为自然同构。
-
-### 二项复形与 HGP 逻辑空间
-
-取两个二项链复形
-
-$$
-\mathcal A:\quad
+这与 [[Cochain complex 的 tensor product]] 中升 degree 的写法是同一条 Koszul 符号规则；乘积边界满足 $\partial^2=0$ 的证明也在那里完成。只有在 $\mathbb F_2$ 上，$-1=1$，才可以无说明地省略符号。
+
+## 先看域上的答案
+
+> [!theorem] 域上的 Künneth 定理
+> 设 $k$ 是域，$C_\bullet,D_\bullet$ 是 $k$ 上有界的有限维链复形。对每个 $n$，映射
+>
+> $$
+> \kappa_n:
+> \bigoplus_{p+q=n}H_p(C)\otimes_kH_q(D)
+> \longrightarrow
+> H_n(C\otimes_kD),
+> $$
+>
+> $$
+> \kappa_n([c]\otimes[d])=[c\otimes d]
+> $$
+>
+> 是自然同构。
+
+左边表示“先分别取同调，再把次数相加”；右边表示“先组成乘积复形，再取同调”。因此，域上的答案非常干净：乘积复形中没有隐藏在因子同调之外的额外类，也没有两个不同的因子同调类在乘积中被意外识别。
+
+对两个二项链复形
+
+$$
+\mathcal A:
 0\longrightarrow A_1\xrightarrow{A}A_0\longrightarrow0,
+\qquad
+\mathcal B:
+0\longrightarrow B_1\xrightarrow{B}B_0\longrightarrow0,
 $$
 
-$$
-\mathcal B:\quad
-0\longrightarrow B_1\xrightarrow{B}B_0\longrightarrow0.
-$$
-
-在 degree $1$ 处没有来自更高 degree 的 boundary，所以
-
-$$
-H_1(\mathcal A)=\ker A.
-$$
-
-在 degree $0$ 处，所有元素都被后面的零映射送到零，而来自 degree $1$ 的 boundaries 是 $\operatorname{im}A$，所以
-
-$$
-H_0(\mathcal A)
-=
-A_0/\operatorname{im}A
-=
-\operatorname{coker}A.
-$$
-
-对 $\mathcal B$ 同理。Total degree $1$ 只有 $1=1+0$ 和 $1=0+1$ 两种分解，Künneth 同构给出
+degree $1$ 只有 $1=1+0$ 与 $1=0+1$ 两种来源，所以定理立刻给出
 
 $$
 \boxed{
@@ -560,59 +81,479 @@ H_1(\mathcal A\otimes_k\mathcal B)
 }.
 $$
 
-第一项由 $A$ 方向的 cycle 与 $B$ 方向未被 boundary 覆盖的商类组成，第二项交换两个因子的作用。这是两个不同的同调扇区，而不是同一组代表元的两种写法。
-
-在 [[Hypergraph product code#从两张经典校验矩阵开始]] 采用的 chain convention 中，
+在 $k=\mathbb F_2$ 的 HGP 中，令
 
 $$
-H_1(\mathcal A\otimes\mathcal B)
-=
-\frac{\ker H_X}{\operatorname{im}H_Z^T}
+k_A=\dim\ker A,
+\qquad
+k_A^{\mathsf T}=\dim\ker A^{\mathsf T},
 $$
 
-表示 logical $Z$ support classes；对偶 cochain complex 的 $H^1$ 表示 logical $X$ support classes。两者维数都等于 CSS 码的逻辑比特数 $K$。
-
-现在令 $k=\mathbb F_2$，并取
+并对 $B$ 使用同样的记号。这两个直和项正是两类逻辑来源，并给出
 
 $$
-A:\mathbb F_2^{n_A}\longrightarrow\mathbb F_2^{m_A}.
+\boxed{
+K=k_Ak_B^{\mathsf T}+k_A^{\mathsf T}k_B
+}.
 $$
+
+这些结论为什么成立，要分成两个问题：先证明 $\kappa_n$ 不依赖 cycle 代表元的选择，再证明它在域上可逆。
+
+## 一个先看到成功结果的例子
+
+取二项复形
+
+$$
+\mathcal E:
+0\longrightarrow k^2
+\xrightarrow{A}
+k^2
+\longrightarrow0,
+$$
+
+选择 degree-$1$ 的基 $e_1,e_2$ 和 degree-$0$ 的基 $f_1,f_2$，令
+
+$$
+A(e_1)=f_1,
+\qquad
+A(e_2)=0.
+$$
+
+于是
+
+$$
+H_1(\mathcal E)=\operatorname{span}_k\{[e_2]\},
+\qquad
+H_0(\mathcal E)=\operatorname{span}_k\{\overline{f_2}\},
+$$
+
+其中 $\overline{f_2}$ 是 $f_2$ 在 $k^2/\operatorname{span}\{f_1\}$ 中的商类。Künneth 同构在 degree $1$ 给出
+
+$$
+\begin{aligned}
+H_1(\mathcal E\otimes_k\mathcal E)
+&\cong
+H_1(\mathcal E)\otimes_kH_0(\mathcal E)
+\oplus
+H_0(\mathcal E)\otimes_kH_1(\mathcal E)\\
+&\cong
+\operatorname{span}_k\{[e_2\otimes f_2]\}
+\oplus
+\operatorname{span}_k\{[f_2\otimes e_2]\}.
+\end{aligned}
+$$
+
+所以乘积的一阶同调是二维的。这里可以提前看见后面证明的机制：$e_1\mapsto f_1$ 是一对由同构连接的方向，对同调没有贡献；真正留下的是微分为零的 $e_2$ 与 $f_2$，它们在两个因子之间按 total degree 配对。
+
+## 比较映射为什么有定义
 
 记
 
 $$
-k_A=\dim_{\mathbb F_2}\ker A,
+Z_p(C)=\ker\partial_p^C,
 \qquad
-k_A^T=\dim_{\mathbb F_2}\ker A^T,
+B_p(C)=\operatorname{im}\partial_{p+1}^C,
+\qquad
+H_p(C)=Z_p(C)/B_p(C).
 $$
 
-并类似定义 $k_B,k_B^T$。有限维对偶给出
+若 $c\in Z_p(C)$、$d\in Z_q(D)$，则
 
 $$
-(\operatorname{coker}A)^*\cong\ker A^T,
+\partial(c\otimes d)
+=
+\partial_Cc\otimes d
++(-1)^pc\otimes\partial_Dd
+=0,
 $$
 
-因而
+所以 $c\otimes d$ 是 total degree $p+q$ 的 cycle。于是可以尝试定义
 
 $$
-\dim\operatorname{coker}A
-=m_A-\operatorname{rank}A
-=\dim\ker A^T.
+[c]\otimes[d]
+\longmapsto
+[c\otimes d].
 $$
 
-对两个 Künneth 扇区取维数，得到 HGP 的逻辑比特数公式
+问题在于 $[c]$ 和 $[d]$ 是商类，同一个类可以有许多 cycle 代表元。必须检查改变代表元只会给 $c\otimes d$ 增加一个 boundary。
+
+若用 $c+\partial_Cx$ 代替 $c$，其中 $x\in C_{p+1}$，因为 $d$ 是 cycle，
+
+$$
+(\partial_Cx)\otimes d
+=
+\partial(x\otimes d).
+$$
+
+因此第一因子的代表元变化只增加一个乘积 boundary。若用 $d+\partial_Dy$ 代替 $d$，其中 $y\in D_{q+1}$，因为 $c$ 是 cycle，
+
+$$
+\partial(c\otimes y)
+=
+(-1)^pc\otimes\partial_Dy,
+$$
+
+也就是
+
+$$
+c\otimes\partial_Dy
+=
+(-1)^p\partial(c\otimes y).
+$$
+
+第二因子的代表元变化同样只增加一个 boundary。由双线性，这个规则先下降为
+
+$$
+\kappa_{p,q}:
+H_p(C)\otimes_kH_q(D)
+\longrightarrow
+H_{p+q}(C\otimes_kD),
+$$
+
+再把所有 $p+q=n$ 的分量合并成 $\kappa_n$。
+
+这一步只证明了 **良定义性**：$\kappa_n$ 是一个不依赖代表元选择的线性映射。它还没有证明该映射是单射或满射；可逆性正是域上 Künneth 定理的实质内容。
+
+## 域上证明的整体地图
+
+域上证明只做一件事：把每个链复形分成“真正承载同调的部分”和“成对相消的部分”。具体分为四步：
+
+1. 在每个 degree 选择补空间，把 $C_n$ 拆成 boundary、同调代表元和非 cycle 三部分；
+2. 把 boundary 与非 cycle 配成一个可缩子复形 $Q(C)$；
+3. 证明 tensor product 中只要有一个可缩因子，整个分量仍然可缩；
+4. 因而 $C\otimes D$ 的同调只来自两个同调代表元部分的 tensor product。
+
+补空间的选择一般不唯一，所以这是一种证明工具，不是 Künneth 同构本身的定义。
+
+### 把一个复形拆成同调代表元与可缩部分
+
+固定 $C_\bullet$。在每个 degree 都有
+
+$$
+B_n(C)\subseteq Z_n(C)\subseteq C_n.
+$$
+
+因为 $k$ 是域，这些都是向量子空间，可以选择直和补空间。先选 $\widetilde H_n(C)$ 使
+
+$$
+Z_n(C)=B_n(C)\oplus\widetilde H_n(C),
+$$
+
+再选 $L_n(C)$ 使
+
+$$
+C_n=Z_n(C)\oplus L_n(C).
+$$
+
+于是
+
+$$
+C_n
+=
+B_n(C)\oplus\widetilde H_n(C)\oplus L_n(C).
+$$
+
+商映射在 $\widetilde H_n(C)$ 上给出同构
+
+$$
+\rho_n:
+\widetilde H_n(C)
+\xrightarrow{\sim}
+H_n(C),
+\qquad
+h\longmapsto[h].
+$$
+
+它是满射，因为每个 cycle 都能唯一写成 boundary 加上 $\widetilde H_n(C)$ 中的元素；它是单射，因为
+
+$$
+B_n(C)\cap\widetilde H_n(C)=0.
+$$
+
+因此 $\widetilde H_n(C)$ 可以看作选定的一组同调类代表元。令 $\widetilde{\mathcal H}(C)$ 是以 $\widetilde H_n(C)$ 为 degree-$n$ 分量、微分恒为零的链复形。
+
+另一方面，边界映射限制为
+
+$$
+\delta_n
+:=
+\left.\partial_n\right|_{L_n(C)}:
+L_n(C)
+\longrightarrow
+B_{n-1}(C).
+$$
+
+这个限制是同构。若 $\delta_n(\ell)=0$，则 $\ell$ 同时属于 $L_n(C)$ 与 $Z_n(C)$，所以 $\ell=0$；而任意 $b\in B_{n-1}(C)$ 都可写成 $b=\partial x$，将 $x$ 分解为 cycle 与 $L_n(C)$ 分量后，只有后者贡献边界，所以 $b$ 落在 $\delta_n$ 的像中。
+
+定义
+
+$$
+Q(C)_n=B_n(C)\oplus L_n(C).
+$$
+
+边界在 $B_n(C)$ 上为零，并通过同构 $\delta_n$ 把 $L_n(C)$ 送到 $B_{n-1}(C)$，因此 $Q(C)$ 是链子复形，而且
+
+$$
+C_\bullet
+=
+\widetilde{\mathcal H}(C)_\bullet
+\oplus
+Q(C)_\bullet
+$$
+
+是链复形的直和分解。
+
+### 为什么 $Q(C)$ 没有同调
+
+定义 degree $+1$ 的映射
+
+$$
+s_n:Q(C)_n\longrightarrow Q(C)_{n+1}
+$$
+
+如下：若 $b\in B_n(C)$、$\ell\in L_n(C)$，令
+
+$$
+s_n(b+\ell)=\delta_{n+1}^{-1}(b).
+$$
+
+也就是说，$s$ 把 boundary 送回它在下一层 $L_{n+1}(C)$ 中的唯一原像，并在 $L_n(C)$ 上取零。于是
+
+$$
+\partial s(b+\ell)=b,
+\qquad
+s\partial(b+\ell)=\ell,
+$$
+
+从而
 
 $$
 \boxed{
-K=k_Ak_B^T+k_A^Tk_B
+\partial s+s\partial=\operatorname{id}_{Q(C)}
 }.
 $$
 
-### PID 与一般系数环
+满足这个等式的 $s$ 称为收缩同伦（contracting homotopy），$Q(C)$ 称为可缩复形。这个等式直接说明其同调为零：若 $q$ 是 cycle，那么
 
-域上证明使用了两个事实：向量子空间包含关系可以选择直和补空间，tensor product 保持短正合列。对一般环上的模，这两点都可能失败。
+$$
+q=(\partial s+s\partial)q=\partial(sq),
+$$
 
-先取主理想整环（principal ideal domain, PID）$R$，即 $R$ 的每个理想都由一个元素生成。若 $C,D$ 是有界且逐项自由的 $R$-链复形，Künneth 定理给出自然短正合列
+所以每个 cycle 都是 boundary。
+
+### 可缩因子在 tensor product 中仍然不贡献同调
+
+这一步必须保留 Koszul 符号。先让可缩部分位于第一因子。若 $u\in Q(C)_p$、$d\in D_q$，定义
+
+$$
+S_C(u\otimes d)=s_C(u)\otimes d.
+$$
+
+因为 $s_C(u)$ 的 degree 是 $p+1$，展开得到
+
+$$
+\begin{aligned}
+(\partial S_C+S_C\partial)(u\otimes d)
+&=
+(\partial s_C+s_C\partial)u\otimes d\\
+&\quad+
+\bigl((-1)^{p+1}+(-1)^p\bigr)s_C(u)\otimes\partial_Dd\\
+&=u\otimes d.
+\end{aligned}
+$$
+
+交叉项正是靠两个相反的 Koszul 符号抵消。因此 $Q(C)\otimes_kD$ 可缩。
+
+若可缩部分位于第二因子，不能直接写 $\operatorname{id}\otimes s_D$；需要让符号随第一因子的 degree 改变。对齐次 $x\in X_p$、$q\in Q(D)$，定义
+
+$$
+S_D(x\otimes q)=(-1)^p x\otimes s_D(q).
+$$
+
+展开后，含 $\partial_Xx\otimes s_D(q)$ 的两项系数分别为 $(-1)^p$ 与 $(-1)^{p-1}$，所以相消；剩余部分为
+
+$$
+\begin{aligned}
+(\partial S_D+S_D\partial)(x\otimes q)
+&=
+x\otimes(\partial s_D+s_D\partial)q\\
+&=x\otimes q.
+\end{aligned}
+$$
+
+因此 $X\otimes_kQ(D)$ 也可缩。
+
+### Tensor 后只有同调代表元部分留下
+
+对 $C,D$ 分别作上述分解：
+
+$$
+C=
+\widetilde{\mathcal H}(C)\oplus Q(C),
+\qquad
+D=
+\widetilde{\mathcal H}(D)\oplus Q(D).
+$$
+
+Tensor product 对有限直和分配，于是
+
+$$
+\begin{aligned}
+C\otimes_kD
+\cong{}&
+\widetilde{\mathcal H}(C)\otimes_k\widetilde{\mathcal H}(D)\\
+&\oplus
+\widetilde{\mathcal H}(C)\otimes_kQ(D)\\
+&\oplus
+Q(C)\otimes_k\widetilde{\mathcal H}(D)\\
+&\oplus
+Q(C)\otimes_kQ(D).
+\end{aligned}
+$$
+
+后三项都含有可缩因子，所以同调为零。第一项的两个微分都为零，因此其乘积微分也为零。它在 total degree $n$ 的部分是
+
+$$
+\bigoplus_{p+q=n}
+\widetilde H_p(C)\otimes_k\widetilde H_q(D).
+$$
+
+再用 $\rho_p$ 与 $\rho_q$ 把选定代表元空间识别为真正的同调空间，便得到
+
+$$
+H_n(C\otimes_kD)
+\cong
+\bigoplus_{p+q=n}
+H_p(C)\otimes_kH_q(D).
+$$
+
+存活分量嵌入 $C\otimes D$ 时，把 $h\otimes h'$ 送到同调类 $[h\otimes h']$。在 $\widetilde H_p(C)\cong H_p(C)$ 与 $\widetilde H_q(D)\cong H_q(D)$ 的识别下，这正是比较映射 $\kappa_n$。所以证明的不只是“左右两边维数相同”，而是先前已经定义好的 $\kappa_n$ 本身可逆。
+
+## 自然的比较同构与不自然的证明选择
+
+设 $f:C\to C'$、$g:D\to D'$ 是链映射。比较映射满足
+
+$$
+H_n(f\otimes g)\circ\kappa_n^{C,D}
+=
+\kappa_n^{C',D'}\circ
+\bigoplus_{p+q=n}
+\bigl(H_p(f)\otimes H_q(g)\bigr).
+$$
+
+对纯张量 $[c]\otimes[d]$，等式两边都得到
+
+$$
+[f(c)\otimes g(d)].
+$$
+
+纯张量张成各个 tensor-product 分量，所以整个等式成立。这就是自然性：沿链映射移动输入，不会改变“先比较还是后比较”的结果。
+
+这里必须区分两件事：
+
+- $\kappa_n([c]\otimes[d])=[c\otimes d]$ 的定义没有选择补空间，并且与链映射相容；
+- 证明中选择的 $\widetilde H_n(C)$、$L_n(C)$、收缩 $s$ 与链级直和分解一般不唯一，链映射也未必保持这些选择。
+
+因此，**自然的是比较同构 $\kappa_n$；一般不自然的是用来证明它可逆的链级分裂。** 补空间负责证明逆映射存在，却不应被误认为 Künneth 同构的定义。
+
+## 二项复形与 HGP 的两类逻辑来源
+
+再次取
+
+$$
+\mathcal A:
+0\longrightarrow A_1\xrightarrow{A}A_0\longrightarrow0,
+$$
+
+$$
+\mathcal B:
+0\longrightarrow B_1\xrightarrow{B}B_0\longrightarrow0.
+$$
+
+因为 degree $1$ 上没有来自更高 degree 的 boundary，
+
+$$
+H_1(\mathcal A)=\ker A,
+\qquad
+H_1(\mathcal B)=\ker B.
+$$
+
+在 degree $0$，所有元素都是 cycles，而来自 degree $1$ 的 boundaries 分别是 $\operatorname{im}A$ 与 $\operatorname{im}B$，所以
+
+$$
+H_0(\mathcal A)=A_0/\operatorname{im}A=\operatorname{coker}A,
+$$
+
+$$
+H_0(\mathcal B)=B_0/\operatorname{im}B=\operatorname{coker}B.
+$$
+
+Total degree $1$ 只有 $(1,0)$ 与 $(0,1)$，于是
+
+$$
+H_1(\mathcal A\otimes_k\mathcal B)
+\cong
+\ker A\otimes_k\operatorname{coker}B
+\oplus
+\operatorname{coker}A\otimes_k\ker B.
+$$
+
+在 [[Hypergraph product code]] 使用的 chain convention 中，乘积复形的中间链群是物理支撑空间，并且
+
+$$
+H_1(\mathcal A\otimes\mathcal B)
+=
+\frac{\ker H_X}{\operatorname{im}H_Z^{\mathsf T}}
+$$
+
+表示逻辑 $Z$ 支撑类（logical $Z$ support classes）。第一项可以先在物理子空间 $A_1\otimes B_0$ 中选代表元，第二项可以先在 $A_0\otimes B_1$ 中选代表元；但这里描述的是逻辑类的两种来源，不是两个物理比特扇区本身。给代表元加上乘积 boundary 后，同一个逻辑类的支撑可能同时占据两个物理扇区。
+
+现在令
+
+$$
+A:\mathbb F_2^{n_A}\longrightarrow\mathbb F_2^{m_A},
+\qquad
+B:\mathbb F_2^{n_B}\longrightarrow\mathbb F_2^{m_B},
+$$
+
+并定义
+
+$$
+k_A=\dim_{\mathbb F_2}\ker A,
+\qquad
+k_A^{\mathsf T}=\dim_{\mathbb F_2}\ker A^{\mathsf T},
+$$
+
+以及相应的 $k_B,k_B^{\mathsf T}$。有限维线性代数给出
+
+$$
+\dim_{\mathbb F_2}\operatorname{coker}A
+=m_A-\operatorname{rank}A
+=\dim_{\mathbb F_2}\ker A^{\mathsf T}
+=k_A^{\mathsf T},
+$$
+
+对 $B$ 同理。因此两个 Künneth 直和项的维数分别为 $k_Ak_B^{\mathsf T}$ 与 $k_A^{\mathsf T}k_B$，从而
+
+$$
+\boxed{
+K=k_Ak_B^{\mathsf T}+k_A^{\mathsf T}k_B
+}.
+$$
+
+这条公式揭示逻辑比特的两个同调来源。HGP 的物理比特扇区、校验矩阵分块、CSS 对易与距离问题仍由 [[Hypergraph product code]] 负责。
+
+## PID 与一般系数环
+
+只研究二进制 HGP 的读者可以先跳过本节；准备把域上的公式搬到环系数 LP 时，本节给出必须检查的边界。
+
+域上的直接和公式依赖一个关键事实：向量空间中的短正合列在选择补空间后可以分裂，而且所有向量空间都是平坦模。换成一般环上的模后，tensor product 可能不再保持正合，补空间也未必存在。此时需要分三层判断：PID 上出现 $\operatorname{Tor}_1$ 短正合列；一般交换环上要看导出张量积与谱序列；具体 LP 参数最终仍可回到展开后的二进制秩。
+
+### PID：比较映射嵌入短正合列
+
+设 $R$ 是主理想整环（principal ideal domain, PID）。一个 $R$-模 $F$ 称为平坦模，如果 tensor functor $F\otimes_R-$ 保持短正合列。现在令 $C,D$ 是有界 $R$-链复形，并且至少一个因子逐项平坦，也就是该因子的每个链模都平坦；要求两个因子逐项自由是更强、但常用而安全的充分条件，不是必要条件。
+
+在这些假设下，May 的 Künneth 定理给出自然短正合列
 
 $$
 0
@@ -623,36 +564,77 @@ H_p(C)\otimes_RH_q(D)
 H_n(C\otimes_RD)
 \longrightarrow
 \bigoplus_{p+q=n-1}
-\operatorname{Tor}_1^R(H_p(C),H_q(D))
+\operatorname{Tor}_1^R\bigl(H_p(C),H_q(D)\bigr)
 \longrightarrow0.
 $$
 
-$\operatorname{Tor}_1^R(M,N)$ 衡量 tensor product 作用于模的短正合列时可能产生的额外核。平坦模是与它作 tensor product 后仍保持短正合列的模；若 $M$ 或 $N$ 是平坦模，$\operatorname{Tor}_1^R(M,N)$ 为零。上面的短正合列可以分裂，但分裂一般不自然。$R$ 为域时所有模都平坦，$\operatorname{Tor}_1$ 消失，便恢复前面的自然同构。
+$\operatorname{Tor}_1^R(M,N)$ 衡量 ordinary tensor product 没有保持短正合列的程度。这里它不是凭空附加的第三种因子，而是描述 $H_n(C\otimes_RD)$ 除去 $\kappa_n$ 的像后还剩下什么。
 
-PID 公式不能直接推广到任意环。对交换环 $R$ 上的有界链复形，一般结论使用 derived tensor product。准同构是一个在每个 degree 上都诱导同调同构的链映射。K-flat 复形与任意无同调复形作 tensor product 后仍然无同调；这个条件保证 tensor product 保持所用的准同构。把一个因子替换为与它准同构的 K-flat 复形，再取 ordinary tensor product，所得准同构类记为
+这个短正合列可以分裂，所以抽象地存在某个模同构，把中间项写成左右两项的直和；但是分裂一般不自然。也就是说，通常没有一个对所有链映射都相容的首选方式，把每个 $\operatorname{Tor}_1$ 类提升成乘积同调类。因此不能把该直和写成与域上 $\kappa_n$ 同样自然的分解。
+
+若对所有相关的 $(p,q)$，$H_p(C)$ 与 $H_q(D)$ 中至少一个是平坦模，则相应的 $\operatorname{Tor}_1$ 消失，$\kappa_n$ 便在该 degree 恢复为同构。这个条件是充分条件，不是 $\operatorname{Tor}_1=0$ 的必要条件。域是特殊情形，因为域上的每个模都平坦。
+
+### 一般交换环：目标先变成导出张量积
+
+设 $R$ 是一般交换环，$C,D$ 是有界 $R$-链复形。一个复形若同调全为零，称为无同调复形。复形 $P$ 称为 K-flat，如果它与任意无同调复形作 total tensor product 后仍然无同调。这个条件的作用是保证：用准同构替换另一个因子时，tensor product 的同调不会被改变。
+
+导出张量积（derived tensor product）的做法是先把至少一个因子替换为与它准同构的 K-flat 复形，再作 ordinary tensor product；这里准同构是指在每个 degree 上都诱导同调同构的链映射。所得对象记为
 
 $$
 C\otimes_R^{\mathbf L}D.
 $$
 
-若 $C,D$ 本身是有界自由复形，它们已经可以用于这一步，所以 ordinary tensor product 计算 derived tensor product。相关同调由 Künneth spectral sequence 组织：
+若 $C$ 或 $D$ 本身已经 K-flat，就可以直接用 ordinary tensor product 表示这个导出张量积。有界且逐项自由的复形是 K-flat 的安全充分条件。若两个因子都没有经过 K-flat 验证，就不能把下面谱序列的收敛目标直接改写成 $H(C\otimes_RD)$。还必须注意：**K-flat 只保证 ordinary tensor product 算对了导出张量积，并不保证下面的谱序列在第二页退化。**
+
+[The Stacks Project, Tag 0H7Z](https://stacks.math.columbia.edu/tag/0H7Z) 使用上同调指标。把它按 $H_p(C)=H^{-p}(C^\bullet)$ 重编号为同调指标后，得到有界 Künneth 谱序列
 
 $$
 E^2_{s,t}
 =
 \bigoplus_{p+q=t}
-\operatorname{Tor}_s^R(H_p(C),H_q(D))
+\operatorname{Tor}_s^R\bigl(H_p(C),H_q(D)\bigr)
 \Longrightarrow
-H_{s+t}(C\otimes_R^{\mathbf L}D).
+H_{s+t}\bigl(C\otimes_R^{\mathbf L}D\bigr),
 $$
 
-谱序列的下一页由当前页及其微分的同调得到，即 $E^{r+1}=H(E^r,d_r)$。稳定后的 $E^\infty$ 给出目标同调的一个滤过（filtration）
+其第 $r$ 页微分方向为
 
 $$
-0=F_{-1}H_n\subseteq F_0H_n\subseteq\cdots\subseteq H_n.
+d_r:
+E^r_{s,t}
+\longrightarrow
+E^r_{s-r,t+r-1}.
 $$
 
-伴随分次（associated graded）把相邻层之差并列保存：
+这里 $E^2$ 只是计算的起点。一般环相对域上的简单直和结论有三层额外问题：
+
+1. **高阶 $\operatorname{Tor}$：** $s>0$ 的位置可能已经非零；
+2. **后续微分：** $E^2$ 上的项还可能被某个 $d_r$ 杀掉，或成为别的项的边界；
+3. **扩张（extension）问题：** 即使到 $E^\infty$ 已经稳定，它也只给出目标同调的伴随分次，而不是目标同调的首选直和分解。
+
+第三点具体表示：对 $H_n=H_n(C\otimes_R^{\mathbf L}D)$，存在一个有限滤过
+
+$$
+0=F_{-1}H_n
+\subseteq
+F_0H_n
+\subseteq
+F_1H_n
+\subseteq
+\cdots
+\subseteq
+H_n,
+$$
+
+并且
+
+$$
+F_sH_n/F_{s-1}H_n
+\cong
+E^\infty_{s,n-s}.
+$$
+
+把这些相邻层之商并列起来，称为 $H_n$ 的伴随分次：
 
 $$
 \operatorname{gr}H_n
@@ -662,49 +644,66 @@ $$
 \bigoplus_sE^\infty_{s,n-s}.
 $$
 
-因此 $E^2$ 页上的高阶 $\operatorname{Tor}$ 还可能经过后续微分。各商空间 $F_sH_n/F_{s-1}H_n$ 重新组成 $H_n$ 时，相应短正合列也未必有典范分裂；这就是这里的 extension 问题。高阶 $\operatorname{Tor}$ 不能无条件读成目标同调的额外直和项。
+$E^\infty$ 告诉我们每一相邻层之商是什么；要把这些商重新拼成 $H_n$，还要解相应的扩张问题。即使每个商都已知，也不能未经证明就写成它们的直和。
 
-循环 LP 常用
+因此，在一般交换环上，不能把 $E^2$ 页的高阶 $\operatorname{Tor}$ 直接当作额外逻辑直和项，也不能把 $E^\infty$ 的各格直接相加成一个自然分解。另一方面，“系数环不是域”只表示域上的结论不再自动成立，并不表示每个非域实例都会出现非零 $\operatorname{Tor}$、非平凡微分或失败的比较映射。
 
-$$
-R_\ell=\mathbb F_2[x]/(x^\ell-1).
-$$
+### 一个直接计算的失败例子
 
-LP 的两个输入二项复形是有界自由 $R_\ell$-复形，所以 ordinary complex $C\otimes_{R_\ell}D$ 可以计算相应 derived tensor product；这不保证谱序列退化。另一方面，即使 $R_\ell$ 不是域，也不表示每个实例必有非零 $\operatorname{Tor}$：若每一对相关同调模中至少有一个是平坦模，高阶 $\operatorname{Tor}$ 仍会消失。即使它们消失，$R_\ell$-module tensor product 的二进制维数也不等于两个因子二进制维数的简单乘积。
-
-所以一般 LP 实例不能无条件套用 $K=k_Ak_B^T+k_A^Tk_B$；应按 [[Lifted product code#二进制长度、行数、秩与 LDPC 条件]] 中展开后的二进制秩计算 $K$。非交换 group-algebra LP 还需要区分右模与左模，具体 convention 由 [[Lifted product code]] 承担。
-
-### $\ell=2$ 的环系数反例
-
-在 $\mathbb F_2$ 上，令 $\varepsilon=x+1$。因为
+下面的反例是本文中的直接计算。它也是最小循环系数环的一个例子：令 $\varepsilon=x+1$，则
 
 $$
-x^2-1=(x+1)^2,
+R_2
+=
+\mathbb F_2[x]/\langle x^2-1\rangle
+\cong
+\mathbb F_2[\varepsilon]/\langle\varepsilon^2\rangle,
+$$
+
+因为在 $\mathbb F_2$ 上有 $x^2-1=(x+1)^2$。
+
+取两个相同的二项自由 $R_2$-复形
+
+$$
+C=D=
+\left(
+0\longrightarrow R_2
+\xrightarrow{\ \varepsilon\ }
+R_2\longrightarrow0
+\right),
+$$
+
+其中边界映射是乘以 $\varepsilon$。若 $u=a+b\varepsilon$，其中 $a,b\in\mathbb F_2$，则
+
+$$
+\varepsilon u=a\varepsilon,
 $$
 
 所以
 
 $$
-R_2=\mathbb F_2[x]/(x^2-1)
-\cong
-\mathbb F_2[\varepsilon]/(\varepsilon^2).
-$$
-
-取两个相同的二项自由 $R_2$-复形
-
-$$
-C=D=\left(0\longrightarrow R_2\xrightarrow{\,\varepsilon\,}R_2\longrightarrow0\right),
-$$
-
-其中箭头表示乘以 $\varepsilon$。写 $u=a+b\varepsilon$，则 $\varepsilon u=a\varepsilon$，因此
-
-$$
 H_1(C)=\ker(\varepsilon)=(\varepsilon),
 \qquad
-H_0(C)=R_2/(\varepsilon),
+H_0(C)=R_2/\langle\varepsilon\rangle,
 $$
 
-对 $D$ 也相同。两个模都同构于 $\mathbb F_2$，所以 $\kappa_1$ 的定义域
+对 $D$ 也一样。作为 $R_2$-模，
+
+$$
+(\varepsilon)\cong R_2/\langle\varepsilon\rangle,
+$$
+
+而
+
+$$
+\bigl(R_2/\langle\varepsilon\rangle\bigr)
+\otimes_{R_2}
+\bigl(R_2/\langle\varepsilon\rangle\bigr)
+\cong
+R_2/\langle\varepsilon\rangle.
+$$
+
+所以 $\kappa_1$ 的定义域
 
 $$
 H_1(C)\otimes_{R_2}H_0(D)
@@ -712,13 +711,27 @@ H_1(C)\otimes_{R_2}H_0(D)
 H_0(C)\otimes_{R_2}H_1(D)
 $$
 
-具有两个 $\mathbb F_2$ 生成元。
+由两个一维 $\mathbb F_2$ 分量组成。
 
-按 $(C_1\otimes D_0)\oplus(C_0\otimes D_1)$ 排列中间项，特征 $2$ 使两个符号相同，乘积复形为
+按
 
 $$
-R_2\xrightarrow{\partial_2}R_2^2\xrightarrow{\partial_1}R_2,
+(C_1\otimes_{R_2}D_0)
+\oplus
+(C_0\otimes_{R_2}D_1)
 $$
+
+排列 degree-$1$ 项，并使用 $R_2\otimes_{R_2}R_2\cong R_2$，乘积复形为
+
+$$
+R_2
+\xrightarrow{\partial_2}
+R_2^2
+\xrightarrow{\partial_1}
+R_2,
+$$
+
+其中特征 $2$ 使两个 Koszul 符号相同，并且
 
 $$
 \partial_2(r)=(\varepsilon r,\varepsilon r),
@@ -726,7 +739,7 @@ $$
 \partial_1(a,b)=\varepsilon(a+b).
 $$
 
-直接计算得到
+以 $\{1,\varepsilon\}$ 为 $R_2$ 的 $\mathbb F_2$-基，直接得到
 
 $$
 \ker\partial_1
@@ -742,13 +755,21 @@ $$
 \{(\varepsilon,\varepsilon)\}.
 $$
 
-所以
+因此
 
 $$
 \dim_{\mathbb F_2}H_1(C\otimes_{R_2}D)=3-1=2.
 $$
 
-$\kappa_1$ 的两个源生成元分别映到
+$\kappa_1$ 的两个源生成元
+
+$$
+[\varepsilon]\otimes[\overline 1],
+\qquad
+[\overline 1]\otimes[\varepsilon]
+$$
+
+分别映到
 
 $$
 [(\varepsilon,0)],
@@ -756,20 +777,100 @@ $$
 [(0,\varepsilon)].
 $$
 
-但
+这两个类都非零，因为 $\operatorname{im}\partial_2$ 只由 $(\varepsilon,\varepsilon)$ 张成；但它们代表同一个非零类，因为
 
 $$
 (\varepsilon,0)+(0,\varepsilon)
 =(\varepsilon,\varepsilon)
-=\partial_2(1),
+=\partial_2(1).
 $$
 
-所以这两个像代表同一个同调类；而 $[(1,1)]$ 不在 $\kappa_1$ 的像中。于是 $\kappa_1$ 的秩为 $1$，既非单射也非满射。
+事实上可以取
 
-本例中比较映射的定义域与目标恰好都有二进制维数 $2$，失败发生在映射本身，而不是维数已经不同。它证明域上的 Künneth 直和不能无条件搬到 $R_2$，但不表示每个非域系数环或每个 LP 实例都会失败。
+$$
+[(\varepsilon,0)],
+\qquad
+[(1,1)]
+$$
 
-### 来源
+作为 $H_1(C\otimes_{R_2}D)$ 的一组 $\mathbb F_2$-基。第二个类与第一个类线性无关，所以不在 $\kappa_1$ 的像中。于是
 
-- J. P. May, [*A Concise Course in Algebraic Topology*](https://math.uchicago.edu/~chicagotopology2/ConciseRevised.pdf), “The Künneth theorem”：PID 上的短正合列、非自然分裂与域上的自然同构。
-- The Stacks Project, [*Derived tensor product*](https://stacks.math.columbia.edu/tag/06XY)：K-flat 复形与 derived tensor product。
-- The Stacks Project, [*Künneth Spectral Sequence*](https://stacks.math.columbia.edu/tag/0H7Z)：有界复形的一般环 Künneth 谱序列。
+$$
+\operatorname{rank}_{\mathbb F_2}\kappa_1=1.
+$$
+
+比较映射的定义域和目标都具有二进制维数 $2$，但 $\kappa_1$ 既非单射也非满射：一个非零源方向被压成零，同时一个非零目标方向没有原像。失败发生在映射结构本身，而不是因为两端维数预先不同。
+
+这里 $\varepsilon^2=0$，所以 $R_2$ 有零因子，不是整环，更不是 PID；因此不能把前一小节的 PID 短正合列套到这个例子上。这个反例只证明域上的直和公式不能无条件推广到 $R_2$，并不证明所有非域系数环或所有环系数乘积都会失败。
+
+### 环系数 LP 的安全判断
+
+循环 LP 常用交换环
+
+$$
+R_\ell=
+\mathbb F_2[x]/\langle x^\ell-1\rangle.
+$$
+
+它通常不是域，也不能默认为 PID。LP 输入的二项复形逐项自由且有界，所以 ordinary tensor product 可以代表相应的导出张量积；但是这并不自动消除高阶 $\operatorname{Tor}$，也不自动保证谱序列退化或扩张分裂。
+
+因此，除非已经用相关同调模的平坦性或其他结构证明所需的谱序列退化，并解决可能的扩张问题，否则不能把域上的
+
+$$
+K=k_Ak_B^{\mathsf T}+k_A^{\mathsf T}k_B
+$$
+
+无条件用于环系数 LP。即使某个模级 Künneth 分解成立，$\dim_{\mathbb F_2}(M\otimes_RN)$ 也一般不等于 $\dim_{\mathbb F_2}M$ 与 $\dim_{\mathbb F_2}N$ 的乘积。
+
+对一个具体的有限 LP 实例，安全而直接的做法是先按 [[Lifted product code]] 展开得到二进制 CSS 校验矩阵，再计算
+
+$$
+\boxed{
+K
+=
+N
+-
+\operatorname{rank}_{\mathbb F_2}H_X
+-
+\operatorname{rank}_{\mathbb F_2}H_Z
+}.
+$$
+
+非交换群代数情形还必须区分右模与左模，并检查两侧作用的相容性；这些 convention 属于 [[Lifted product code]]，不由本篇交换环版本的 Künneth 讨论代替。
+
+## 回收主线
+
+Künneth 分解回答的不是“tensor product 怎样分层”，而是“取同调与作 tensor product 能否交换”。
+
+在域上，比较映射
+
+$$
+[c]\otimes[d]
+\longmapsto
+[c\otimes d]
+$$
+
+是自然同构。它的良定义性来自改变 cycle 代表元只会增加乘积 boundary；它的可逆性来自每个复形都能非典范地拆成零微分的同调代表元部分与可缩部分，而所有含可缩因子的 tensor summands 都不贡献同调。
+
+对两个二项复形，degree-$1$ 同调因此分成
+
+$$
+\ker A\otimes\operatorname{coker}B
+\quad\text{与}\quad
+\operatorname{coker}A\otimes\ker B
+$$
+
+两类逻辑来源，并在二进制 HGP 中给出 $K=k_Ak_B^{\mathsf T}+k_A^{\mathsf T}k_B$。
+
+一旦系数从域换成环，首先要问的是所处层级：PID 上由 $\operatorname{Tor}_1$ 短正合列控制；一般交换环上由导出张量积与 Künneth 谱序列控制；具体 LP 若没有额外退化或平坦性证明，就回到展开后的二进制矩阵秩。这样才能知道哪一步仍然成立，而不是把域上的直和公式当成无条件恒等式。
+
+## 来源与延伸
+
+- J. P. May, [*A Concise Course in Algebraic Topology*](https://math.uchicago.edu/~chicagotopology2/ConciseRevised.pdf), Chapter 17, “The Künneth theorem”：PID 上的自然短正合列、一般不自然的分裂与域上的自然同构。
+- The Stacks Project, [*Derived tensor product*, Tag 06XY](https://stacks.math.columbia.edu/tag/06XY)：K-flat 复形与导出张量积。
+- The Stacks Project, [*Künneth Spectral Sequence*, Tag 0H7Z](https://stacks.math.columbia.edu/tag/0H7Z)：一般环上有界的导出 Künneth 谱序列。
+- [[Chain complex 与 cochain complex]]：cycle、boundary 与同调商空间。
+- [[Cochain complex 的 tensor product]]：total degree、product differential 与 Koszul sign。
+- [[二进制空间性质]]：向量子空间补空间的存在性与非唯一性。
+- [[Hypergraph product code]]：HGP 的物理比特扇区、逻辑支撑商空间、校验矩阵与参数记号。
+- [[Lifted product code]]：环值分块、balanced tensor product、二进制展开与 LP 参数计算。

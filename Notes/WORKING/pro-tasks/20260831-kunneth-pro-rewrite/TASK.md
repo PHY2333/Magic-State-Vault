@@ -1,7 +1,7 @@
 ---
 task_id: 20260831-kunneth-pro-rewrite
 route: pro-write-review
-status: CHECKPOINT_PUSHED
+status: R01_APPLIED
 target_files:
   - Notes/07-Lifted-Product Code/Künneth 分解.md
 
@@ -73,4 +73,4 @@ automation:
 
 # 当前阶段
 
-`CHECKPOINT_PUSHED`：来源冲突已由用户决定；R01/R02 已纳入同一个初始 checkpoint，push 成功后自动进入 R01。
+`R01_APPLIED`：R01 完整候选已通过 binding、allowlist、Obsidian 数学、锚点和 diff 检查，并应用到唯一目标文件。应用 commit/push 成功后自动进入 fresh R02。
