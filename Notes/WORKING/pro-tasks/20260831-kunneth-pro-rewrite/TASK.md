@@ -1,7 +1,7 @@
 ---
 task_id: 20260831-kunneth-pro-rewrite
 route: pro-write-review
-status: R01_APPLIED
+status: R02_APPLIED
 target_files:
   - Notes/07-Lifted-Product Code/Künneth 分解.md
 
@@ -73,4 +73,4 @@ automation:
 
 # 当前阶段
 
-`R01_APPLIED`：R01 完整候选已通过 binding、allowlist、Obsidian 数学、锚点和 diff 检查，并应用到唯一目标文件。应用 commit/push 成功后自动进入 fresh R02。
+`R02_APPLIED`：fresh reviewer 返回完整修正版；R02 已通过 binding、allowlist、Obsidian 数学、锚点和 diff 检查，并应用到唯一目标文件。应用 commit/push 后生成最终报告。
