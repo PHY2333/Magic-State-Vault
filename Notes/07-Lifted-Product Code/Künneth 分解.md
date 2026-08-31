@@ -178,11 +178,103 @@ H_n(C\otimes_kD)
 }.
 $$
 
-良定义性只说明 $\kappa_n$ 确实是一张映射。Künneth 问题还要分别回答：
+良定义性只说明 $\kappa_n$ 确实是一张映射。为了把单射和满射翻译成同调商空间中的逐元素条件，先写出源空间中的一般元素。
 
-- $\kappa_n$ 是否单射：若若干因子同调类的张量和在乘积复形中变成 boundary，它在源空间中是否已经为零？
-- $\kappa_n$ 是否满射：乘积复形的每个 degree-$n$ 同调类，是否都能写成若干 $[c\otimes d]$ 之和？
-- 若两者都成立，$\kappa_n$ 才是同构。
+任取
+
+$$
+\alpha
+\in
+\bigoplus_{p+q=n}
+H_p(C)\otimes_kH_q(D).
+$$
+
+可以选择有限多个整数对 $(p_i,q_i)$ 和 cycles
+
+$$
+c_i\in Z_{p_i}(C),
+\qquad
+d_i\in Z_{q_i}(D),
+\qquad
+p_i+q_i=n,
+$$
+
+使得
+
+$$
+\alpha
+=
+\sum_i[c_i]\otimes[d_i].
+$$
+
+这些项可以先按不同的 $(p,q)$ 直和分量分组。这个张量表达式一般不唯一，但 $\kappa_n$ 已经良定义，所以接下来的条件不依赖所选表达式。由线性性，
+
+$$
+\kappa_n(\alpha)
+=
+\left[
+\sum_i c_i\otimes d_i
+\right].
+$$
+
+方括号内的链属于 $(C\otimes_kD)_n$；因为每个 $c_i,d_i$ 都是 cycle，所以每个 $c_i\otimes d_i$ 以及它们的和也都是 cycle。
+
+$\kappa_n$ 单射要求：只要
+
+$$
+\kappa_n(\alpha)=0
+$$
+
+成立，就必须有 $\alpha=0$。像中的零是目标同调商空间的零类，因此条件 $\kappa_n(\alpha)=0$ 等价于存在
+
+$$
+w\in(C\otimes_kD)_{n+1}
+$$
+
+使
+
+$$
+\sum_i c_i\otimes d_i
+=
+\partial w.
+$$
+
+单射要从“这整个代表链在乘积复形中是 boundary”推出“原来的整个元素 $\alpha$ 在源直和中为零”。这里不要求所展示的每一项 $[c_i]\otimes[d_i]$ 分别为零；同一个 $\alpha$ 也不需要有唯一的纯张量展开。
+
+$\kappa_n$ 满射则从目标出发。任取同调类
+
+$$
+[z]\in H_n(C\otimes_kD),
+$$
+
+并取一个 cycle $z\in(C\otimes_kD)_n$ 代表它。满射要求存在有限多个因子 cycles $c_i,d_i$，以及某个
+
+$$
+w\in(C\otimes_kD)_{n+1},
+$$
+
+使
+
+$$
+z-\sum_i c_i\otimes d_i
+=
+\partial w.
+$$
+
+这个等式说明 $z$ 与 $\sum_i c_i\otimes d_i$ 代表同一个目标同调类，因此
+
+$$
+[z]
+=
+\kappa_n
+\left(
+\sum_i[c_i]\otimes[d_i]
+\right).
+$$
+
+这不是“张量积中的每条链都能写成纯张量有限和”这一代数事实的重复。一般纯张量展开中的两个因子未必是 cycles；满射真正要求的是：模去乘积复形中的 boundaries 后，每个目标同调类都能由两个因子的 cycles 所构成的纯张量有限和代表。
+
+若上述单射与满射条件都成立，$\kappa_n$ 才是同构。
 
 ### 自然性在这里是什么意思
 
@@ -681,61 +773,309 @@ Q(D).
 \end{aligned}
 $$
 
-后三项都含有可缩因子，所以同调为零。第一项的两个因子边界都为零，因此它的乘积边界也为零。其总次数 $n$ 的链群是
+在这个分解下，记
 
 $$
-\bigoplus_{p+q=n}
-\widetilde H_p(C)\otimes_k\widetilde H_q(D).
+S
+=
+\widetilde{\mathcal H}(C)
+\otimes_k
+\widetilde{\mathcal H}(D),
+$$
+
+并把另外三个分量的直和记为
+
+$$
+\begin{aligned}
+A
+={}&
+\widetilde{\mathcal H}(C)
+\otimes_k
+Q(D)
+\\
+&\oplus
+Q(C)
+\otimes_k
+\widetilde{\mathcal H}(D)
+\\
+&\oplus
+Q(C)
+\otimes_k
+Q(D).
+\end{aligned}
+$$
+
+于是得到链复形的直和分解
+
+$$
+\boxed{
+C\otimes_kD
+=
+S\oplus A
+}.
+$$
+
+$S$ 的两个因子边界都为零，所以
+
+$$
+\left.\partial\right|_S=0.
+$$
+
+$A$ 的三个直和分量都含有可缩因子。第三步给出的收缩同伦可以分别作用在这三个分量上，再按直和组合，因此 $A$ 也是可缩复形。
+
+这里得到的准确结论是：$A$ 中的 cycle 都是 boundary。也就是说，若
+
+$$
+a\in A_n,
+\qquad
+\partial a=0,
+$$
+
+则存在
+
+$$
+w\in A_{n+1}
+$$
+
+使
+
+$$
+a=\partial w.
+$$
+
+这并不声称 $A$ 中的任意链都是 boundary；只有已经满足 cycle 条件的链才能使用可缩性得到这个结论。
+
+现在定义
+
+$$
+j_n:
+S_n
+\longrightarrow
+H_n(C\otimes_kD),
+\qquad
+s\longmapsto[s].
+$$
+
+因为 $\partial|_S=0$，每个 $s\in S_n$ 都是乘积复形中的 cycle，所以 $j_n$ 确实有定义。下面逐元素证明它满射和单射。
+
+先取任意目标 cycle
+
+$$
+z\in(C\otimes_kD)_n.
+$$
+
+利用直和分解，唯一地写成
+
+$$
+z=s+a,
+\qquad
+s\in S_n,
+\quad
+a\in A_n.
+$$
+
+由于 $\partial s=0$ 且 $\partial z=0$，
+
+$$
+0
+=
+\partial z
+=
+\partial s+\partial a
+=
+\partial a.
+$$
+
+因此 $a$ 是 $A$ 中的 cycle。由 $A$ 可缩，存在 $w\in A_{n+1}$ 使
+
+$$
+a=\partial w.
 $$
 
 于是
 
 $$
-H_n(C\otimes_kD)
-\cong
+z-s
+=
+a
+=
+\partial w,
+$$
+
+从而
+
+$$
+[z]=[s]=j_n(s).
+$$
+
+所以每个目标同调类都在 $j_n$ 的像中，$j_n$ 满射。这里被替换成 boundary 的只是 $A$ 分量中满足 cycle 条件的 $a$，而不是任意含有 $Q(C)$ 或 $Q(D)$ 的链。
+
+再证明单射。设 $s\in S_n$ 且
+
+$$
+j_n(s)=[s]=0.
+$$
+
+目标同调类为零意味着存在
+
+$$
+w\in(C\otimes_kD)_{n+1}
+$$
+
+使
+
+$$
+s=\partial w.
+$$
+
+把 $w$ 按 $S\oplus A$ 分解为
+
+$$
+w=u+v,
+\qquad
+u\in S_{n+1},
+\quad
+v\in A_{n+1}.
+$$
+
+因为 $\partial|_S=0$，有
+
+$$
+s
+=
+\partial w
+=
+\partial u+\partial v
+=
+\partial v.
+$$
+
+右边属于 $A_n$，而左边属于 $S_n$。直和分解给出
+
+$$
+S_n\cap A_n=\{0\},
+$$
+
+所以
+
+$$
+s=0.
+$$
+
+因此 $j_n$ 单射。这个论证还明确说明：乘积复形中的一个 ambient boundary 不可能具有非零的 $S$ 分量；所有 boundary 都落在 $A$ 中。
+
+接下来把 $S_n$ 与比较映射的源空间对应起来。由定义，
+
+$$
+S_n
+=
 \bigoplus_{p+q=n}
 \widetilde H_p(C)\otimes_k\widetilde H_q(D).
 $$
 
-再用
+把第一步中的代表元同构分别记为
 
 $$
-\rho_p:
-\widetilde H_p(C)\xrightarrow{\sim}H_p(C),
+\rho_p^C:
+\widetilde H_p(C)
+\xrightarrow{\sim}
+H_p(C),
 \qquad
-\rho_q:
-\widetilde H_q(D)\xrightarrow{\sim}H_q(D)
+h\longmapsto[h],
 $$
 
-识别同调代表元空间，就得到
+$$
+\rho_q^D:
+\widetilde H_q(D)
+\xrightarrow{\sim}
+H_q(D),
+\qquad
+h'\longmapsto[h'].
+$$
+
+它们的逆映射给出一个依赖补空间选择的线性同构
 
 $$
-H_n(C\otimes_kD)
-\cong
+r_n
+:=
 \bigoplus_{p+q=n}
-H_p(C)\otimes_kH_q(D).
+\left(
+(\rho_p^C)^{-1}
+\otimes
+(\rho_q^D)^{-1}
+\right):
+\bigoplus_{p+q=n}
+H_p(C)\otimes_kH_q(D)
+\longrightarrow
+S_n.
 $$
 
-更重要的是，存活分量中的 $h\otimes h'$ 进入原乘积复形后代表
+现在核对 $j_n\circ r_n$ 究竟是哪张映射。任取纯张量
 
 $$
-[h\otimes h'].
+[c]\otimes[d]
+\in
+H_p(C)\otimes_kH_q(D),
+\qquad
+p+q=n,
 $$
 
-在 $\rho_p,\rho_q$ 的识别下，这正是
+并令
 
 $$
-\kappa_n([h]\otimes[h'])
+h=(\rho_p^C)^{-1}([c]),
+\qquad
+h'=(\rho_q^D)^{-1}([d]).
+$$
+
+于是 $h,c$ 代表同一个 $C$ 的同调类，$h',d$ 代表同一个 $D$ 的同调类。由前面已经证明的代表元无关性，
+
+$$
+\begin{aligned}
+(j_n\circ r_n)([c]\otimes[d])
+&=
+j_n(h\otimes h')
+\\
+&=
+[h\otimes h']
+\\
+&=
+[c\otimes d]
+\\
+&=
+\kappa_n([c]\otimes[d]).
+\end{aligned}
+$$
+
+纯张量张成每个张量积分量，而两边都是线性映射，所以这个等式由纯张量推广到任意有限和：
+
+$$
+\boxed{
+\kappa_n
 =
-[h\otimes h'].
+j_n\circ r_n
+}.
 $$
 
-因此证明的是先前已经定义好的 $\kappa_n$ 本身可逆，而不只是源与目标维数相等。
+$r_n$ 是同构，而前面已经逐元素证明 $j_n$ 是同构，因此先前定义的具体比较映射 $\kappa_n$ 本身可逆。
 
-从证明中还可直接读出单射与满射：
+这也正面回答了比较映射一节中的两个问题。对任意目标 cycle $z$，上面的分解给出 $z=s+\partial w$，再由 $r_n$ 的满射性写出 $s=r_n(\alpha)$，于是
 
-- 每个乘积同调类都可以消去含 $Q(C)$ 或 $Q(D)$ 的部分，只留下代表元张量之和，所以 $\kappa_n$ 满射；
-- 留下的代表元张量位于零边界的直和分量中，若其同调类为零，它本身只能为零，所以 $\kappa_n$ 单射。
+$$
+[z]
+=
+j_n(r_n(\alpha))
+=
+\kappa_n(\alpha),
+$$
+
+所以 $\kappa_n$ 满射。反过来，若任意源元素 $\alpha$ 的像由某个 boundary 表示，即 $\kappa_n(\alpha)=0$，那么
+
+$$
+j_n(r_n(\alpha))=0.
+$$
+
+$j_n$ 与 $r_n$ 都单射，因此 $\alpha=0$。这证明的是整个源元素为零，而不要求某个非唯一纯张量表达式中的各项分别为零。
 
 ### 第五步：自然同构与非自然分裂不能混为一谈
 
@@ -751,7 +1091,7 @@ L_n(C),
 L_n(D).
 $$
 
-这些补空间通常不唯一，也没有理由被任意链映射保持。由它们构造的链级投影、收缩同伦和显式分裂，一般都不自然。
+这些补空间通常不唯一，也没有理由被任意链映射保持。由它们构造的链级直和分量 $S,A$、代表元识别 $r_n$、链级投影、收缩同伦和显式分裂，一般都不自然。
 
 但是比较映射
 
@@ -761,7 +1101,13 @@ $$
 [c\otimes d]
 $$
 
-在选择补空间之前就已经定义，而且前面已经直接验证它满足自然性交换关系。补空间只用于证明这张既定映射是双射，并不参与它的定义。
+在选择补空间之前就已经定义，而且前面已经直接验证它满足自然性交换关系。补空间只用于构造分解
+
+$$
+\kappa_n=j_n\circ r_n
+$$
+
+并证明这张既定映射是双射，并不参与 $\kappa_n$ 的定义。
 
 因此要区分：
 
