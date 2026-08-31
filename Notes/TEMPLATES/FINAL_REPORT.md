@@ -8,6 +8,8 @@
 - review_result:
 - review_application_commit:
 - target_files:
-- Obsidian_math_check:
+- Codex_format_repair_summary:
+- final_Obsidian_math_check:
+- git_diff_check:
 - unresolved_items:
 - merge_to_main: not performed

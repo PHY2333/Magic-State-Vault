@@ -6,8 +6,16 @@ target_files:
   - <path>
 
 integrity: fast
-review_policy: none | internal | fresh
+review_policy: none | internal | same-thread | independent
 audit_retention: errors-only | minimal | full
+
+format_handling:
+  policy: codex-contextual
+  auto_repair: true
+  rule_based_fixer: false
+  allow_markdown_and_delimiter_repair: true
+  allow_unambiguous_latex_syntax_repair: true
+  escalate_only_when_meaning_is_ambiguous: true
 
 git:
   remote: origin
@@ -34,7 +42,9 @@ automation:
     - source_conflict
     - structural_file_change
     - path_outside_allowlist
-    - math_check_failure
+    - ambiguous_format_or_latex_repair
+    - math_content_uncertain
+    - format_check_failed_after_codex_repair
     - push_failure
     - merge_to_main
 ---

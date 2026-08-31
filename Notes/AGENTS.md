@@ -1,6 +1,6 @@
 # Notes/AGENTS.md
 
-本文件是 Notes Pro-First 1.0 的唯一活动路由入口。
+本文件是 Notes Pro-First 1.1 的唯一活动路由入口。
 
 ## 1. 路线
 
@@ -10,11 +10,11 @@
 
 ### `pro-write`
 
-概念解释、新笔记、局部或中等规模重写。ChatGPT Pro 直接输出最终文件，Codex应用、检查并推送。
+概念解释、新笔记、局部或中等规模重写。ChatGPT Pro 直接输出最终文件，Codex检查、进行必要的格式规范化、应用并推送。
 
 ### `pro-write-review`
 
-整篇笔记、复杂证明、多个章节、论文一般化，或用户反馈“像百科”“视角错误”“失去目标”。Pro 先写完整文件，随后新的 Pro 会话从头审查整篇。
+整篇笔记、复杂证明、多个章节、论文一般化，或用户反馈“像百科”“视角错误”“失去目标”。Pro 先写完整文件，随后按任务指定的 review policy 审查整篇。
 
 只要任务需要决定读者怎样理解、概念为什么此时出现、复杂内容如何组织，就不能降为 `codex-only`。
 
@@ -25,60 +25,93 @@
 - `Notes/PRO_OUTPUT_PROTOCOL.md`
 - `Notes/OBSIDIAN_MATH.md`
 
-旧版本的流程文件和任务目录只保留在 Git 历史中，不再作为活动规则来源。
+旧版本流程只保留在 Git 历史中，不再作为活动规则来源。
 
 ## 3. Codex 的职责
 
 - 读取本地仓库并生成简洁请求；
 - 建立任务分支与 GitHub checkpoint；
-- 通过 `@Browser` 自动调用 chatgpt.com 的 Pro 模式；
+- 通过 `@Browser` 调用 chatgpt.com 的 Pro 模式；
 - 捕获完整响应到临时目录；
 - 验证 binding、响应完整性和路径 allowlist；
-- 检查 Obsidian 数学与 diff；
+- 把文件提取到 staging；
+- 运行 Obsidian 数学与 Markdown 检查；
+- 依据 `Notes/OBSIDIAN_MATH.md`，直接修复纯格式问题和可唯一判断的 LaTeX 语法问题；
 - 应用文件并自动 commit/push；
-- 对 `pro-write-review` 自动开启新的 Pro 会话；
+- 按任务 review policy 运行 R02；
 - 不自动合并主分支。
 
-Codex不得在应用时教学性改写 Pro 正文。Pro 输出不合格时，要求 Pro 重发完整文件。
+Codex不得对 Pro 正文做教学性、数学性或语义性改写。
 
-## 4. Pro 的职责
+格式规范化不属于教学性改写。只要修复后的数学陈述与正文含义唯一且不变，Codex应直接处理，不得仅因格式问题要求 Pro 重发完整文件，也不得询问用户。
+
+## 4. 格式问题的责任边界
+
+### Codex 直接修复
+
+- Markdown 数学分隔符；
+- 行内公式与块公式的布局；
+- 块公式周围的换行和空行；
+- callout 的引用前缀；
+- 明显由 Browser、代码块或字符串转义造成的反斜杠问题；
+- 其它不改变数学陈述、正文措辞和内容顺序的 Obsidian / Markdown 问题；
+- 可由上下文或已读取来源唯一确定的 LaTeX 语法错误。
+
+### 返回 Pro 或来源核验
+
+- 修复会改变数学符号、运算、指标、正负号、转置、量词、等式或条件；
+- 存在两个以上合理的数学解释；
+- 无法判断公式边界；
+- 正文与公式相互矛盾；
+- 来源之间发生冲突；
+- 缺失的不是格式，而是数学内容或解释。
+
+现有 Python checker 只负责诊断，不负责修改文件。Codex必须结合全文作判断，不得机械套用全局替换。
+
+## 5. Pro 的职责
 
 - 实际读取 GitHub checkpoint 中的请求和指定材料；
 - 在内部完成必要的教学规划；
 - 直接输出完整 reader-visible Markdown；
-- 复杂任务在 fresh review 中从头连续审查整篇；
+- 按请求审查完整文件；
+- 尽量遵守 Obsidian 数学规范；
 - 不修改 GitHub，不声称已执行本地或 Git 操作。
 
-## 5. Fast binding
+Pro 不需要为孤立的纯格式问题重新生成整篇文件；Codex在应用层负责规范化。
+
+## 6. Fast binding
 
 每轮请求含一个只存在于请求文件中的 `binding_id`。Browser 提示不公开其值。Pro 必须从 GitHub 文件读取并返回。
 
-Codex只核对：task、request、binding ID、repository、branch、checkpoint commit、allowlist 和 `END_RESPONSE`。不默认计算 request/response hash。
+Codex只核对 task、request、binding ID、repository、branch、checkpoint commit、allowlist 和 `END_RESPONSE`。不默认计算 request/response hash。
 
-## 6. 自动连续执行
+## 7. 自动连续执行
 
 当 `TASK.md` 中 `automation.run_to_completion: true` 时，Codex已经获得以下 standing authorization：
 
 - commit/push request checkpoint；
 - 发送并捕获 R01；
-- 应用 R01 并 commit/push；
-- 若 `review_policy: fresh`，自动打开新 Pro chat 发送 R02；
-- 捕获并应用 R02；
+- 解析、格式规范化、应用 R01 并 commit/push；
+- 按 review policy 自动发送 R02；
+- 捕获、格式规范化并应用 R02；
 - 在任务分支中完成最终 commit/push。
 
 不要在这些阶段询问用户是否继续。
 
-## 7. 必须暂停的情况
+## 8. 必须暂停的情况
 
 - Browser 或账户权限需要用户处理；
 - Pro 返回 `NEEDS_CONTEXT`、`DECISION_REQUIRED` 或 `BLOCKED`；
 - 删除、移动、拆分、合并或重命名正式文件；
 - 输出路径不在 allowlist；
 - 来源或数学条件冲突；
-- Obsidian 数学检查失败且 Pro 未重发；
+- 格式问题存在多个合理解释，或修复可能改变数学含义；
+- Codex完成上下文修复后，文件仍无法通过 Obsidian 数学检查；
 - 需要合并主分支。
 
-## 8. Git 安全
+纯格式错误本身不是暂停条件。
+
+## 9. Git 安全
 
 - 使用任务分支；
 - 显式暂存路径，禁止 `git add -A`；
