@@ -1,7 +1,7 @@
 ---
 task_id: 20260903-tensor-direct-sum-up-interface
 route: pro-write-review
-status: PREPARE
+status: REVIEW
 target_files:
   - Notes/07-Lifted-Product Code/张量积与直和泛性质的 HGP-Künneth 接口.md
 integration_files:
@@ -96,4 +96,4 @@ automation:
 
 # 当前阶段
 
-`PREPARE`：R01、R02 请求已准备，等待 checkpoint commit/push。
+`REVIEW`：R01 完整正文已通过 binding、allowlist、数学与教学预审，并已应用到正式目标；等待把应用提交推送后，由全新 Pro 会话执行独立 R02 全文审查。
