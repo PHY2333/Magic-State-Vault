@@ -5,7 +5,7 @@ request_type: new-note
 route: pro-write-review
 output_mode: full-file
 review_policy: fresh
-binding_id: dbee088eca964ef9b0bd70b575751c75
+binding_id: cf7cc9b76a404547903213b7b0b3d384
 target_files:
   - Notes/07-Lifted-Product Code/张量积与直和泛性质的 HGP-Künneth 接口.md
 ---
@@ -59,13 +59,13 @@ target_files:
   $$
 
   并解释为何 $[v]\otimes[w]\mapsto[v\otimes w]$ 的目标必须是右侧 quotient。这里的 $U\otimes W$、$V\otimes S$ 通过域上 inclusion 的诱导映射视为子空间；不要把这套写法无条件推广到一般 modules；
-- 作为 Künneth 接口，说明先在 cycle representatives 上验证
+- 作为 Künneth 接口，先取 cycles $c,d$ 并由 Koszul differential 验证 $c\otimes d$ 仍是 cycle，因而 $[c\otimes d]$ 确有定义；再验证
 
   $$
   ([c],[d])\longmapsto[c\otimes d]
   $$
 
-  对代表元良定义且双线性，才能由 tensor universal property 得到 $H_p(C)\otimes H_q(D)$ 上的线性比较映射；泛性质本身不替代代表元无关性的证明，也不自动保证该映射是同构；
+  对两个因子的代表元改变只产生 boundary，从而得到良定义的双线性映射 $H_p(C)\times H_q(D)\to H_{p+q}(C\otimes D)$；最后才能由 tensor universal property 得到 $H_p(C)\otimes H_q(D)$ 上的线性比较映射。泛性质本身不替代 cycle 性或代表元无关性的证明，也不自动保证该映射是同构；
 - 作为 HGP 接口，解释
 
   $$
@@ -95,6 +95,7 @@ target_files:
 
 # 必须读取
 
+- `Notes/WORKING/pro-tasks/20260903-tensor-direct-sum-up-interface/TASK.md`：核对新文职责与两条预定机械集成文字
 - `Notes/WRITING_GUIDE.md`
 - `Notes/OBSIDIAN_MATH.md`
 - `Notes/PRO_OUTPUT_PROTOCOL.md`
@@ -108,7 +109,7 @@ target_files:
 
 # Ownership 与文件职责
 
-仓库已有主笔记 `[[Tensor product 对 direct sum 的分配律]]`。它继续拥有 ordinary tensor product 对 direct sum 分配的自然同构及其 $\Phi,\Psi$ 证明。新笔记位于 `Notes/07-Lifted-Product Code/`，职责是让 HGP/Künneth 读者掌握“验证规则—tensor 线性化—direct-sum 拼接”的映射构造模式。
+仓库已有主笔记 `[[Tensor product 对 direct sum 的分配律]]`。它继续拥有一般泛性质背景、ordinary tensor product 对 direct sum 分配的自然同构及其 $\Phi,\Psi$ 证明。新笔记位于 `Notes/07-Lifted-Product Code/`，只拥有 HGP/Künneth 语境中“验证规则—tensor 线性化—direct-sum 拼接”的应用接口。
 
 因此：
 
@@ -117,12 +118,14 @@ target_files:
 - 第一次需要这些下游结果时，以最短充分桥梁说明本篇结论怎样被使用，再链接对应主笔记；
 - 正文开头不能用 ownership、仓库路径、任务或维护语言作教材入口；ownership 只通过自然的“延伸阅读”链接体现。
 
+R02 通过后，Codex会按 `TASK.md` 中已经固定的逐字文本和位置，把本篇加入 `Notes/00-index.md` 的可选应用桥梁入口，并在 `CANONICAL_KNOWLEDGE.md` 记录其边界。成稿职责必须与那两条预定集成文字一致；Pro 不输出或修改这两个文件。
+
 # 数学边界
 
 - 除专门的边界提醒外，正文固定共同系数域 $k$，所有 tensor products 都是 $\otimes_k$；不要把 ordinary tensor product 的结论无条件搬到 $\otimes_R$；
 - tensor product 对象应和典范双线性映射 $\tau:V\times W\to V\otimes_kW$ 一起陈述。泛性质的唯一性是因子化映射的唯一性；进一步应说明满足同一泛性质的两个实现之间存在唯一的典范同构；
 - quotient construction 若出现，必须列全向量加法与两个变量的标量相容关系，并闭合“关系子空间落入 kernel，所以映射下降到 quotient”的存在性论证；不要把具体构造误写成本质上唯一的底层集合；
-- $V\times W$ 是双线性映射的两变量输入集合，$V\oplus W$ 是向量空间；在二元有限维情形它们的底层 pair 表示相似，也不能混淆其线性结构与泛性质；
+- 对任意两个向量空间，笛卡尔积 $V\times W$ 配逐坐标运算后本身就是向量空间，并与二元外直和 $V\oplus W$ 典范同构（常用同一个 pair model），不要求 $V,W$ 有限维。真正的区别是映射结构：双线性 $b:V\times W\to X$ 分别对两个变量线性，但通常不是把 product vector space $V\times W$ 当作源的普通线性映射；direct-sum 泛性质讨论的则是普通线性映射 $V\oplus W\to X$。正文必须明确这一区别，不能把 $V\times W$ 误写成“只是集合而不是向量空间”；
 - 一般 tensor 是有限个 pure tensors 的和，这种分解通常不唯一。若用基展开，则唯一性来自所选 bases 对应的 tensor-product basis；
 - 任意指标族的 direct sum 满足
 
@@ -134,7 +137,8 @@ target_files:
 
   有限族的 direct sum 同时是 product；无限族的 mapping-in 目标一般应为 $\prod_iV_i$。不要因每个 direct sum 都有 coordinate projections 就声称无限 direct sum 满足完整 product universal property；
 - quotient-tensor 公式只在向量空间范围内使用。若提一般 modules，必须把相关子对象写成诱导映射的 images 或补充 flatness 条件；本篇宜只作边界提醒；
-- Künneth 接口必须保留 Koszul sign 所需的代表元检查，并明确“比较映射存在”与“比较映射是同构”是两件事。域上同构条件与一般环边界交给 `[[Künneth 分解]]`；
+- Künneth 接口必须按严格顺序闭合：cycles $c,d$ → 用 Koszul differential 证明 $c\otimes d$ 是 cycle → 两个因子的代表元变化给出 boundaries → 得到同调类上的良定义双线性映射 → 用 tensor universal property 因子化。并明确“比较映射存在”与“比较映射是同构”是两件事。域上同构条件与一般环边界交给 `[[Künneth 分解]]`；
+- HGP 应用段专门化到 $k=\mathbb F_2$，并采用 `[[Hypergraph product code]]` 的降次数 chain convention。抽象乘积链群公式可以在一般域成立，但 CSS qubit、物理坐标与逻辑支撑的解释不得无说明地推广到任意域；
 - HGP 中 $C_1$ 的两个 summands 是取 kernel/quotient 前的物理坐标来源；Künneth 的两个 summands 是同调层的逻辑来源，不能混用“两个扇区”；
 - 不把矩阵 Kronecker product、ordinary tensor product、tensor-product complex 或 balanced tensor product 当成完全相同的对象。只说明必要接口并链接对应 owner；
 - 不新增来源未支持的定理或把有限情形静默推广到无限情形。
@@ -191,7 +195,7 @@ target_files:
 5. direct sum 的 mapping-out 泛性质及唯一性完整；有限 biproduct 与无限 direct sum/product 的分叉准确。
 6. 两种泛性质的比较明确到对象、数据、映射方向和用途，而不只是“独立并列／相互作用”的口号。
 7. $(v,w)$、$v\otimes w$、$[v]\otimes[w]$、$[v\otimes w]$ 的 ambient spaces 与相互关系写清楚；quotient-tensor 公式范围准确。
-8. Künneth 接口先证明代表元无关并得到 bilinear rule，再使用 tensor universal property；没有把映射存在误写成同构。
+8. Künneth 接口先证明 $c\otimes d$ 的 cycle 性，再证明代表元无关并得到 bilinear rule，最后使用 tensor universal property；没有从未定义的 $[c\otimes d]$ 起步，也没有把映射存在误写成同构。
 9. HGP 的物理 direct-sum 分量与 Künneth 的逻辑 direct-sum 项保持区分。
 10. ordinary tensor、product-complex totalization、Kronecker blocks 与 balanced tensor 的边界清楚但不喧宾夺主。
 11. 没有重复相邻 owner 的完整证明，没有任务语言或维护者语言。

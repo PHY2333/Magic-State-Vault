@@ -4,6 +4,9 @@ route: pro-write-review
 status: PREPARE
 target_files:
   - Notes/07-Lifted-Product Code/张量积与直和泛性质的 HGP-Künneth 接口.md
+integration_files:
+  - Notes/00-index.md
+  - CANONICAL_KNOWLEDGE.md
 
 integrity: fast
 review_policy: fresh
@@ -57,7 +60,7 @@ automation:
 
 仓库现有 `[[Tensor product 对 direct sum 的分配律]]` 已是普通域上 tensor product 与 direct sum 的 canonical owner，并且已经用两种泛性质证明分配律。若新建一篇不加边界的泛称笔记，会形成第二个 owner。
 
-用户已明确指定新笔记位于 `Notes/07-Lifted-Product Code/`。本任务据此把新稿限定为 HGP–Künneth 的应用接口：允许为自足理解重述两条泛性质和必要构造，但不接管分配律、tensor-product complex、完整 Künneth 或 balanced tensor 的既有 ownership，也不重复这些笔记的完整证明。
+用户已明确指定新笔记位于 `Notes/07-Lifted-Product Code/`。本任务据此把新稿限定为 HGP–Künneth 的应用接口：允许为自足理解重述两条泛性质和必要构造，但不接管一般定义、分配律、tensor-product complex、完整 Künneth 或 balanced tensor 的既有 ownership，也不重复这些笔记的完整证明。新文只拥有“验证规则—tensor 线性化—direct-sum 拼接”在 HGP/Künneth 中的应用接口。
 
 # 本次授权
 
@@ -66,12 +69,27 @@ automation:
 - 可以在正文中链接现有 canonical notes，并用最短充分桥梁连接 HGP、Künneth 与 LP；
 - Codex按上下文处理纯 Obsidian / Markdown / 唯一确定的 LaTeX 格式问题；
 - 完成 R01 后由全新 Pro 会话运行 R02 全文审查；
+- R02 通过并核对预定集成文字后，Codex只做两处机械插入，不再自行决定措辞或位置；
 - 在本任务分支自动 commit/push。
+
+# 预定机械集成文字
+
+在 `Notes/00-index.md` 第 7 节紧接 `[[Hypergraph product code]]` 条目后插入下列完整一行。代码块内保留三个前导空格，使它仍是编号 7 的子项：
+
+```md
+   - [[张量积与直和泛性质的 HGP-Künneth 接口]]（可选应用桥梁）：说明如何先验证双线性规则、用张量积泛性质线性化，再用直和泛性质拼接 total-degree 分量；一般分配律仍见 [[Tensor product 对 direct sum 的分配律]]。
+```
+
+在 `CANONICAL_KNOWLEDGE.md` 的 `## Tensor product 与 direct sum` 中紧接“主笔记”条目后插入下列完整一行：
+
+```md
+- 应用接口：[[张量积与直和泛性质的 HGP-Künneth 接口]]，路径 `Notes/07-Lifted-Product Code/张量积与直和泛性质的 HGP-Künneth 接口.md`；它只整理“验证双线性规则—张量积线性化—直和拼接”在 HGP/Künneth 中的用法，不接管本条目的一般泛性质与分配律 ownership。
+```
 
 # 本次不处理
 
 - 不修改 `[[Tensor product 对 direct sum 的分配律]]`、`[[Cochain complex 的 tensor product]]`、`[[Künneth 分解]]`、HGP、LP 或 balanced tensor 正文；
-- 不修改 `CANONICAL_KNOWLEDGE.md` 或 `Notes/00-index.md`：新文只作为应用桥梁，不改变现有 canonical owner 或主学习路线；
+- 不对 `CANONICAL_KNOWLEDGE.md` 或 `Notes/00-index.md` 作上述两条最小链接维护之外的改写；一般泛性质与分配律的 canonical owner 保持不变；
 - 不删除、移动、拆分、合并或重命名正式文件；
 - 不修改 Papers、Translations 或其它任务产物；
 - 不合并主分支。
