@@ -1,3 +1,17 @@
+BINDING_OK
+task_id: 20260903-tensor-direct-sum-up-interface
+request_id: R02
+binding_id: 27cebcf49a4247dcb59a4a89f4231318
+based_on_repository: PHY2333/Magic-State-Vault
+based_on_branch: codex/tensor-direct-sum-up-interface-20260903
+based_on_commit: fc1ccc8d36cf7049e13ba4ff4dfd2837fa3b7663
+END_BINDING
+PRO_STATUS: COMPLETE
+BEGIN_FILE::27cebcf49a4247dcb59a4a89f4231318
+path: Notes/07-Lifted-Product Code/张量积与直和泛性质的 HGP-Künneth 接口.md
+mode: replace
+
+```markdown
 # 张量积与直和泛性质的 HGP–Künneth 接口
 
 许多线性代数构造都从一条“只在局部输入上写出的规则”开始。真正需要解决的不是怎样把公式写得更长，而是：
@@ -604,51 +618,95 @@ $$
 
 方括号和张量符号同时出现时，应先确定每个对象所在的空间。
 
-设 $U\subseteq V$、$S\subseteq W$ 是子空间。因为 $k$ 是域，通过包含映射诱导的映射可以把 $U\otimes_kW$ 和 $V\otimes_kS$ 视为 $V\otimes_kW$ 的子空间。记
+设 $U\subseteq V$、$S\subseteq W$ 是子空间。下面四个表达式分别表示不同层次的元素。
+
+第一，$(v,w)$ 属于 $V\times W$；在二元外直和的有序对模型中，也可把它看成 $V\oplus W$ 的元素。
+
+第二，$v\otimes w$ 属于 $V\otimes_kW$。
+
+第三，$[v]\otimes[w]$ 属于 $(V/U)\otimes_k(W/S)$，其中 $[v]=v+U$、$[w]=w+S$。这个表达式之所以可以取张量，是因为 $V/U$ 与 $W/S$ 本身仍是向量空间。
+
+第四，$[v\otimes w]$ 属于商空间
+
+$$
+\frac{V\otimes_kW}
+{U\otimes_kW+V\otimes_kS}.
+$$
+
+第三个表达式先分别取两个商空间，再张量；第四个表达式先在 $V\otimes_kW$ 中形成张量，再对一个子空间取商。它们不因符号相似就字面相等，但在域上存在一个典范同构把二者对应起来。
+
+通过包含映射诱导的单射，把 $U\otimes_kW$ 和 $V\otimes_kS$ 视为 $V\otimes_kW$ 的子空间，并记
 
 $$
 N=U\otimes_kW+V\otimes_kS.
 $$
 
-现在四个相似表达式的 ambient space 分别是：
+考虑规则
 
-- $(v,w)\in V\times W$；在二元外直和的有序对模型中，它也对应 $V\oplus W$ 的元素。
-- $v\otimes w\in V\otimes_kW$。
-- $[v]\otimes[w]\in(V/U)\otimes_k(W/S)$，其中 $[v]=v+U$、$[w]=w+S$。
-- $[v\otimes w]\in(V\otimes_kW)/N$。
-
-第三个表达式先分别取商再张量，第四个表达式先张量再取商；它们不是字面上的同一个对象。关键是规则
+$$
+(V/U)\times(W/S)
+\longrightarrow
+(V\otimes_kW)/N,
+$$
 
 $$
 ([v],[w])
 \longmapsto
-[v\otimes w]
+[v\otimes w].
 $$
 
-确实只依赖商类：若把 $v$ 改成 $v+u$，其中 $u\in U$，目标变化为 $[u\otimes w]=0$，因为 $u\otimes w\in N$；若把 $w$ 改成 $w+s$，其中 $s\in S$，变化同样落入 $N$。
-
-因此这是一条良定义的双线性规则，由张量积泛性质得到典范线性映射
+它对代表元无关。若把 $v$ 改成 $v+u$，其中 $u\in U$，则目标中的变化为
 
 $$
+[(v+u)\otimes w]-[v\otimes w]
+=
+[u\otimes w]
+=
+0,
+$$
+
+因为 $u\otimes w\in U\otimes_kW\subseteq N$。若把 $w$ 改成 $w+s$，其中 $s\in S$，同理变化落在 $V\otimes_kS\subseteq N$。因此该规则分别线性且只依赖商类，由张量积泛性质得到典范线性映射
+
+$$
+\Phi:
 (V/U)\otimes_k(W/S)
 \longrightarrow
 (V\otimes_kW)/N,
-\qquad
-[v]\otimes[w]\longmapsto[v\otimes w].
 $$
 
-在域 $k$ 上，这张典范映射是同构，所以
+$$
+\Phi([v]\otimes[w])=[v\otimes w].
+$$
+
+在域上，张量积保持短正合列。于是商映射 $q_V:V\to V/U$ 与 $q_W:W\to W/S$ 诱导的满射
+
+$$
+q_V\otimes q_W:
+V\otimes_kW
+\longrightarrow
+(V/U)\otimes_k(W/S)
+$$
+
+的核恰为 $N$。因此商掉 $N$ 后得到的同构与上面的典范映射 $\Phi$ 互逆，从而
 
 $$
 (V/U)\otimes_k(W/S)
 \cong
 \frac{V\otimes_kW}
-{U\otimes_kW+V\otimes_kS}.
+{U\otimes_kW+V\otimes_kS},
 $$
 
-这个结论也说明目标为什么必须再商掉 $N$：代表元改变在 $V\otimes_kW$ 中一般不是零，只是在模去 $N$ 后才消失。
+而对应关系正是
 
-对一般的、可以非交换的环 $R$，必须先固定左右模侧别：约定 $U\subseteq V$ 是右 $R$-子模，$S\subseteq W$ 是左 $R$-子模。此时两张诱导映射
+$$
+[v]\otimes[w]
+\longmapsto
+[v\otimes w].
+$$
+
+这也解释了为什么目标不能直接取 $V\otimes_kW$：改变 $v$ 或 $w$ 的商类代表元时，$v\otimes w$ 一般会变化；只有进一步商掉 $N$，这些变化才成为零。
+
+这里使用了系数是域这一点。对一般环上的模，诱导映射
 
 $$
 U\otimes_R W\longrightarrow V\otimes_R W,
@@ -656,7 +714,7 @@ U\otimes_R W\longrightarrow V\otimes_R W,
 V\otimes_R S\longrightarrow V\otimes_R W
 $$
 
-未必单射，因此安全写法是使用它们在 ambient tensor product $V\otimes_R W$ 中的像，而不能无条件把 $U\otimes_R W$ 或 $V\otimes_R S$ 本身称为其中的子模。若 $W$ 是平坦左 $R$-模，则第一张诱导映射单射；若 $V$ 是平坦右 $R$-模，则第二张诱导映射单射，此时才可以分别把相应张量积与它们在 $V\otimes_R W$ 中的像识别。
+未必单射，因此不能无条件把 $U\otimes_R W$ 与 $V\otimes_R S$ 本身当作 ambient tensor product 中的子模。安全的写法是使用这两张诱导映射的像；若希望把它们直接识别成相应张量积，则还需要相应的平坦性条件，并先固定一般模张量积所需的左右模侧别。
 
 方括号本身从不说明商掉了什么；必须连同所在商空间一起读取。下一节的 $[c\otimes d]$ 将表示模去边界后的同调类，而不是本节模去 $N$ 的商类。
 
@@ -1019,7 +1077,51 @@ $$
 B(m\cdot r,n)=B(m,r\cdot n)
 $$
 
-的 $R$-平衡双线性映射具有相应泛性质。这里新增了共享环作用及其左右侧别，不能把普通 $k$-双线性泛性质无条件搬过来。若还要形成平衡张量积链复形，则两个微分必须分别对第一因子的右 $R$-作用和第二因子的左 $R$-作用线性；这保证平衡关系被微分保持，商微分才能下降到平衡张量积上，完整验证见 [[Balanced tensor product 与 coinvariant quotient]]。平衡关系先在链群层构造新的商复形，之后才在该复形中取同调；它与“商掉边界”不是同一个商。
+的 $R$-平衡双线性映射具有相应泛性质。这里新增了共享环作用及其左右侧别，不能把普通 $k$-双线性泛性质无条件搬过来。
+
+若进一步把 $M_\bullet$ 与 $N_\bullet$ 作为链复形使用，还必须要求两边的微分分别对相应侧的 $R$-作用线性：
+
+$$
+\partial_M(m\cdot r)
+=
+(\partial_Mm)\cdot r,
+$$
+
+$$
+\partial_N(r\cdot n)
+=
+r\cdot\partial_Nn.
+$$
+
+对齐次 $m\in M_p$，乘积微分写成
+
+$$
+\partial(m\otimes_Rn)
+=
+\partial_Mm\otimes_Rn
++
+(-1)^p m\otimes_R\partial_Nn.
+$$
+
+上面的右、左 $R$-线性正是这个公式能穿过 balanced quotient 的条件。确切地，
+
+$$
+\begin{aligned}
+\partial\bigl((m\cdot r)\otimes_Rn\bigr)
+&=
+\partial_M(m\cdot r)\otimes_Rn
++
+(-1)^p(m\cdot r)\otimes_R\partial_Nn\\
+&=
+\partial_Mm\otimes_R(r\cdot n)
++
+(-1)^pm\otimes_R\partial_N(r\cdot n)\\
+&=
+\partial\bigl(m\otimes_R(r\cdot n)\bigr).
+\end{aligned}
+$$
+
+因此两个被 balanced relation 识别的代表元，其微分仍被同一关系识别，商微分才良定义并能下降到平衡张量积链复形。平衡关系先在链群层构造新的商复形，之后才在该复形中取同调；它与“商掉边界”不是同一个商。完整定义以及它与余不变量商（coinvariant quotient）的关系见 [[Balanced tensor product 与 coinvariant quotient]]。
 
 提升乘积码使用的正是带模结构的平衡张量积，并进一步涉及环值 Kronecker 分块、反对合和二进制展开；它不是把 HGP 中的普通 $\mathbb F_2$-张量积只换一个下标。具体构造条件见 [[Lifted product code]]。
 
@@ -1027,7 +1129,7 @@ $$
 
 遇到“局部公式怎样成为整体映射”时，可以按固定顺序检查。
 
-1. 先确认局部规则在当前对象上确有定义。若输入是商类，要检查代表元无关；若目标是同调类，要先检查闭链性；若在 $R$ 上取张量，还要检查平衡关系；若还要形成平衡张量积链复形，则还要确认两个微分分别对相应的右／左 $R$-作用线性，使平衡关系能被微分保持。
+1. 先确认局部规则在当前对象上确有定义。若输入是商类，要检查代表元无关；若目标是同调类，要先检查闭链性；若在 $R$ 上取张量，还要检查平衡关系以及微分对相应侧的 $R$-作用线性。
 2. 再确认规则对两个变量分别线性。完成这一步后，张量积泛性质才给出唯一的线性化映射。
 3. 若同一总次数含有多个来源，分别构造每个直和分量上的线性映射，再用直和泛性质把它们唯一拼成整体映射。
 
@@ -1042,3 +1144,8 @@ $$
 $$
 
 在 HGP 中，内层张量积负责配对两个因子的坐标，外层直和负责保留不同的总次数来源。前者回答“双线性规则怎样线性化”，后者回答“各分量映射怎样拼接”；只有把这两项工作分开，乘积链群、比较映射和逻辑同调的层次才会保持清楚。
+```
+
+END_FILE::27cebcf49a4247dcb59a4a89f4231318
+END_RESPONSE::27cebcf49a4247dcb59a4a89f4231318
+
