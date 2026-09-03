@@ -144,6 +144,7 @@
 ## Tensor product 与 direct sum
 
 - 主笔记：[[Tensor product 对 direct sum 的分配律]]，路径 `Notes/06-CCZ Distillation/Tensor product 对 direct sum 的分配律.md`。
+- 应用接口：[[张量积与直和泛性质的 HGP-Künneth 接口]]，路径 `Notes/07-Lifted-Product Code/张量积与直和泛性质的 HGP-Künneth 接口.md`；它只整理“验证双线性规则—张量积线性化—直和拼接”在 HGP/Künneth 中的用法，不接管本条目的一般泛性质与分配律 ownership。
 - 已有结论：固定域 $k$。若 $C=\bigoplus_i C^i$ 且 $D=\bigoplus_jD^j$，则 ordinary tensor product 有自然同构
   $$
   C\otimes_k D

@@ -1,7 +1,7 @@
 ---
 task_id: 20260903-tensor-direct-sum-up-interface
 route: pro-write-review
-status: R02_RUNNING
+status: DONE
 target_files:
   - Notes/07-Lifted-Product Code/张量积与直和泛性质的 HGP-Künneth 接口.md
 integration_files:
@@ -96,4 +96,4 @@ automation:
 
 # 当前阶段
 
-`R02_RUNNING`：全新 Pro 会话已基于 `fc1ccc8d36cf7049e13ba4ff4dfd2837fa3b7663` 完成独立全文审查；首份修订因 ownership 漂移被保留为失败审计，同一 R02 会话纠正后返回合规完整文件，现已通过 binding、allowlist、数学、教学、Obsidian 与 diff 检查并应用。等待提交推送及两处预定机械集成。
+`DONE`：R01 完整正文与全新 Pro 会话的 R02 全文审查均已完成、解析、检查、应用并推送。R02 的两份不合规中间响应按 `errors-only` 保留，同一 R02 最终稿已压缩 quotient-tensor 支线、补足 balanced chain 条件与一般环左右模侧别；两处预定索引/canonical 链接已机械集成。目标笔记与索引的 Obsidian 数学检查、全部任务 diff 检查均通过；canonical 全文件 checker 仅重现未改旧行的已知括号理想警告。任务分支保留，未合并 `main`。

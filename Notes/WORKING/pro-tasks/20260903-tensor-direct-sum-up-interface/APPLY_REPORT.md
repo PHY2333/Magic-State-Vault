@@ -41,11 +41,21 @@
 - Pro status: `COMPLETE`
 - fresh_session_verified: `true`
 - first_response: `rejected` — quotient-tensor 仍近似独立 lemma，且新增约 40 行 balanced differential 良定义证明，违反“最短充分接口”和既有 owner 边界；原始响应保存在 `FAILURES/R02-round1-ownership-drift.raw.md`。
-- same_R02_correction: `accepted` — 以 R01 checkpoint 为基底，压缩 quotient-tensor 接口、撤回 balanced proof，只保留链复形所需的左右 $R$-线性条件；随后补齐一般非交换环上的左右模侧别及两张映射各自的 flatness 条件。
+- same_R02_correction: `accepted after two corrections` — 以 R01 checkpoint 为基底，先压缩 quotient-tensor 接口、撤回 balanced proof，只保留链复形所需的左右 $R$-线性条件；第一份纠正稿遗漏一般非交换环的左右模侧别，保存在 `FAILURES/R02-correction1-missing-module-sides.raw.md`；最终稿补齐左右模侧别及两张映射各自的 flatness 条件。
 - final_diff_against_R01: `25 insertions, 80 deletions`
 - final_Obsidian_math_check: `pass`
 - git_diff_check: `pass`
 - staging_content_match: `true`
 - transport_normalization: 三次 R02 剪贴板响应均被网页归一化为三重外层围栏并在 `END_FILE` 前加入空行；Codex只在各自独立的 transport-normalized 临时副本中恢复协议容器，正文未因此改写。
 - Codex_semantic_edit: `none`
-- review_application_commit: 本报告所在的 R02 应用提交；完整 SHA 将在最终报告中记录。
+- review_application_commit: `13e54243d57bd8a8b2eeabc7566c58fc2496f6cc`
+
+## Final integration
+
+- `Notes/00-index.md`: 在 `[[Hypergraph product code]]` 与 `[[Lifted product code]]` 之间机械插入 TASK 预定行，且只出现一次。
+- `CANONICAL_KNOWLEDGE.md`: 在原 canonical 主笔记条目与“已有结论”之间机械插入 TASK 预定行，且只出现一次；一般泛性质与分配律 owner 未改变。
+- target_and_index_Obsidian_math_check: `pass`
+- canonical_full_file_check: `pre-existing warning` — 未改旧行的 $\mathbb F_2[\varepsilon]/(\varepsilon^2)$ 被 checker 报为 `suspicious slash opener`；`git diff --unified=0 HEAD -- CANONICAL_KNOWLEDGE.md` 确认本任务只新增预定链接行，TASK 禁止顺手修改其它 canonical 内容。
+- final_git_diff_check: `pass`
+- successful_temp_artifacts: `deleted`
+- audit_retention: `errors-only`

@@ -42,6 +42,7 @@
 
 7. Lifted-product qLDPC 构造
    - [[Hypergraph product code]]：核心入口；从两个经典种子校验矩阵建立 HGP blocks、两个物理比特扇区、四类 Tanner 边与行／列乘积方向。
+   - [[张量积与直和泛性质的 HGP-Künneth 接口]]（可选应用桥梁）：说明如何先验证双线性规则、用张量积泛性质线性化，再用直和泛性质拼接 total-degree 分量；一般分配律仍见 [[Tensor product 对 direct sum 的分配律]]。
    - [[Lifted product code]]：在 HGP 外层骨架上加入 lift 标签、循环 permutation 与环值 blocks，并区分 outer product 坐标和 inner lift 副本。
    - [[S007 中 LP 码的分层执行]]：把 outer product、inter-lift 与 intra-lift 结构对应到图 12 的提升间重排、提升内重排、门执行和定向转移。
    - [[Künneth 分解]]（可选数学支线）：用于逻辑空间、维数公式与一般系数边界，不是 HGP／LP 构造或 S007 执行的强制前置。
