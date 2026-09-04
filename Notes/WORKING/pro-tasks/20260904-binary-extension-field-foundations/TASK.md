@@ -1,7 +1,7 @@
 ---
 task_id: 20260904-binary-extension-field-foundations
 route: pro-write-review
-status: PREPARE
+status: R01_APPLIED
 target_files:
   - Notes/08-Binary Extension Field Non Clifford Module/二元扩域.md
 integration_files:
@@ -118,4 +118,4 @@ automation:
 
 # 当前阶段
 
-`PREPARE`：任务边界、唯一目标、fresh review 与预定索引/canonical 集成均已固定；下一步创建并推送 GitHub checkpoint。
+`R01_APPLIED`：GitHub checkpoint 已推送；R01 已完成绑定、解析、上下文格式规范化、数学与 ownership 预审并应用到唯一目标文件。下一步提交并推送 R01 application commit，再从全新 ChatGPT Pro 会话运行 R02 全文审查。
