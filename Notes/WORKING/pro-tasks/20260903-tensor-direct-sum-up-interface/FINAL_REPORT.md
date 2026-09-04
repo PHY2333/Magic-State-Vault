@@ -44,3 +44,10 @@
 - audit_retention: `errors-only`
 - unresolved_items_within_task_scope: `none`
 - merge_to_main: `not performed`
+
+## User-directed Codex follow-up（2026-09-04）
+
+- 用户反馈“$V\times W$ 也是向量空间，但双线性不等于线性”一节的解释仍不顺，并明确要求由 Codex 直接重写；本次局部返修因此未调用 Pro。
+- 小节改按“乘积向量空间上的整体线性—两个变量上的分别线性—二者除零映射外不相容—域乘法反例—引出张量积”的顺序组织。
+- 本次未改变文件职责或 canonical ownership，未新增前置笔记，也未修改 `Notes/00-index.md`、`CANONICAL_KNOWLEDGE.md`、Papers 或 Translations。
+- 目标文件的 Obsidian 数学检查与 `git diff --check` 均通过；任务目录继续保留。
