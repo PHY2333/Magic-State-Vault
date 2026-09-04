@@ -76,6 +76,7 @@ target_files:
 
 - 必须具体解释“模 $f$”是用同余 $p\sim q\iff f\mid(p-q)$ 合并多项式，并用带余除法选取次数小于 $s$ 的唯一代表元；不要只用“取商”代替读者需要的构造。
 - 用 Bézout 等式闭合“不可约 $f$ 保证任意非零类可逆”的理由，并明确可约多项式会产生零因子，不能得到域。
+- 用一个最短反例（例如模 $x(x+1)$）展示可约模多项式怎样产生两个非零类相乘为零；反例只服务于不可约性的必要性。
 - 说明所有含 $2^s$ 个元素的域在同构意义下唯一，但不同 $f$、不同基和不同本原元给出的坐标模型并非字面相同或典范相同。
 - 明确区分不可约多项式与本原多项式：构造域只需不可约；本原多项式额外要求其根生成阶为 $2^s-1$ 的乘法群。
 
@@ -87,7 +88,7 @@ target_files:
 
 ## 有限域结构
 
-- 准确说明 $a^{2^s}=a$、$\mathbb F_{2^s}^{\times}$ 是阶 $2^s-1$ 的循环群，以及 Frobenius
+- 准确说明 $a^{2^s}=a$、非零元素满足 $a^{-1}=a^{2^s-2}$、$\mathbb F_{2^s}^{\times}$ 是阶 $2^s-1$ 的循环群，以及 Frobenius
 
   $$
   \sigma(a)=a^2
@@ -102,7 +103,7 @@ target_files:
 - 本篇默认绝对迹与绝对范数到 $\mathbb F_2$：
 
   $$
-  \operatorname{Tr}(a)=a+a^2+\cdots+a^{2^{s-1}},
+  \operatorname{tr}(a)=a+a^2+\cdots+a^{2^{s-1}},
   $$
 
   $$
@@ -110,10 +111,10 @@ target_files:
   $$
 
   明确迹是 $\mathbb F_2$-线性的，范数是乘法性的；因为目标乘法群 $\mathbb F_2^\times$ 只有 $1$，绝对范数对所有非零元素都等于 $1$，不要把它写成信息丰富的一般坐标函数。
-- 说明迹配对 $(a,b)\mapsto\operatorname{Tr}(ab)$ 非退化，因此任意基 $B=(\alpha_i)$ 有唯一对偶基 $B^*=(\beta_i)$，满足 $\operatorname{Tr}(\alpha_i\beta_j)=\delta_{ij}$，并给出
+- 说明迹配对 $(a,b)\mapsto\operatorname{tr}(ab)$ 非退化，因此任意基 $B=(\alpha_i)$ 有唯一对偶基 $B^*=(\beta_i)$，满足 $\operatorname{tr}(\alpha_i\beta_j)=\delta_{ij}$，并给出
 
   $$
-  a=\sum_i\operatorname{Tr}(a\beta_i)\alpha_i.
+  a=\sum_i\operatorname{tr}(a\beta_i)\alpha_i.
   $$
 
 - 可以用一小段说明多项式基、正规基和自对偶基各解决什么表示问题，但不得把基的存在性条件写错。若陈述自对偶正规基存在性，必须精确限定；若不需要它服务主线，宁可只讲对偶基，不堆定理。
@@ -129,16 +130,31 @@ target_files:
   $$
 
   当 $\gamma\ne0$ 时 $M_\gamma$ 可逆。必须说明矩阵条目与外观依赖基，但这些代数关系不依赖。
-- 若采用自对偶基 $B=(\alpha_i)$，可以说明 $M_\gamma$ 的条目为 $\operatorname{Tr}(\alpha_i\gamma\alpha_j)$；只有在前文已解释坐标提取后才能使用这个公式。
+- 若 $B=(\alpha_j)$ 的对偶基为 $B^*=(\beta_i)$，应给出列向量约定下的一般条目公式
+
+  $$
+  (M_\gamma)_{ij}=\operatorname{tr}(\beta_i\gamma\alpha_j).
+  $$
+
+  只有当 $B$ 自对偶时，才能把它化为 $\operatorname{tr}(\alpha_i\gamma\alpha_j)$。两种公式都必须放在坐标提取已经解释之后。
+- 用同一组结构常数写出未知元素乘法的坐标：若 $a=\sum_i a_i\alpha_i$、$b=\sum_j b_j\alpha_j$，则
+
+  $$
+  (ab)_k
+  =
+  \sum_{i,j}a_i b_j\operatorname{tr}(\beta_k\alpha_i\alpha_j).
+  $$
+
+  这条式子用于具体解释乘法为何分别对两个输入线性、却是二进制坐标的二次函数；不要继续发展成门综合或资源计数。
 - 最后用一个紧凑接口说明：选定基把一个域元素标签变成 $s$ 个比特；域加法、固定常数乘法、Frobenius 和一般基变换都是 $\mathbb F_2$-线性的，因而可以由 CNOT/SWAP 型可逆线性线路实现，并落在后续 Clifford 讨论的线性骨架上；两个未知域元素的乘法是双线性的、通常不是拼接输入上的线性映射，因此需要非线性／非 Clifford 资源。这里只建立代数分叉，不定义完整 Clifford 层级，也不声称“双线性”本身自动确定具体层级或最优线路。
-- 可选用迹字符 $(-1)^{\operatorname{Tr}(ab)}$ 点出广义相位算子的来源，但若无法在短段内闭合其对象和用途，应删去，不要开启 qudit Pauli 第二主线。
+- 可选用迹字符 $(-1)^{\operatorname{tr}(ab)}$ 点出广义相位算子的来源，但若无法在短段内闭合其对象和用途，应删去，不要开启 qudit Pauli 第二主线。
 
 ## 必须避免的混淆
 
 - $\mathbb F_{2^s}$ 是特征 $2$ 的域；$\mathbb F_2^s$ 只有加法与标量乘法时只是向量空间；$\mathbb Z/2^s\mathbb Z$ 在 $s>1$ 时特征为 $2^s$、有进位结构并有零因子。
 - 抽象域元素不天然等于某个位串；位串来自选基。换基不会改变抽象乘积，却会改变坐标与乘法矩阵。
 - $a\mapsto a^2$ 在特征 $2$ 下是线性的，但 $a\mapsto a^k$ 一般不是线性的；不要把 Frobenius 的特殊性泛化。
-- $\operatorname{Tr}$、$\operatorname{Nm}$ 与矩阵 trace/determinant 的关系若提及，必须说明它们是乘法线性算子的 trace/determinant；不要与普通坐标求和或矩阵逐项操作混同。
+- $\operatorname{tr}$、$\operatorname{Nm}$ 与矩阵 trace/determinant 的关系若提及，必须说明它们是乘法线性算子的 trace/determinant；不要与普通坐标求和或矩阵逐项操作混同。
 - 不把“同构意义下唯一”写成存在一个不依赖选择的自然坐标同构。
 
 # 建议教学主线
