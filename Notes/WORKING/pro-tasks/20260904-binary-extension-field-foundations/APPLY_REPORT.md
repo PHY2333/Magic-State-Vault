@@ -30,15 +30,30 @@
 
 ## Application
 
-- `application_commit`: pending in this commit
+- `application_commit`: `4172559eb3530db86c55594a7b83d27176c4677c`
 - `review_required`: yes，fresh whole-file R02
 - `integration_status`: deferred until accepted R02
 
 ## R02 review
 
 - `request_id`: `R02`
-- `status`: pending
+- `based_on_commit`: `4172559eb3530db86c55594a7b83d27176c4677c`
+- `binding_id`: `d5926455b5fe42b4ba63bfd80a5dd173`
+- `binding_verified`: yes
+- `fresh_session_verified`: yes；独立会话 `https://chatgpt.com/c/6a9a723b-76e4-83e8-a4be-3f20c9d50510`
+- `Pro status`: `REVIEW_PASS`
+- `response_integrity`: 页面明确显示完整 `BINDING_OK`、固定 repository／branch／commit、`PRO_STATUS: REVIEW_PASS` 与精确 `END_RESPONSE`；短响应按可见 DOM 原样捕获，严格 parser 返回 `{"status": "REVIEW_PASS", "files": []}`。
+- `review_application_commit`: not applicable；R01 正文即最终审查通过文本。
 
 ## Final integration
 
-- `status`: deferred until accepted R02
+- `Notes/00-index.md`: 在第 7 节后新增唯一的第 8 节阅读入口，并在“当前目录归属”中新增唯一的目录职责条目。
+- `CANONICAL_KNOWLEDGE.md`: 扩充“当前范围”，并在主路线图后登记唯一的 `## 二元扩域 $\mathbb F_{2^s}$` canonical owner；没有新增第二篇前置笔记。
+- 预定商记号 `\mathbb F_2[x]/(f)` 按既定 `codex-contextual` 格式政策写为数学等价的 `\mathbb F_2[x]\,/\,(f)`，避免 checker 将合法商理想记号误判为禁用定界符；未改变数学含义。
+- target/index Obsidian math check: `PASS`。
+- canonical full-file check: 只重现未改旧行 `\mathbb F_2[\varepsilon]/(\varepsilon^2)` 的既有 `suspicious slash opener` 警告；本任务新增块没有新增警告。
+- integration anchor uniqueness: `PASS`；五个预定标识均恰好出现一次。
+- residual markers (`TODO`, `待核对`, `待补推导`, `FIXME`, `TBD`): none in target。
+- task directory: retained。
+- successful temporary response/staging artifacts: 删除后不保留；`audit_retention: errors-only`，本任务无失败响应。
+- merge_to_main: not performed。

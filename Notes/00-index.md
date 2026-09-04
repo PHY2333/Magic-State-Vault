@@ -47,6 +47,9 @@
    - [[S007 中 LP 码的分层执行]]：把 outer product、inter-lift 与 intra-lift 结构对应到图 12 的提升间重排、提升内重排、门执行和定向转移。
    - [[Künneth 分解]]（可选数学支线）：用于逻辑空间、维数公式与一般系数边界，不是 HGP／LP 构造或 S007 执行的强制前置。
 
+8. 二元扩域与非 Clifford 模块
+   - [[二元扩域]]：从不可约多项式商构造 $\mathbb F_{2^s}$，建立基坐标、域运算、Frobenius、迹与范数，并说明这些结构如何变成 $s$ 比特上的二进制线性表示。
+
 ---
 ### 当前目录归属
 
@@ -57,6 +60,7 @@
 - `Notes/05-Magic State Distillation/`：triorthogonal code、Reed-Muller、distillation protocol、compact factory 和相关资源计数。
 - `Notes/06-CCZ Distillation/`：CCZ/qLDPC factory、tricycle code、cochain complex、balanced product、metacheck 和 single-shot state preparation。
 - `Notes/07-Lifted-Product Code/`：HGP 核心结构、lifted-product code、S007 分层执行案例，以及逻辑空间与一般系数问题所需的可选 Künneth 支线。
+- `Notes/08-Binary Extension Field Non Clifford Module/`：二元扩域的代数基础、二进制坐标表示，以及后续伽罗瓦 qudit 与扩域非 Clifford 门所需的接口。
 
 容错架构与资源估算主题仍未建立；若后续建立 surface-code factory、lattice surgery、code distance selection、T-count/T-depth 和 spacetime volume，可另开编号目录并同步更新这里。
 

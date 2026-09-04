@@ -52,7 +52,7 @@
 
 ## 4. 当前范围
 
-本清单不按目录整批纳入，而只登记已经形成稳定主笔记的结论。目前覆盖 `Notes/01-量子纠错基础/` 至 `Notes/05-Magic State Distillation/` 的已整理主线，`Notes/06-CCZ Distillation/` 中已经稳定的 cochain/CSS、tensor 与 balanced product、tricycle complex、cup/integrated Leibniz、STCP 和 Menon 协议级归属，以及 `Notes/07-Lifted-Product Code/` 中的 Künneth 分解、HGP 与 LP 构造及 S007 第 6 节分层执行应用。
+本清单不按目录整批纳入，而只登记已经形成稳定主笔记的结论。目前覆盖 `Notes/01-量子纠错基础/` 至 `Notes/05-Magic State Distillation/` 的已整理主线，`Notes/06-CCZ Distillation/` 中已经稳定的 cochain/CSS、tensor 与 balanced product、tricycle complex、cup/integrated Leibniz、STCP 和 Menon 协议级归属，以及 `Notes/07-Lifted-Product Code/` 中的 Künneth 分解、HGP 与 LP 构造及 S007 第 6 节分层执行应用，以及 `Notes/08-Binary Extension Field Non Clifford Module/` 中二元扩域的构造、算术、结构映射与二进制表示。
 
 尚未拆成独立概念主笔记的 single-shot CCZ factory、hypergraph magic state 等主题继续由 [[Menon 2025 Magic Tricycles]] 承担论文语境；形成稳定概念笔记后再单独登记，不在本文件预先复制论文内容。
 
@@ -63,6 +63,18 @@
 - 主笔记：[[Notes/00-index|00-index]]，路径 `Notes/00-index.md`。
 - 已有结论：基础主线由 stabilizer 与 magic-state 基础推进到 injection、twirling、distillation、Reed-Muller、triorthogonal、compact factory、canonical family 和 SAT 搜索。CCZ/qLDPC 延伸沿 cochain/CSS → ordinary tensor 与 balanced product → tricycle complex/metachecks → cup product 与 integrated Leibniz → STCP/logical $CCZ$ → Menon single-shot CCZ factory 推进；lifted-product 构造主线沿 HGP blocks、四类边与行／列方向 → cyclic/group lift → LP 环值 blocks 与 balanced quotient 推进，并由 S007 应用笔记连接 outer/inter/intra-lift 的分层执行。Künneth 分解是逻辑空间、维数公式与一般系数边界的可选数学支线。
 - 写新内容时引用它：新增主线主题、改变学习路线或加入新的一级主题目录时更新这里；普通局部补充不需要把背景重复写进路线图。
+
+---
+## 二元扩域 $\mathbb F_{2^s}$
+
+- 主笔记：[[二元扩域]]，路径 `Notes/08-Binary Extension Field Non Clifford Module/二元扩域.md`。
+- 前置依赖：$\mathbb F_2$ 上的向量、线性映射与矩阵，以及多项式加法、乘法和整除的基本概念。
+- 已有结论：对次数为 $s$ 的不可约多项式 $f(x)\in\mathbb F_2[x]$，商 $\mathbb F_2[x]\,/\,(f)$ 是含 $2^s$ 个元素的域；每个元素有唯一的次数小于 $s$ 的代表元，并在选定基后对应 $\mathbb F_2^s$ 中的坐标。加法、固定元素乘法与 Frobenius 都是 $\mathbb F_2$-线性映射；一般乘法是双线性的。主笔记还固定绝对迹、绝对范数、迹配对、对偶基和乘法矩阵的记号与适用范围。
+- 当前笔记只保留：抽象域与具体表示的区别、不可约多项式商构造、可计算的域运算、有限域的必要结构、迹／范数／基与二进制矩阵接口，以及进入伽罗瓦 qudit 语境前所需的最短桥梁。
+- 写新内容时引用它：涉及 $\mathbb F_{2^s}$ 元素的坐标展开、无进位加法、模不可约多项式乘法、Frobenius、子域、迹与范数、二元化矩阵，或判断某个扩域算术操作是否为 $\mathbb F_2$-线性时引用这里。
+- 不要在当前笔记重复：具体 qudit Pauli/Clifford 形式、非 Clifford 门分类、扩域 CSS 码、Reed–Solomon／代数几何码以及 magic-state distillation 协议应由后续独立笔记承担。
+- 边界：$\mathbb F_{2^s}$ 的抽象同构类型唯一，但基和不可约多项式给出的坐标表示并不典范；它的特征为 $2$，不能与整数剩余类环 $\mathbb Z/2^s\mathbb Z$ 混同。本文中的迹与范数默认指到 $\mathbb F_2$ 的绝对迹与绝对范数。
+- 状态：已整理。
 
 ---
 ## 二进制空间、补空间与正交补

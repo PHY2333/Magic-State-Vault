@@ -1,7 +1,7 @@
 ---
 task_id: 20260904-binary-extension-field-foundations
 route: pro-write-review
-status: R01_APPLIED
+status: DONE
 target_files:
   - Notes/08-Binary Extension Field Non Clifford Module/二元扩域.md
 integration_files:
@@ -118,4 +118,4 @@ automation:
 
 # 当前阶段
 
-`R01_APPLIED`：GitHub checkpoint 已推送；R01 已完成绑定、解析、上下文格式规范化、数学与 ownership 预审并应用到唯一目标文件。下一步提交并推送 R01 application commit，再从全新 ChatGPT Pro 会话运行 R02 全文审查。
+`DONE`：R01 完整正文已解析、检查、应用并推送；全新 ChatGPT Pro 会话对固定 commit `4172559eb3530db86c55594a7b83d27176c4677c` 完成 R02 全文审查并返回 `REVIEW_PASS`。预定的 `Notes/00-index.md` 路线图／目录归属与 `CANONICAL_KNOWLEDGE.md` 唯一 owner 已机械集成；目标笔记和索引的 Obsidian 数学检查通过，canonical 全文件检查只重现未改旧行的已知括号理想警告。任务分支保留，未合并 `main`。
