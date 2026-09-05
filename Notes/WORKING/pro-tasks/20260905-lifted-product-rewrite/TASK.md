@@ -1,7 +1,7 @@
 ---
 task_id: 20260905-lifted-product-rewrite
 route: pro-write-review
-status: R01_APPLIED
+status: DONE
 target_files:
   - Notes/07-Lifted-Product Code/Lifted product code.md
 integrity: fast
@@ -71,4 +71,4 @@ automation:
 
 # 当前阶段
 
-R01_APPLIED：R01 完整正文已捕获，binding / allowlist / END_RESPONSE 校验通过；正文与网页 code 元素一致，staging 与目标 Obsidian 检查均通过，已在任务工作树应用。待本次应用提交推送后自动启动全新 Pro 对话进行 R02。R01 会话：https://chatgpt.com/c/6a9b69f6-9504-83e8-9fdf-4a9ec03ebff5 。
+DONE：R01 完整重写已在 ab3905d1a3a9b218485ee92bcefb9f76b6979ea7 应用并推送。全新 ChatGPT 6 Pro 对话对该提交完成独立 R02 并返回 REVIEW_PASS；绑定、完整性、Obsidian 数学、链接／脚注和 diff 检查通过。正文没有 Codex 教学性或数学性改写，无未解决标记；完成报告随最终任务提交保留，不合并 main。R01 会话：https://chatgpt.com/c/6a9b69f6-9504-83e8-9fdf-4a9ec03ebff5 。R02 会话：https://chatgpt.com/c/6a9b725c-0ad8-83ee-806c-e4e0115a901c 。
