@@ -116,7 +116,7 @@ $$
 m(1,0)+m(0,1)=0.
 $$
 
-因此，分叉点不在底层集合，也不只是记号选择。对 $F$ 而言，$(v,w)$ 是 $V\oplus W$ 中的一个整体向量；对 $b$ 而言，$v$ 与 $w$ 是两个分别接受线性条件的输入。非零双线性规则无法直接成为 $V\oplus W$ 上的线性映射，所以我们需要另找一个向量空间作为它的线性定义域。这个空间就是 $V\otimes_kW$，下一节的泛性质将把这件事说准确。
+因此，两种映射区别不在底层集合，也不只是记号选择。对 $F$ 而言，$(v,w)$ 是 $V\oplus W$ 中的一个整体向量；对 $b$ 而言，$v$ 与 $w$ 是两个分别接受线性条件的输入。非零双线性规则无法直接成为 $V\oplus W$ 上的线性映射，所以我们需要另找一个向量空间作为它的线性定义域。这个空间就是 $V\otimes_kW$，下一节的泛性质将把这件事说准确。
 
 ### 泛性质同时刻画空间与典范双线性映射
 
@@ -186,7 +186,7 @@ $$
 
 ### 一个具体实现：自由向量空间再取商
 
-泛性质说明目标对象应当做什么，但还需要证明这样的对象确实存在。一个标准实现从自由向量空间开始。
+泛性质说明 $\tau$ 把双线性映射转化成唯一的线性映射，但还需要证明这样的 $\tau$ 确实存在。一个标准的实现从自由向量空间开始。
 
 令 $F(V\times W)$ 是以集合 $V\times W$ 为基的自由 $k$-向量空间。它的元素是这些基符号的有限形式线性组合，所以在每个基符号上指定像，就会唯一决定一张线性映射。为避免提前使用张量符号，把与有序对 $(v,w)$ 对应的基向量记作
 
@@ -224,12 +224,20 @@ $$
 T=\frac{F(V\times W)}{\mathcal R},
 $$
 
-并令
+并记商映射为
+
+$$
+q:F(V\times W)\longrightarrow T,
+\qquad
+q(\xi)=\xi+\mathcal R.
+$$
+
+令
 
 $$
 \tau(v,w)
-=
-\langle v,w\rangle+\mathcal R.
+=q(\langle v,w\rangle)
+=\langle v,w\rangle+\mathcal R.
 $$
 
 商掉上述关系以后，$\tau$ 分别对两个变量可加且与标量乘法相容，所以它是双线性映射。把它的值记作 $v\otimes w$，便得到一个候选张量积。
@@ -240,7 +248,7 @@ $$
 \langle v,w\rangle\longmapsto b(v,w)
 $$
 
-唯一线性延伸为
+唯一线性张成为
 
 $$
 B:F(V\times W)\longrightarrow X.
@@ -263,7 +271,25 @@ $$
 \mathcal R\subseteq\ker B.
 $$
 
-于是 $B$ 唯一下降到商空间，得到
+因此 $B$ 可以下降到商空间，即找一张新映射 $\widetilde b:T\to X$，使得
+
+$$
+B=\widetilde b\circ q.
+$$
+
+这样的映射之所以能够定义，是因为 $B$ 无法区分同一个商类的不同代表元。若
+
+$$
+\xi+\mathcal R=\eta+\mathcal R,
+$$
+
+则 $\xi-\eta\in\mathcal R\subseteq\ker B$，因而
+
+$$
+B(\xi)-B(\eta)=B(\xi-\eta)=0.
+$$
+
+所以 $B(\xi)=B(\eta)$，公式
 
 $$
 \widetilde b:T\longrightarrow X,
@@ -271,13 +297,43 @@ $$
 \widetilde b(\xi+\mathcal R)=B(\xi),
 $$
 
-并满足
+不依赖代表元的选择，因此是良定义的。又因为 $B$ 线性，对任意 $c\in k$ 都有
 
 $$
-\widetilde b(v\otimes w)=b(v,w).
+\begin{aligned}
+\widetilde b\bigl((\xi+\mathcal R)+c(\eta+\mathcal R)\bigr)
+&=B(\xi+c\eta)\\
+&=B(\xi)+cB(\eta)\\
+&=\widetilde b(\xi+\mathcal R)
++c\,\widetilde b(\eta+\mathcal R),
+\end{aligned}
 $$
 
-最后，$T$ 由所有 $v\otimes w$ 张成，所以任何满足这条公式的线性映射都已经在一组生成元上被确定，因子化映射必然唯一。至此，这个商空间实现确实满足张量积的泛性质，因此可以取
+所以 $\widetilde b$ 也是线性映射。它还必然是唯一的：若 $L:T\to X$ 也满足 $B=L\circ q$，那么对每个商类都有
+
+$$
+L(\xi+\mathcal R)
+=L(q(\xi))
+=B(\xi)
+=\widetilde b(\xi+\mathcal R),
+$$
+
+所以 $L=\widetilde b$。这里使用了每个商类都是某个 $q(\xi)$，也就是 $q$ 的满射性。反过来，若 $\mathcal R$ 中存在某个 $r$ 满足 $B(r)\ne0$，即 $R \not\subseteq \ker B$，那么商空间会把 $r$ 与 $0$ 视为同一个元素，而 $B$ 却给它们不同的值；此时下降就不可能成立。
+
+由于 $v\otimes w=q(\langle v,w\rangle)$，这张下降映射满足
+
+$$
+\begin{aligned}
+\widetilde b(v\otimes w)
+&=\widetilde b\bigl(q(\langle v,w\rangle)\bigr)\\
+&=B(\langle v,w\rangle)\\
+&=b(v,w).
+\end{aligned}
+$$
+
+也就是说，$\widetilde b\circ\tau=b$。若线性映射 $L:T\to X$ 也满足 $L\circ\tau=b$，那么 $L\circ q$ 与 $B$ 在自由向量空间的每个基向量 $\langle v,w\rangle$ 上取值相同，因而 $L\circ q=B$；上述下降的唯一性随即给出 $L=\widetilde b$。
+
+因此，每条双线性映射 $b:V\times W\to X$ 都给出唯一的线性因子化映射 $\widetilde b:T\to X$。这个商空间实现确实满足张量积的泛性质，因此可以取
 
 $$
 V\otimes_kW:=T.
@@ -302,8 +358,6 @@ $$
 =
 \operatorname{id}_T\circ\tau.
 $$
-
-由因子化的唯一性，
 
 $$
 \psi\circ\phi=\operatorname{id}_T.
@@ -495,7 +549,7 @@ $$
 (v,w)=\iota_V(v)+\iota_W(w).
 $$
 
-若 $F:V\oplus W\to X$ 具有同样的限制，则线性性迫使
+若 $F:V\oplus W\to X$ 具有同样的线性性和 $F\circ \iota_{V}=f,F\circ\iota_{W}=g$，则
 
 $$
 \begin{aligned}
@@ -547,7 +601,7 @@ $$
 \sum_i f_i(v_i),
 $$
 
-右边总是有限和。反过来，任何从直和映出的线性映射都由它在各个典范分量上的限制决定，因为每个输入只含有限多个非零分量。相应的泛性质是
+右边总是有限和。同理，相应的泛性质是
 
 $$
 \operatorname{Hom}_k
@@ -613,7 +667,7 @@ $$
 
 有限多个向量空间的直和与直积典范同构，因而有限直和同时满足余积的映出泛性质和积的映入泛性质，称为双积（biproduct）。
 
-无限族时必须分开。无限直和仍然是余积，而无限直积
+无限族时必须分开。无限直和仍然是余积，只满足映出泛性质不满足映入泛性质，而无限直积
 
 $$
 \prod_{i\in I}V_i

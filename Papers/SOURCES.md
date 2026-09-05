@@ -110,3 +110,18 @@
 - 翻译计划：全文翻译
 - 当前全文译本：[S007 全文译本](../Translations/S007.full.zh-CN.md)
 - 局部摘译：无
+
+### S008
+
+- 类型：paper
+- 题名：*Magic State Distillation via Codes over Binary Extension Fields*
+- 作者或编者：Anqi Gong；Christopher A. Pattison；Patrick Rall；Adam Wills
+- 年份：2026
+- 外部标识：arXiv:2608.09727
+- 本地文件：[S008_2026_Gong_magic_state_distillation_binary_extension_fields.pdf](S008_2026_Gong_magic_state_distillation_binary_extension_fields.pdf)
+- 版本或版次：arXiv v1
+- 阅读状态：已通读
+- 主文献笔记：无
+- 翻译计划：全文翻译
+- 当前全文译本：[S008 全文译本](../Translations/S008.full.zh-CN.md)
+- 局部摘译：无
