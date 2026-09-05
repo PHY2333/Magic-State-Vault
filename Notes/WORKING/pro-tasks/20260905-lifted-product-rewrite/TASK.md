@@ -1,7 +1,7 @@
 ---
 task_id: 20260905-lifted-product-rewrite
 route: pro-write-review
-status: PREPARE
+status: R01_APPLIED
 target_files:
   - Notes/07-Lifted-Product Code/Lifted product code.md
 integrity: fast
@@ -71,4 +71,4 @@ automation:
 
 # 当前阶段
 
-PREPARE：请求及独立审查请求已生成，待 checkpoint 推送后发送 R01。
+R01_APPLIED：R01 完整正文已捕获，binding / allowlist / END_RESPONSE 校验通过；正文与网页 code 元素一致，staging 与目标 Obsidian 检查均通过，已在任务工作树应用。待本次应用提交推送后自动启动全新 Pro 对话进行 R02。R01 会话：https://chatgpt.com/c/6a9b69f6-9504-83e8-9fdf-4a9ec03ebff5 。
