@@ -1281,7 +1281,31 @@ $$
 \operatorname{coker}A\otimes\ker B
 $$
 
-是 $H_1$ 的分解，描述逻辑类的两个 Künneth 来源。可以在相应物理分量中为每个来源选择初始代表元，但给代表元加上 boundary 后，同一个逻辑类可能同时占据两个物理分量。因此，Künneth 直和项不是物理扇区本身。
+是 $H_1$ 的分解，描述逻辑类的两个 Künneth 来源。每一项中的逻辑类，都可以选择仅在对应物理分量中有支撑的代表元。例如，取 $a\in\ker A$ 和 $b\in B_0$，令 $[b]\in\operatorname{coker}B$ 表示 $b$ 的商类，则第一项中的 $a\otimes[b]$ 可以用
+
+$$
+z=(a\otimes b,\;0)
+$$
+
+代表。这个代表元只在第一组物理比特上有支撑，但这并不意味着同一逻辑类的所有代表元都具有这个性质。
+
+具体地，取 $u\in A_1$、$v\in B_1$。在 $\mathbb F_2$ 上，乘积复形的边界为
+
+$$
+\partial_2(u\otimes v)
+=\bigl(u\otimes Bv,\;Au\otimes v\bigr).
+$$
+
+给 $z$ 加上这个 boundary，就得到另一个代表元
+
+$$
+z'=z+\partial_2(u\otimes v)
+=\bigl(a\otimes b+u\otimes Bv,\;Au\otimes v\bigr).
+$$
+
+$z'$ 的两个物理分量可能都非零，但由于只加了 boundary，仍有 $[z']=[z]$。它在 Künneth 分解下仍对应 $(a\otimes[b],\;0)$：即使新代表元在第二组物理比特上有支撑，第二个 Künneth 逻辑分量仍然为零。
+
+在 CSS 语言中，这相当于给一个逻辑 $Z$ 算符乘上一个 $Z$ 稳定子，改变其物理支撑，却不改变它在编码空间上的逻辑作用。因此，物理分量描述的是具体代表元的支撑，Künneth 直和项描述的是模去 boundaries 后的逻辑类；不能用某个代表元是否在第二组物理比特上有支撑，判断它是否具有第二项的逻辑分量。
 
 现在专门取有限维二进制映射
 
